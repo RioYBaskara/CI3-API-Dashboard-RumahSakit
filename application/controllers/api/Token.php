@@ -49,10 +49,15 @@ class Token extends REST_Controller {
 				$this->response($final, REST_Controller::HTTP_OK); 
 			}
 			else
-				$this->response(['username not valid'], REST_Controller::HTTP_OK);
+			$this->response([
+				'status' => 'error',
+				'message' => 'User not found.'
+			], REST_Controller::HTTP_NOT_FOUND); // 404			
 		}
 		else
-			$this->response(['username is required to regenerate token.'], REST_Controller::HTTP_OK);
-
+		$this->response([
+			'status' => 'error',
+			'message' => 'Username is required to regenerate token.'
+		], REST_Controller::HTTP_BAD_REQUEST); // 400		
 	 }
 }

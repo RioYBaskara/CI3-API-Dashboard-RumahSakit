@@ -32,6 +32,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     require(APPPATH.'/libraries/REST_Controller.php');
     use Restserver\Libraries\REST_Controller;
 
+	/**
+ *  @property session $session 
+ *  @property input $input 
+ *  @property form_validation $form_validation 
+ *  @property authorization_token $authorization_token 
+ *  @property user_model $user_model 
+ */
+
 class User extends REST_Controller {
 
 	/**
