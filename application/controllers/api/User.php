@@ -57,52 +57,55 @@ class User extends REST_Controller
 
 	public function login_post()
 	{
-		$this->form_validation->set_rules('username', 'Username', 'trim|required|alpha_numeric');
-		$this->form_validation->set_rules('password', 'Password', 'trim|required');
+		$this->form_validation->set_rules('username', 'Username', 'required|alpha_numeric');
+		$this->form_validation->set_rules('password', 'Password', 'required');
 
 		if ($this->form_validation->run() == false) {
-			return $this->response([
+			$this->response([
 				'status' => 'error',
 				'message' => 'Validation rules violated',
 				'errors' => validation_errors()
 			], REST_Controller::HTTP_BAD_REQUEST);
+		} else {
+			$username = $this->input->post('username');
+			$password = $this->input->post('password');
+
+			if ($this->user_model->resolve_user_login($username, $password)) {
+				$user_id = $this->user_model->get_user_id_from_username($username);
+				$user = $this->user_model->get_user($user_id);
+
+				$token_data['uid'] = $user_id;
+				$token_data['username'] = $user->username;
+				$tokenData = $this->authorization_token->generateToken($token_data);
+
+				setcookie("access_token", $tokenData, [
+					"expires" => time() + (60 * 60),
+					"path" => "/",
+					"httponly" => true,
+					"samesite" => "Strict"
+				]);
+
+				$this->response([
+					'status' => true,
+					'message' => 'Login success!',
+					'user' => [
+						'id' => $user_id,
+						'username' => $user->username
+					]
+				], REST_Controller::HTTP_OK);
+			} else {
+				$this->response([
+					'status' => 'error',
+					'message' => 'Wrong username or password.'
+				], REST_Controller::HTTP_UNAUTHORIZED);
+			}
 		}
-
-		$username = trim($this->input->post('username', true));
-		$password = $this->input->post('password');
-
-		$user = $this->user_model->get_user_by_username($username);
-
-		if ($user && password_verify($password, $user->password)) {
-			$token_data = ['uid' => $user->id, 'username' => $user->username];
-			$token = $this->authorization_token->generateToken($token_data);
-
-			return $this->response([
-				'status' => true,
-				'access_token' => $token,
-				'message' => 'Login successful!',
-				'username' => $user->username
-			], REST_Controller::HTTP_OK);
-		}
-
-		return $this->response([
-			'status' => 'error',
-			'message' => 'Invalid username or password.'
-		], REST_Controller::HTTP_UNAUTHORIZED);
 	}
 
 	public function logout_post()
 	{
-		$token = $this->authorization_token->validateToken();
-
-		if (!$token) {
-			return $this->response([
-				'status' => 'error',
-				'message' => 'Invalid token or user not logged in.'
-			], REST_Controller::HTTP_UNAUTHORIZED);
-		}
-
-		return $this->response([
+		setcookie("access_token", "", time() - 3600, "/");
+		$this->response([
 			'status' => true,
 			'message' => 'Logout successful!'
 		], REST_Controller::HTTP_OK);

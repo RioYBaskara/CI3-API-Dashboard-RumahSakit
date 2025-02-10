@@ -147,12 +147,19 @@ class Authorization_Token
     {
         if (!empty($headers) && is_array($headers)) {
             foreach ($headers as $header_name => $header_value) {
-                if (strtolower(trim($header_name)) == strtolower(trim($this->token_header)))
+                if (strtolower(trim($header_name)) == strtolower(trim($this->token_header))) {
                     return ['status' => TRUE, 'token' => $header_value];
+                }
             }
         }
+
+        if (isset($_COOKIE['access_token'])) {
+            return ['status' => TRUE, 'token' => $_COOKIE['access_token']];
+        }
+
         return ['status' => FALSE, 'message' => 'Authorization token not found.'];
     }
+
 
     /**
      * Get Token Data Without Validating Again

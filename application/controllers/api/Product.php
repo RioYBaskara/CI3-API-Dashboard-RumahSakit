@@ -36,19 +36,7 @@ class Product extends REST_Controller
 
     private function authenticate()
     {
-        $headers = $this->input->request_headers();
-
-        if (!isset($headers['Authorization'])) {
-            $this->response([
-                'status' => false,
-                'status_code' => 401,
-                'message' => 'Unauthorized',
-                'error' => 'Authorization token is missing'
-            ], REST_Controller::HTTP_UNAUTHORIZED);
-            return false;
-        }
-
-        $decodedToken = $this->authorization_token->validateToken($headers['Authorization']);
+        $decodedToken = $this->authorization_token->validateToken();
 
         if (!$decodedToken['status']) {
             $this->response([
