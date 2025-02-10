@@ -26,7 +26,7 @@ class User extends REST_Controller
 
 		if ($this->form_validation->run() === false) {
 			return $this->response([
-				'status' => 'error',
+				'status' => false,
 				'message' => 'Validation rules violated',
 				'errors' => validation_errors()
 			], REST_Controller::HTTP_BAD_REQUEST);
@@ -50,7 +50,7 @@ class User extends REST_Controller
 		}
 
 		return $this->response([
-			'status' => 'error',
+			'status' => false,
 			'message' => 'Failed to create account. Please try again.'
 		], REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
 	}
@@ -62,7 +62,7 @@ class User extends REST_Controller
 
 		if ($this->form_validation->run() == false) {
 			$this->response([
-				'status' => 'error',
+				'status' => false,
 				'message' => 'Validation rules violated',
 				'errors' => validation_errors()
 			], REST_Controller::HTTP_BAD_REQUEST);
@@ -76,6 +76,7 @@ class User extends REST_Controller
 
 				$token_data['uid'] = $user_id;
 				$token_data['username'] = $user->username;
+				$token_data['email'] = $user->email;
 				$tokenData = $this->authorization_token->generateToken($token_data);
 
 				setcookie("access_token", $tokenData, [
@@ -90,12 +91,15 @@ class User extends REST_Controller
 					'message' => 'Login success!',
 					'user' => [
 						'id' => $user_id,
-						'username' => $user->username
+						'username' => $user->username,
+						'email' => $user->email,
+						// testing
+						'token' => $tokenData
 					]
 				], REST_Controller::HTTP_OK);
 			} else {
 				$this->response([
-					'status' => 'error',
+					'status' => false,
 					'message' => 'Wrong username or password.'
 				], REST_Controller::HTTP_UNAUTHORIZED);
 			}
@@ -109,5 +113,22 @@ class User extends REST_Controller
 			'status' => true,
 			'message' => 'Logout successful!'
 		], REST_Controller::HTTP_OK);
+	}
+
+	public function me_get()
+	{
+		$user_data = $this->authorization_token->validateToken();
+
+		if ($user_data['status']) {
+			$this->response([
+				'status' => true,
+				'data' => $user_data['data']
+			], REST_Controller::HTTP_OK);
+		} else {
+			$this->response([
+				'status' => false,
+				'message' => 'Unauthorized'
+			], REST_Controller::HTTP_UNAUTHORIZED);
+		}
 	}
 }
