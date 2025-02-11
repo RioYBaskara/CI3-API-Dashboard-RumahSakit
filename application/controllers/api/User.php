@@ -61,10 +61,13 @@ class User extends REST_Controller
 		$this->form_validation->set_rules('password', 'Password', 'required');
 
 		if ($this->form_validation->run() == false) {
+			$errors = explode("\n", strip_tags(validation_errors()));
+			$errors = array_filter($errors);
+
 			$this->response([
 				'status' => false,
 				'message' => 'Validation rules violated',
-				'errors' => validation_errors()
+				'errors' => $errors
 			], REST_Controller::HTTP_BAD_REQUEST);
 		} else {
 			$username = $this->input->post('username');
@@ -89,12 +92,13 @@ class User extends REST_Controller
 				$this->response([
 					'status' => true,
 					'message' => 'Login success!',
+					// testing, nanti dihapus
+					'access_token' => $tokenData,
+					// testing
 					'user' => [
 						'id' => $user_id,
 						'username' => $user->username,
 						'email' => $user->email,
-						// testing
-						'token' => $tokenData
 					]
 				], REST_Controller::HTTP_OK);
 			} else {

@@ -52,7 +52,19 @@
                     if (data.status) {
                         window.location.href = "<?= base_url() ?>auth/dashboard";
                     } else {
-                        messageContainer.innerHTML = `<div class="alert alert-danger">${data.message}</div>`;
+                        let errorMessage = "";
+
+                        if (data.errors && Object.keys(data.errors).length > 0) {
+                            errorMessage = "<ul>";
+                            for (const [key, value] of Object.entries(data.errors)) {
+                                errorMessage += `<li>${value}</li>`;
+                            }
+                            errorMessage += "</ul>";
+                        } else {
+                            errorMessage = `<p>${data.message}</p>`;
+                        }
+
+                        messageContainer.innerHTML = `<div class="alert alert-danger">${errorMessage}</div>`;
                         messageContainer.style.display = "block";
                     }
                 })
