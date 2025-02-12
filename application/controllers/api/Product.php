@@ -166,6 +166,15 @@ class Product extends REST_Controller
             return;
         }
 
+        if ($input['name'] == $productExists['name'] && $input['price'] == $productExists['price']) {
+            $this->response([
+                'status' => true,
+                'message' => 'No changes detected',
+                'data' => $productExists
+            ], REST_Controller::HTTP_OK);
+            return;
+        }
+
         $updateStatus = $this->Product_model->update($input, $id);
 
         if ($updateStatus) {

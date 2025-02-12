@@ -46,7 +46,7 @@ class Product_model extends CI_Model {
     {
         $data = $this->db->update('products', $data, array('id'=>$id));
         //echo $this->db->last_query();
-		return $this->db->affected_rows();
+		return ($this->db->affected_rows() >= 0); 
     }
      
     /**

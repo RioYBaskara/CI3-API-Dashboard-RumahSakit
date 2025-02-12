@@ -44,7 +44,7 @@ class User extends REST_Controller
 
 			return $this->response([
 				'status' => true,
-				'access_token' => $token,
+				// 'access_token' => $token,
 				'message' => 'Registration successful! You can now log in.'
 			], REST_Controller::HTTP_OK);
 		}
@@ -92,9 +92,6 @@ class User extends REST_Controller
 				$this->response([
 					'status' => true,
 					'message' => 'Login success!',
-					// testing, nanti dihapus
-					'access_token' => $tokenData,
-					// testing
 					'user' => [
 						'id' => $user_id,
 						'username' => $user->username,
