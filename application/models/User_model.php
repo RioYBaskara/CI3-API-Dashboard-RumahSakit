@@ -28,7 +28,7 @@ class User_model extends CI_Model
 		$data = array(
 			'username' => $username,
 			'email' => $email,
-			'password' => $this->hash_password($password),
+			'password' => $password,
 			'created_at' => date('Y-m-d H:i:s'),
 		);
 
@@ -92,17 +92,6 @@ class User_model extends CI_Model
 		$this->db->from('users');
 		$this->db->where('id', $user_id);
 		return $this->db->get()->row();
-	}
-
-	/**
-	 * hash_password function.
-	 * 
-	 * @param string $password
-	 * @return string
-	 */
-	private function hash_password($password)
-	{
-		return password_hash($password, PASSWORD_BCRYPT);
 	}
 
 	/**
