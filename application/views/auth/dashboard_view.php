@@ -30,31 +30,16 @@
         body {
             font-feature-settings: "cv03", "cv04", "cv11";
         }
+
+        body.modal-open {
+            overflow: hidden;
+        }
     </style>
 </head>
 
 <body class=" d-flex flex-column">
     <script src="<?= base_url() ?>public/assets/tabler/dist/js/demo-theme.min.js?1692870487"></script>
     <div class="page">
-        <div class="container container-tight py-4">
-            <div class="text-center mb-4">
-                <a href="." class="navbar-brand navbar-brand-autodark">
-                    <img src="<?= base_url() ?>public/assets/tabler/static/logo.svg" width="110" height="32"
-                        alt="Tabler" class="navbar-brand-image">
-                </a>
-            </div>
-            <div class="card card-md">
-                <div class="card-body">
-                    <h2 class="h2 text-center mb-4">Selamat Datang di Dashboard!</h2>
-                    <p class="text-center">Anda berhasil login.</p>
-                    <div class="col-xl py-3">
-                        <a href="<?= base_url() ?>/auth/logout" class="btn btn-6 btn-danger w-100">
-                            Logout
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="page-wrapper">
             <div class="page-body">
                 <div class="container-xl">
@@ -180,9 +165,28 @@
                 </div>
             </div>
         </div>
+        <div class="container container-tight py-4">
+            <div class="text-center mb-4">
+                <a href="." class="navbar-brand navbar-brand-autodark">
+                    <img src="<?= base_url() ?>public/assets/tabler/static/logo.svg" width="110" height="32"
+                        alt="Tabler" class="navbar-brand-image">
+                </a>
+            </div>
+            <div class="card card-md">
+                <div class="card-body">
+                    <h2 class="h2 text-center mb-4">Selamat Datang di Dashboard!</h2>
+                    <p class="text-center">Anda berhasil login.</p>
+                    <div class="col-xl py-3">
+                        <a href="<?= base_url() ?>/auth/logout" class="btn btn-6 btn-danger w-100">
+                            Logout
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- Add/Update modal -->
+    <!-- Add/Insert modal -->
     <div class="modal modal-blur fade" id="modal-product" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -225,6 +229,35 @@
         </div>
     </div>
 
+    <!-- Update Modal -->
+    <div class="modal modal-blur fade" id="modal-update-product" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Product</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="modal-update-error-message" class="alert alert-danger d-none" role="alert"></div>
+                    <form id="update-product-form">
+                        <div class="mb-3">
+                            <label class="form-label">Name</label>
+                            <input type="text" class="form-control" name="name" id="update-product-name">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Price</label>
+                            <input type="text" class="form-control" name="price" id="update-product-price">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="submit-update-product">Update Product</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- DELETE Modal -->
 
 
@@ -242,30 +275,6 @@
 
             document.getElementById("submit-product").addEventListener("click", function () {
                 submitProduct();
-            });
-
-            // reset add modal after update
-            document.getElementById("modal-product").addEventListener("hidden.bs.modal", function () {
-                this.querySelector(".modal-title").textContent = "New Product";
-                this.removeAttribute("data-product-id");
-
-                this.querySelector("input[name='name']").value = "";
-                this.querySelector("input[name='price']").value = "";
-
-                let submitButton = this.querySelector(".modal-footer .btn-primary");
-                submitButton.innerHTML = `
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
-                stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-                stroke-linejoin="round">
-                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <path d="M12 5l0 14" />
-                <path d="M5 12l14 0" />
-            </svg>
-            Create new product
-        `;
-
-                submitButton.removeAttribute("onclick");
-                submitButton.setAttribute("onclick", "createProduct()");
             });
         });
 
@@ -400,43 +409,25 @@
                 });
         }
 
-        // PUT
+        // PUT, *validation on view
         function editProduct(id, name, price) {
-            let modal = document.getElementById("modal-product");
+            let modal = document.getElementById("modal-update-product");
 
-            modal.querySelector(".modal-title").textContent = `Edit Product "${name}"`;
-
-            document.querySelector("#modal-product input[name='name']").value = name;
-            document.querySelector("#modal-product input[name='price']").value = price;
-
+            document.getElementById("update-product-name").value = name;
+            document.getElementById("update-product-price").value = price;
             modal.setAttribute("data-product-id", id);
-
-            let submitButton = modal.querySelector(".modal-footer .btn-primary");
-            submitButton.innerHTML = `
-        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
-            stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-            stroke-linejoin="round">
-            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-            <path d="M12 5l0 14" />
-            <path d="M5 12l14 0" />
-        </svg>
-        Update Product
-    `;
-
-            submitButton.setAttribute("onclick", "updateProduct()");
 
             let modalInstance = new bootstrap.Modal(modal);
             modalInstance.show();
         }
 
-        // *validation on view variation
-        function updateProduct() {
-            let modal = document.getElementById("modal-product");
+        document.getElementById("submit-update-product").addEventListener("click", function () {
+            let modal = document.getElementById("modal-update-product");
             let productId = modal.getAttribute("data-product-id");
 
-            let productName = document.querySelector("#modal-product input[name='name']").value.trim();
-            let productPrice = document.querySelector("#modal-product input[name='price']").value.trim();
-            let modalErrorMessage = document.getElementById("modal-error-message");
+            let productName = document.getElementById("update-product-name").value.trim();
+            let productPrice = document.getElementById("update-product-price").value.trim();
+            let modalErrorMessage = document.getElementById("modal-update-error-message");
 
             modalErrorMessage.classList.add("d-none");
             modalErrorMessage.textContent = "";
@@ -460,9 +451,7 @@
 
             fetch(`http://localhost/ci3_api_rs/product/${productId}`, {
                 method: "PUT",
-                headers: {
-                    "Content-Type": "application/json"
-                },
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(requestData)
             })
                 .then(response => response.json())
@@ -480,7 +469,7 @@
                     modalErrorMessage.classList.remove("d-none");
                     console.error("PUT error:", error);
                 });
-        }
+        });
     </script>
 
 </body>
