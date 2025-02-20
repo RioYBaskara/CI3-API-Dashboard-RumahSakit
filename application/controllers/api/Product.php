@@ -200,7 +200,7 @@ class Product extends REST_Controller
      *
      * @return Response
      */
-    public function index_delete($id)
+    public function index_delete($id = null)
     {
         if (!$this->authenticate())
             return;

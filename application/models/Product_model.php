@@ -3,7 +3,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Product_model extends CI_Model
 {
-
     /**
      * CONSTRUCTOR | LOAD DB
      */
@@ -26,15 +25,13 @@ class Product_model extends CI_Model
             $query = $this->db->select($fields)
                 ->get_where("products", ['id' => $id])
                 ->row_array();
-        } else {
-            $query = $this->db->select($fields)
-                ->get("products")
-                ->result();
+            return $query ?: null;
         }
 
-        return $query;
+        return $this->db->select($fields)
+            ->get("products")
+            ->result();
     }
-
 
     /**
      * INSERT | POST method.
@@ -43,8 +40,10 @@ class Product_model extends CI_Model
      */
     public function insert($data)
     {
-        $this->db->insert('products', $data);
-        return $this->db->insert_id();
+        if ($this->db->insert('products', $data)) {
+            return $this->db->insert_id();
+        }
+        return false;
     }
 
     /**
@@ -54,9 +53,14 @@ class Product_model extends CI_Model
      */
     public function update($data, $id)
     {
-        $data = $this->db->update('products', $data, array('id' => $id));
-        //echo $this->db->last_query();
-        return ($this->db->affected_rows() >= 0);
+        if (!$this->show($id)) {
+            return false;
+        }
+
+        $this->db->where('id', $id);
+        $this->db->update('products', $data);
+
+        return $this->db->affected_rows() > 0;
     }
 
     /**
@@ -66,7 +70,11 @@ class Product_model extends CI_Model
      */
     public function delete($id)
     {
-        $this->db->delete('products', array('id' => $id));
-        return $this->db->affected_rows();
+        if (!$this->show($id)) {
+            return false;
+        }
+
+        $this->db->delete('products', ['id' => $id]);
+        return $this->db->affected_rows() > 0;
     }
 }
