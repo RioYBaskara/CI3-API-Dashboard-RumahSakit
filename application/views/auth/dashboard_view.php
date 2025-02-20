@@ -61,8 +61,18 @@
                     <div class="row row-cards">
                         <div class="col-12">
                             <div class="card">
-                                <div class="card-header">
+                                <div class="card-header flex justify-content-between">
                                     <h3 class="card-title">Product</h3>
+                                    <a class="btn btn-icon" id="refresh-btn"><svg xmlns="http://www.w3.org/2000/svg"
+                                            width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                            class="icon icon-tabler icons-tabler-outline icon-tabler-refresh">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                            <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4" />
+                                            <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4" />
+                                        </svg></a>
+                                </div>
+                                <div id="error-message" class="alert alert-danger d-none" role="alert">
                                 </div>
                                 <div class="card-body border-bottom py-3">
                                     <div class="d-flex">
@@ -164,10 +174,16 @@
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             fetchProducts();
+
+            document.getElementById("refresh-btn").addEventListener("click", function () {
+                fetchProducts();
+            });
         });
 
         function fetchProducts() {
             let tableBody = document.getElementById("product-table-body");
+            let errorMessage = document.getElementById("error-message");
+
             tableBody.innerHTML = `
             <tr id="loading-row">
                 <td colspan="7" class="text-center">
@@ -178,16 +194,21 @@
             </tr>
         `;
 
+            errorMessage.classList.add("d-none");
+
             fetch("http://localhost/ci3_api_rs/product/")
                 .then(response => response.json())
                 .then(data => {
                     if (data.status) {
                         populateTable(data.data);
                     } else {
-                        console.error("Error fetching products:", data.message);
+                        showError(data.message);
                     }
                 })
-                .catch(error => console.error("Fetch error:", error));
+                .catch(error => {
+                    showError("Failed to fetch products. Please try again.");
+                    console.error("Fetch error:", error);
+                });
         }
 
         function populateTable(products) {
@@ -222,10 +243,10 @@
                               <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport" data-bs-toggle="dropdown">Actions</button>
                               <div class="dropdown-menu dropdown-menu-start">
                                 <a class="dropdown-item" href="#">
-                                  Action
+                                  Update
                                 </a>
                                 <a class="dropdown-item" href="#">
-                                  Another action
+                                  Delete
                                 </a>
                               </div>
                             </span>
@@ -234,6 +255,12 @@
             `;
                 tableBody.innerHTML += row;
             });
+        }
+
+        function showError(message) {
+            let errorMessage = document.getElementById("error-message");
+            errorMessage.textContent = message;
+            errorMessage.classList.remove("d-none");
         }
 
         function formatDate(dateString) {
@@ -245,6 +272,7 @@
             return new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR" }).format(amount);
         }
     </script>
+
 </body>
 
 </html>
