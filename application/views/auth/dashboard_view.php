@@ -71,8 +71,8 @@
                                             </svg></a>
                                     </div>
                                 </div>
-                                <div id="error-message" class="alert alert-danger d-none" role="alert">
-                                </div>
+                                <div id="success-message" class="alert alert-success d-none" role="alert"></div>
+                                <div id="error-message" class="alert alert-danger d-none" role="alert"></div>
                                 <div class="card-body border-bottom py-3">
                                     <div class="d-flex">
                                         <div class="text-secondary">
@@ -259,7 +259,42 @@
     </div>
 
     <!-- DELETE Modal -->
-
+    <div class="modal modal-blur fade" id="modal-danger" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-status bg-danger"></div>
+                <div class="modal-body text-center py-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon mb-2 text-danger icon-lg" width="24" height="24"
+                        viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path
+                            d="M10.24 3.957l-8.422 14.06a1.989 1.989 0 0 0 1.7 2.983h16.845a1.989 1.989 0 0 0 1.7 -2.983l-8.423 -14.06a1.989 1.989 0 0 0 -3.4 0z" />
+                        <path d="M12 9v4" />
+                        <path d="M12 17h.01" />
+                    </svg>
+                    <h3>Are you sure?</h3>
+                    <div class="text-secondary">
+                        Do you really want to remove <strong id="delete-product-name"></strong>?
+                        This action cannot be undone.
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="w-100">
+                        <div class="row">
+                            <div class="col">
+                                <a href="#" class="btn w-100" data-bs-dismiss="modal">Cancel</a>
+                            </div>
+                            <div class="col">
+                                <a href="#" id="confirm-delete-btn" class="btn btn-danger w-100">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Libs JS -->
     <!-- Tabler Core -->
@@ -275,6 +310,37 @@
 
             document.getElementById("submit-product").addEventListener("click", function () {
                 submitProduct();
+            });
+
+            document.getElementById("confirm-delete-btn").addEventListener("click", function () {
+                let productId = this.getAttribute("data-id");
+
+                if (!productId) {
+                    showError("Invalid product ID");
+                    return;
+                }
+
+                fetch(`http://localhost/ci3_api_rs/product/${productId}`, {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status) {
+                            showSuccess("Product deleted successfully!");
+                            fetchProducts();
+                            let modal = bootstrap.Modal.getInstance(document.getElementById("modal-danger"));
+                            modal.hide();
+                        } else {
+                            showError(data.error || "Failed to delete product");
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+                        showError("An error occurred while deleting the product");
+                    });
             });
         });
 
@@ -342,7 +408,7 @@
                               <button class="btn dropdown-toggle align-text-top btn-outline-primary" data-bs-boundary="viewport" data-bs-toggle="dropdown"><svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-settings-2"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M19.875 6.27a2.225 2.225 0 0 1 1.125 1.948v7.284c0 .809 -.443 1.555 -1.158 1.948l-6.75 4.27a2.269 2.269 0 0 1 -2.184 0l-6.75 -4.27a2.225 2.225 0 0 1 -1.158 -1.948v-7.285c0 -.809 .443 -1.554 1.158 -1.947l6.75 -3.98a2.33 2.33 0 0 1 2.25 0l6.75 3.98h-.033z" /><path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /></svg></button>
                               <div class="dropdown-menu dropdown-menu-start">
                                 <a class="dropdown-item" href="#" onclick="editProduct(${product.id}, '${product.name}', ${product.price})">Update</a>
-                                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modal-danger">
+                                <a class="dropdown-item delete-btn" href="#" data-id="${product.id}" data-name="${product.name}" data-bs-toggle="modal" data-bs-target="#modal-danger">
                                   Delete
                                 </a>
                               </div>
@@ -352,12 +418,36 @@
             `;
                 tableBody.innerHTML += row;
             });
+
+            document.querySelectorAll(".delete-btn").forEach((btn) => {
+                btn.addEventListener("click", function () {
+                    let productId = this.getAttribute("data-id");
+                    let productName = this.getAttribute("data-name");
+
+                    document.getElementById("delete-product-name").textContent = productName;
+                    document.getElementById("confirm-delete-btn").setAttribute("data-id", productId);
+                });
+            });
+        }
+
+        function showSuccess(message) {
+            let successMessage = document.getElementById("success-message");
+            successMessage.textContent = message;
+            successMessage.classList.remove("d-none");
+
+            setTimeout(() => {
+                successMessage.classList.add("d-none");
+            }, 3000);
         }
 
         function showError(message) {
             let errorMessage = document.getElementById("error-message");
             errorMessage.textContent = message;
             errorMessage.classList.remove("d-none");
+
+            setTimeout(() => {
+                errorMessage.classList.add("d-none");
+            }, 3000);
         }
 
         function formatDate(dateString) {
