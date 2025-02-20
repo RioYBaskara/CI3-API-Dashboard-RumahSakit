@@ -314,33 +314,7 @@
 
             document.getElementById("confirm-delete-btn").addEventListener("click", function () {
                 let productId = this.getAttribute("data-id");
-
-                if (!productId) {
-                    showError("Invalid product ID");
-                    return;
-                }
-
-                fetch(`http://localhost/ci3_api_rs/product/${productId}`, {
-                    method: "DELETE",
-                    headers: {
-                        "Content-Type": "application/json"
-                    }
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.status) {
-                            showSuccess("Product deleted successfully!");
-                            fetchProducts();
-                            let modal = bootstrap.Modal.getInstance(document.getElementById("modal-danger"));
-                            modal.hide();
-                        } else {
-                            showError(data.error || "Failed to delete product");
-                        }
-                    })
-                    .catch(error => {
-                        console.error("Error:", error);
-                        showError("An error occurred while deleting the product");
-                    });
+                deleteProduct(productId);
             });
         });
 
@@ -461,6 +435,9 @@
 
         // insert POST
         function submitProduct() {
+            let submitButton = document.getElementById("submit-product");
+            submitButton.classList.add("btn-loading", "disabled");
+
             let productName = document.getElementById("product-name").value.trim();
             let productPrice = document.getElementById("product-price").value.trim();
             let modalErrorMessage = document.getElementById("modal-error-message");
@@ -471,6 +448,7 @@
             if (!productName || !productPrice) {
                 modalErrorMessage.textContent = "Product Name and Price are required!";
                 modalErrorMessage.classList.remove("d-none");
+                submitButton.classList.remove("btn-loading", "disabled");
                 return;
             }
 
@@ -496,12 +474,17 @@
                     modalErrorMessage.textContent = "Failed to create product. Please try again.";
                     modalErrorMessage.classList.remove("d-none");
                     console.error("POST error:", error);
+                })
+                .finally(() => {
+                    submitButton.classList.remove("btn-loading", "disabled");
                 });
         }
 
-        // PUT, *validation on view
+        // PUT, *validation on view(variasitesting)
         function editProduct(id, name, price) {
             let modal = document.getElementById("modal-update-product");
+
+            modal.querySelector(".modal-title").innerHTML = `Edit Product <strong>"${name}"</strong>`;
 
             document.getElementById("update-product-name").value = name;
             document.getElementById("update-product-price").value = price;
@@ -514,6 +497,8 @@
         document.getElementById("submit-update-product").addEventListener("click", function () {
             let modal = document.getElementById("modal-update-product");
             let productId = modal.getAttribute("data-product-id");
+            let submitButton = modal.querySelector(".modal-footer .btn-primary");
+            submitButton.classList.add("btn-loading", "disabled");
 
             let productName = document.getElementById("update-product-name").value.trim();
             let productPrice = document.getElementById("update-product-price").value.trim();
@@ -525,12 +510,14 @@
             if (!productName || !productPrice) {
                 modalErrorMessage.textContent = "Product Name and Price are required!";
                 modalErrorMessage.classList.remove("d-none");
+                submitButton.classList.remove("btn-loading", "disabled");
                 return;
             }
 
             if (isNaN(productPrice)) {
                 modalErrorMessage.textContent = "Price must be a valid number!";
                 modalErrorMessage.classList.remove("d-none");
+                submitButton.classList.remove("btn-loading", "disabled");
                 return;
             }
 
@@ -558,8 +545,47 @@
                     modalErrorMessage.textContent = "Failed to update product. Please try again.";
                     modalErrorMessage.classList.remove("d-none");
                     console.error("PUT error:", error);
+                })
+                .finally(() => {
+                    submitButton.classList.remove("btn-loading", "disabled");
                 });
         });
+
+        // DELETE
+        function deleteProduct(productId) {
+            let deleteButton = document.getElementById("confirm-delete-btn");
+            deleteButton.classList.add("btn-loading", "disabled");
+
+            if (!productId) {
+                showError("Invalid product ID");
+                return;
+            }
+
+            fetch(`http://localhost/ci3_api_rs/product/${productId}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status) {
+                        showSuccess("Product deleted successfully!");
+                        fetchProducts();
+                        let modal = bootstrap.Modal.getInstance(document.getElementById("modal-danger"));
+                        modal.hide();
+                    } else {
+                        showError(data.error || "Failed to delete product");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    showError("An error occurred while deleting the product");
+                })
+                .finally(() => {
+                    deleteButton.classList.remove("btn-loading", "disabled");
+                });
+        }
     </script>
 
 </body>
