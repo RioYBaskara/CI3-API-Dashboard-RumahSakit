@@ -123,7 +123,8 @@ class User extends REST_Controller
 		if ($user_data['status']) {
 			$this->response([
 				'status' => true,
-				'data' => $user_data['data']
+				'data' => $user_data['data'],
+				'cookie' => get_cookie('access_token')
 			], REST_Controller::HTTP_OK);
 		} else {
 			$this->response([

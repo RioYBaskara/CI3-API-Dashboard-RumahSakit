@@ -35,7 +35,7 @@
 
 <body class=" d-flex flex-column">
     <script src="<?= base_url() ?>public/assets/tabler/dist/js/demo-theme.min.js?1692870487"></script>
-    <div class="page page-center">
+    <div class="page">
         <div class="container container-tight py-4">
             <div class="text-center mb-4">
                 <a href="." class="navbar-brand navbar-brand-autodark">
@@ -55,11 +55,196 @@
                 </div>
             </div>
         </div>
+        <div class="page-wrapper">
+            <div class="page-body">
+                <div class="container-xl">
+                    <div class="row row-cards">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">Product</h3>
+                                </div>
+                                <div class="card-body border-bottom py-3">
+                                    <div class="d-flex">
+                                        <div class="text-secondary">
+                                            Show
+                                            <div class="mx-2 d-inline-block">
+                                                <input type="text" class="form-control form-control-sm" value="8"
+                                                    size="3" aria-label="Invoices count">
+                                            </div>
+                                            entries
+                                        </div>
+                                        <div class="ms-auto text-secondary">
+                                            Search:
+                                            <div class="ms-2 d-inline-block">
+                                                <input type="text" class="form-control form-control-sm"
+                                                    aria-label="Search invoice">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table card-table table-vcenter text-nowrap datatable">
+                                        <thead>
+                                            <tr>
+                                                <th class="w-1"><input class="form-check-input m-0 align-middle"
+                                                        type="checkbox" aria-label="Select all invoices"></th>
+                                                <th class="w-1">No.
+                                                </th>
+                                                <th>ID</th>
+                                                <th>Name</th>
+                                                <th>Price</th>
+                                                <th>Created</th>
+                                                <th>Updated</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="product-table-body">
+                                            <tr id="loading-row">
+                                                <td colspan="7" class="text-center">
+                                                    <div class="progress">
+                                                        <div class="progress-bar progress-bar-indeterminate bg-green">
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- footer -->
+                                <div class="card-footer d-flex align-items-center">
+                                    <p class="m-0 text-secondary">Showing <span>1</span> to <span>8</span> of
+                                        <span>16</span> entries
+                                    </p>
+                                    <ul class="pagination m-0 ms-auto">
+                                        <li class="page-item disabled">
+                                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
+                                                <!-- Download SVG icon from http://tabler-icons.io/i/chevron-left -->
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24"
+                                                    height="24" viewBox="0 0 24 24" stroke-width="2"
+                                                    stroke="currentColor" fill="none" stroke-linecap="round"
+                                                    stroke-linejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                    <path d="M15 6l-6 6l6 6" />
+                                                </svg>
+                                                prev
+                                            </a>
+                                        </li>
+                                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                        <li class="page-item active"><a class="page-link" href="#">2</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">4</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">5</a></li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="#">
+                                                next
+                                                <!-- Download SVG icon from http://tabler-icons.io/i/chevron-right -->
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24"
+                                                    height="24" viewBox="0 0 24 24" stroke-width="2"
+                                                    stroke="currentColor" fill="none" stroke-linecap="round"
+                                                    stroke-linejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                    <path d="M9 6l6 6l-6 6" />
+                                                </svg>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <!-- Libs JS -->
     <!-- Tabler Core -->
     <script src="<?= base_url() ?>public/assets/tabler/dist/js/tabler.min.js?1692870487" defer></script>
     <script src="<?= base_url() ?>public/assets/tabler/dist/js/demo.min.js?1692870487" defer></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            fetchProducts();
+        });
+
+        function fetchProducts() {
+            let tableBody = document.getElementById("product-table-body");
+            tableBody.innerHTML = `
+            <tr id="loading-row">
+                <td colspan="7" class="text-center">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-indeterminate bg-green"></div>
+                    </div>
+                </td>
+            </tr>
+        `;
+
+            fetch("http://localhost/ci3_api_rs/product/")
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status) {
+                        populateTable(data.data);
+                    } else {
+                        console.error("Error fetching products:", data.message);
+                    }
+                })
+                .catch(error => console.error("Fetch error:", error));
+        }
+
+        function populateTable(products) {
+            let tableBody = document.getElementById("product-table-body");
+            tableBody.innerHTML = "";
+
+            if (products.length === 0) {
+                tableBody.innerHTML = `
+                <tr>
+                    <td colspan="7" class="text-center">No products available</td>
+                </tr>
+            `;
+                return;
+            }
+
+            products.forEach((product, index) => {
+                let createdAt = product.created_at ? formatDate(product.created_at) : "-";
+                let updatedAt = product.updated_at ? formatDate(product.updated_at) : "-";
+                let formattedPrice = formatCurrency(product.price);
+
+                let row = `
+                <tr>
+                    <td><input class="form-check-input m-0 align-middle" type="checkbox" aria-label="Select invoice"></td>
+                    <td><span class="text-secondary">${index + 1}</span></td>
+                    <td>${product.id}</td>
+                    <td>${product.name}</td>
+                    <td>${formattedPrice}</td>
+                    <td>${createdAt}</td>
+                    <td>${updatedAt}</td>
+                    <td class="text">
+                            <span class="dropdown">
+                              <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport" data-bs-toggle="dropdown">Actions</button>
+                              <div class="dropdown-menu dropdown-menu-start">
+                                <a class="dropdown-item" href="#">
+                                  Action
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                  Another action
+                                </a>
+                              </div>
+                            </span>
+                          </td>
+                </tr>
+            `;
+                tableBody.innerHTML += row;
+            });
+        }
+
+        function formatDate(dateString) {
+            let date = new Date(dateString);
+            return date.toLocaleDateString("id-ID", { year: "numeric", month: "long", day: "numeric" });
+        }
+
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR" }).format(amount);
+        }
+    </script>
 </body>
 
 </html>
