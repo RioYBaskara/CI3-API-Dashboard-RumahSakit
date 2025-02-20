@@ -63,14 +63,28 @@
                             <div class="card">
                                 <div class="card-header flex justify-content-between">
                                     <h3 class="card-title">Product</h3>
-                                    <a class="btn btn-icon" id="refresh-btn"><svg xmlns="http://www.w3.org/2000/svg"
-                                            width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                            class="icon icon-tabler icons-tabler-outline icon-tabler-refresh">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4" />
-                                            <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4" />
-                                        </svg></a>
+                                    <div class="">
+                                        <a class="btn btn-icon btn-outline-secondary" id="refresh-btn"><svg
+                                                xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round"
+                                                class="icon icon-tabler icons-tabler-outline icon-tabler-refresh">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4" />
+                                                <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4" />
+                                            </svg></a>
+
+                                        <a class="btn btn-icon btn-outline-success" id="add-btn" data-bs-toggle="modal"
+                                            data-bs-target="#modal-product"><svg xmlns="http://www.w3.org/2000/svg"
+                                                width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                class="icon icon-tabler icons-tabler-outline icon-tabler-plus">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                <path d="M12 5l0 14" />
+                                                <path d="M5 12l14 0" />
+                                            </svg></a>
+                                    </div>
                                 </div>
                                 <div id="error-message" class="alert alert-danger d-none" role="alert">
                                 </div>
@@ -167,6 +181,50 @@
             </div>
         </div>
     </div>
+
+    <div class="modal modal-blur fade" id="modal-product" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">New Product</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="modal-error-message" class="alert alert-danger d-none" role="alert"></div>
+                    <!-- Tempat Error -->
+                    <form id="product-form">
+                        <div class="mb-3">
+                            <label class="form-label">Name</label>
+                            <input type="text" class="form-control" name="name" id="product-name"
+                                placeholder="Your product name">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Price</label>
+                            <input type="text" class="form-control" name="price" id="product-price"
+                                placeholder="Your product price">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">
+                        Cancel
+                    </a>
+                    <button type="button" class="btn btn-primary ms-auto" id="submit-product">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
+                            stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M12 5l0 14" />
+                            <path d="M5 12l14 0" />
+                        </svg>
+                        Create new product
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <!-- Libs JS -->
     <!-- Tabler Core -->
     <script src="<?= base_url() ?>public/assets/tabler/dist/js/tabler.min.js?1692870487" defer></script>
@@ -178,8 +236,13 @@
             document.getElementById("refresh-btn").addEventListener("click", function () {
                 fetchProducts();
             });
+
+            document.getElementById("submit-product").addEventListener("click", function () {
+                submitProduct();
+            });
         });
 
+        // GET
         function fetchProducts() {
             let tableBody = document.getElementById("product-table-body");
             let errorMessage = document.getElementById("error-message");
@@ -270,6 +333,46 @@
 
         function formatCurrency(amount) {
             return new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR" }).format(amount);
+        }
+
+        // insert POST
+        function submitProduct() {
+            let productName = document.getElementById("product-name").value.trim();
+            let productPrice = document.getElementById("product-price").value.trim();
+            let modalErrorMessage = document.getElementById("modal-error-message");
+
+            modalErrorMessage.classList.add("d-none");
+            modalErrorMessage.textContent = "";
+
+            if (!productName || !productPrice) {
+                modalErrorMessage.textContent = "Product Name and Price are required!";
+                modalErrorMessage.classList.remove("d-none");
+                return;
+            }
+
+            let formData = new FormData();
+            formData.append("name", productName);
+            formData.append("price", productPrice);
+
+            fetch("http://localhost/ci3_api_rs/product", {
+                method: "POST",
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status) {
+                        document.getElementById("modal-product").querySelector(".btn-close").click();
+                        fetchProducts();
+                    } else {
+                        modalErrorMessage.textContent = data.error;
+                        modalErrorMessage.classList.remove("d-none");
+                    }
+                })
+                .catch(error => {
+                    modalErrorMessage.textContent = "Failed to create product. Please try again.";
+                    modalErrorMessage.classList.remove("d-none");
+                    console.error("POST error:", error);
+                });
         }
     </script>
 

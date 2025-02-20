@@ -100,11 +100,21 @@ class Product extends REST_Controller
             return;
 
         $input = $this->input->post();
+
         if (empty($input['name']) || empty($input['price'])) {
             $this->response([
                 'status' => false,
                 'message' => 'Bad Request',
                 'error' => 'Name and price fields are required'
+            ], REST_Controller::HTTP_BAD_REQUEST);
+            return;
+        }
+
+        if (!is_numeric($input['price'])) {
+            $this->response([
+                'status' => false,
+                'message' => 'Bad Request',
+                'error' => 'Price must be a valid number'
             ], REST_Controller::HTTP_BAD_REQUEST);
             return;
         }
