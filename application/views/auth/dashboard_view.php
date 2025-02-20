@@ -182,6 +182,7 @@
         </div>
     </div>
 
+    <!-- Add/Update modal -->
     <div class="modal modal-blur fade" id="modal-product" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -224,6 +225,8 @@
         </div>
     </div>
 
+    <!-- DELETE Modal -->
+
 
     <!-- Libs JS -->
     <!-- Tabler Core -->
@@ -239,6 +242,30 @@
 
             document.getElementById("submit-product").addEventListener("click", function () {
                 submitProduct();
+            });
+
+            // reset add modal after update
+            document.getElementById("modal-product").addEventListener("hidden.bs.modal", function () {
+                this.querySelector(".modal-title").textContent = "New Product";
+                this.removeAttribute("data-product-id");
+
+                this.querySelector("input[name='name']").value = "";
+                this.querySelector("input[name='price']").value = "";
+
+                let submitButton = this.querySelector(".modal-footer .btn-primary");
+                submitButton.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
+                stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M12 5l0 14" />
+                <path d="M5 12l14 0" />
+            </svg>
+            Create new product
+        `;
+
+                submitButton.removeAttribute("onclick");
+                submitButton.setAttribute("onclick", "createProduct()");
             });
         });
 
@@ -303,12 +330,10 @@
                     <td>${updatedAt}</td>
                     <td class="text">
                             <span class="dropdown">
-                              <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport" data-bs-toggle="dropdown">Actions</button>
+                              <button class="btn dropdown-toggle align-text-top btn-outline-primary" data-bs-boundary="viewport" data-bs-toggle="dropdown"><svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-settings-2"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M19.875 6.27a2.225 2.225 0 0 1 1.125 1.948v7.284c0 .809 -.443 1.555 -1.158 1.948l-6.75 4.27a2.269 2.269 0 0 1 -2.184 0l-6.75 -4.27a2.225 2.225 0 0 1 -1.158 -1.948v-7.285c0 -.809 .443 -1.554 1.158 -1.947l6.75 -3.98a2.33 2.33 0 0 1 2.25 0l6.75 3.98h-.033z" /><path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /></svg></button>
                               <div class="dropdown-menu dropdown-menu-start">
-                                <a class="dropdown-item" href="#">
-                                  Update
-                                </a>
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="#" onclick="editProduct(${product.id}, '${product.name}', ${product.price})">Update</a>
+                                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modal-danger">
                                   Delete
                                 </a>
                               </div>
@@ -372,6 +397,88 @@
                     modalErrorMessage.textContent = "Failed to create product. Please try again.";
                     modalErrorMessage.classList.remove("d-none");
                     console.error("POST error:", error);
+                });
+        }
+
+        // PUT
+        function editProduct(id, name, price) {
+            let modal = document.getElementById("modal-product");
+
+            modal.querySelector(".modal-title").textContent = `Edit Product "${name}"`;
+
+            document.querySelector("#modal-product input[name='name']").value = name;
+            document.querySelector("#modal-product input[name='price']").value = price;
+
+            modal.setAttribute("data-product-id", id);
+
+            let submitButton = modal.querySelector(".modal-footer .btn-primary");
+            submitButton.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
+            stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M12 5l0 14" />
+            <path d="M5 12l14 0" />
+        </svg>
+        Update Product
+    `;
+
+            submitButton.setAttribute("onclick", "updateProduct()");
+
+            let modalInstance = new bootstrap.Modal(modal);
+            modalInstance.show();
+        }
+
+        // *validation on view variation
+        function updateProduct() {
+            let modal = document.getElementById("modal-product");
+            let productId = modal.getAttribute("data-product-id");
+
+            let productName = document.querySelector("#modal-product input[name='name']").value.trim();
+            let productPrice = document.querySelector("#modal-product input[name='price']").value.trim();
+            let modalErrorMessage = document.getElementById("modal-error-message");
+
+            modalErrorMessage.classList.add("d-none");
+            modalErrorMessage.textContent = "";
+
+            if (!productName || !productPrice) {
+                modalErrorMessage.textContent = "Product Name and Price are required!";
+                modalErrorMessage.classList.remove("d-none");
+                return;
+            }
+
+            if (isNaN(productPrice)) {
+                modalErrorMessage.textContent = "Price must be a valid number!";
+                modalErrorMessage.classList.remove("d-none");
+                return;
+            }
+
+            let requestData = {
+                name: productName,
+                price: Number(productPrice)
+            };
+
+            fetch(`http://localhost/ci3_api_rs/product/${productId}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(requestData)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status) {
+                        modal.querySelector(".btn-close").click();
+                        fetchProducts();
+                    } else {
+                        modalErrorMessage.textContent = data.error;
+                        modalErrorMessage.classList.remove("d-none");
+                    }
+                })
+                .catch(error => {
+                    modalErrorMessage.textContent = "Failed to update product. Please try again.";
+                    modalErrorMessage.classList.remove("d-none");
+                    console.error("PUT error:", error);
                 });
         }
     </script>

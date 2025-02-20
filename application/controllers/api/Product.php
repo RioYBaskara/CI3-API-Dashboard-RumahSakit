@@ -166,6 +166,15 @@ class Product extends REST_Controller
             return;
         }
 
+        if (!is_numeric($input['price'])) {
+            $this->response([
+                'status' => false,
+                'message' => 'Bad Request',
+                'error' => 'Price must be a valid number'
+            ], REST_Controller::HTTP_BAD_REQUEST);
+            return;
+        }
+
         $productExists = $this->Product_model->show($id);
         if (!$productExists) {
             $this->response([
