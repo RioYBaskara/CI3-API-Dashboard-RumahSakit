@@ -464,6 +464,7 @@
                 .then(data => {
                     if (data.status) {
                         document.getElementById("modal-product").querySelector(".btn-close").click();
+                        showSuccess("Product deleted successfully!");
                         fetchProducts();
                     } else {
                         modalErrorMessage.textContent = data.error;
@@ -535,6 +536,7 @@
                 .then(data => {
                     if (data.status) {
                         modal.querySelector(".btn-close").click();
+                        showSuccess("Product Updated successfully!");
                         fetchProducts();
                     } else {
                         modalErrorMessage.textContent = data.error;
