@@ -166,6 +166,8 @@ class Product extends REST_Controller
             return;
         }
 
+        $input['updated_at'] = date("Y-m-d H:i:s");
+
         if ($input['name'] == $productExists['name'] && $input['price'] == $productExists['price']) {
             $this->response([
                 'status' => true,
