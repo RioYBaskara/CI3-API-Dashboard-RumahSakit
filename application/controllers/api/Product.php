@@ -31,7 +31,7 @@ class Product extends REST_Controller
     {
         parent::__construct();
         $this->load->library('Authorization_Token');
-        $this->load->model('Product_model');
+        $this->load->model('master/Product_model');
     }
 
     private function authenticate()
@@ -96,7 +96,8 @@ class Product extends REST_Controller
      */
     public function index_post()
     {
-        if (!$this->authenticate())
+        $user = $this->authenticate();
+        if (!$user)
             return;
 
         $input = $this->input->post();
@@ -119,7 +120,15 @@ class Product extends REST_Controller
             return;
         }
 
-        $insert_id = $this->Product_model->insert($input);
+        $data = [
+            'name' => $input['name'],
+            'price' => $input['price'],
+            'created_at' => date("Y-m-d H:i:s"),
+            'created_by' => $user->username,
+            'is_deleted' => 0
+        ];
+
+        $insert_id = $this->Product_model->insert($data);
 
         if ($insert_id) {
             $this->response([
@@ -144,7 +153,8 @@ class Product extends REST_Controller
      */
     public function index_put($id)
     {
-        if (!$this->authenticate())
+        $user = $this->authenticate();
+        if (!$user)
             return;
 
         if (empty($id) || !is_numeric($id)) {
@@ -185,8 +195,6 @@ class Product extends REST_Controller
             return;
         }
 
-        $input['updated_at'] = date("Y-m-d H:i:s");
-
         if ($input['name'] == $productExists['name'] && $input['price'] == $productExists['price']) {
             $this->response([
                 'status' => true,
@@ -196,7 +204,14 @@ class Product extends REST_Controller
             return;
         }
 
-        $updateStatus = $this->Product_model->update($input, $id);
+        $data = [
+            'name' => $input['name'],
+            'price' => $input['price'],
+            'updated_at' => date("Y-m-d H:i:s"),
+            'updated_by' => $user->username
+        ];
+
+        $updateStatus = $this->Product_model->update($data, $id);
 
         if ($updateStatus) {
             $this->response([
@@ -221,7 +236,8 @@ class Product extends REST_Controller
      */
     public function index_delete($id = null)
     {
-        if (!$this->authenticate())
+        $user = $this->authenticate();
+        if (!$user)
             return;
 
         if (empty($id) || !is_numeric($id)) {
@@ -243,7 +259,7 @@ class Product extends REST_Controller
             return;
         }
 
-        $deleteStatus = $this->Product_model->delete($id);
+        $deleteStatus = $this->Product_model->delete($id, $user->username);
 
         if ($deleteStatus) {
             $this->response([
