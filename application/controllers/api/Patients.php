@@ -8,7 +8,7 @@
 require APPPATH . '/libraries/REST_Controller.php';
 use Restserver\Libraries\REST_Controller;
 
-class Product extends REST_Controller
+class Patients extends REST_Controller
 {
 
     /**
@@ -21,7 +21,7 @@ class Product extends REST_Controller
         parent::__construct();
         $this->load->library('Authorization_Token');
         $this->load->library('form_validation');
-        $this->load->model('master/Product_model');
+        $this->load->model('master/Pasien_model');
     }
 
     private function authenticate()
@@ -52,7 +52,7 @@ class Product extends REST_Controller
             return;
 
         if (!empty($id)) {
-            $data = $this->Product_model->show($id);
+            $data = $this->Pasien_model->show($id);
 
             if ($data) {
                 $this->response([
@@ -68,7 +68,7 @@ class Product extends REST_Controller
                 ], REST_Controller::HTTP_NOT_FOUND);
             }
         } else {
-            $data = $this->Product_model->show();
+            $data = $this->Pasien_model->show();
 
             $this->response([
                 'status' => true,
@@ -107,8 +107,12 @@ class Product extends REST_Controller
         $this->form_validation->set_data($input);
 
         // validasi
-        $this->form_validation->set_rules('name', 'Name', 'required|trim');
-        $this->form_validation->set_rules('price', 'Price', 'required|numeric');
+        $this->form_validation->set_rules('pasien_nm', 'Patient Name', 'required|max_length[100]');
+        $this->form_validation->set_rules('pasien_gender', 'Patient Gender', 'required|in_list[M,F]');
+        $this->form_validation->set_rules('pasien_birthdate', 'Patient Birthdate', 'required');
+        $this->form_validation->set_rules('pasien_address', 'Patient Address', 'required|max_length[255]');
+        $this->form_validation->set_rules('pasien_phone', 'Patient Phone', 'numeric|max_length[15]');
+        $this->form_validation->set_rules('is_active', 'Active Status', 'required|in_list[0,1]');
 
         if ($this->form_validation->run() == FALSE) {
             $this->response([
@@ -120,7 +124,7 @@ class Product extends REST_Controller
         }
 
         // list field yang boleh diinput
-        $allowed_data = ['name', 'price'];
+        $allowed_data = ['pasien_nm', 'pasien_gender', 'pasien_birthdate', 'pasien_address', 'pasien_phone', 'is_active'];
 
         $data = array_intersect_key($input, array_flip($allowed_data));
 
@@ -129,7 +133,7 @@ class Product extends REST_Controller
         $data['created_by'] = $user->username;
         $data['is_deleted'] = 0;
 
-        $insert_id = $this->Product_model->insert($data);
+        $insert_id = $this->Pasien_model->insert($data);
 
         if ($insert_id) {
             $this->response([
@@ -167,7 +171,7 @@ class Product extends REST_Controller
             return;
         }
 
-        $dataExists = $this->Product_model->show($id);
+        $dataExists = $this->Pasien_model->show($id);
         if (!$dataExists) {
             $this->response([
                 'status' => false,
@@ -194,9 +198,12 @@ class Product extends REST_Controller
         $this->form_validation->set_data($input);
 
         // validasi
-        $this->form_validation->set_data($this->put());
-        $this->form_validation->set_rules('name', 'Name', 'required|trim');
-        $this->form_validation->set_rules('price', 'Price', 'required|numeric');
+        $this->form_validation->set_rules('pasien_nm', 'Patient Name', 'required|max_length[100]');
+        $this->form_validation->set_rules('pasien_gender', 'Patient Gender', 'required|in_list[M,F]');
+        $this->form_validation->set_rules('pasien_birthdate', 'Patient Birthdate', 'required');
+        $this->form_validation->set_rules('pasien_address', 'Patient Address', 'required|max_length[255]');
+        $this->form_validation->set_rules('pasien_phone', 'Patient Phone', 'numeric|max_length[15]');
+        $this->form_validation->set_rules('is_active', 'Active Status', 'required|in_list[0,1]');
 
         if ($this->form_validation->run() == FALSE) {
             $this->response([
@@ -208,7 +215,7 @@ class Product extends REST_Controller
         }
 
         // list field yang boleh diinput
-        $allowed_data = ['name', 'price'];
+        $allowed_data = ['pasien_nm', 'pasien_gender', 'pasien_birthdate', 'pasien_address', 'pasien_phone', 'is_active'];
 
         $data = array_intersect_key($input, array_flip($allowed_data));
 
@@ -233,7 +240,7 @@ class Product extends REST_Controller
         $data['updated_at'] = date("Y-m-d H:i:s");
         $data['updated_by'] = $user->username;
 
-        $updateStatus = $this->Product_model->update($data, $id);
+        $updateStatus = $this->Pasien_model->update($data, $id);
 
         if ($updateStatus) {
             $this->response([
@@ -271,7 +278,7 @@ class Product extends REST_Controller
             return;
         }
 
-        $dataExists = $this->Product_model->show($id);
+        $dataExists = $this->Pasien_model->show($id);
         if (!$dataExists) {
             $this->response([
                 'status' => false,
@@ -281,7 +288,7 @@ class Product extends REST_Controller
             return;
         }
 
-        $deleteStatus = $this->Product_model->delete($id, $user->username);
+        $deleteStatus = $this->Pasien_model->delete($id, $user->username);
 
         if ($deleteStatus) {
             $this->response([
