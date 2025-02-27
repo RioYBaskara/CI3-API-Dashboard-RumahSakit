@@ -10,6 +10,7 @@ use Restserver\Libraries\REST_Controller;
 
 class Patients extends REST_Controller
 {
+    private $Allowed_fields = ['pasien_nm', 'pasien_gender', 'pasien_birthdate', 'pasien_address', 'pasien_phone', 'is_active'];
 
     /**
      * CONSTRUCTOR | LOAD MODEL
@@ -21,7 +22,7 @@ class Patients extends REST_Controller
         parent::__construct();
         $this->load->library('Authorization_Token');
         $this->load->library('form_validation');
-        $this->load->model('master/Pasien_model');
+        $this->load->model('master/Patients_model');
     }
 
     private function authenticate()
@@ -52,7 +53,7 @@ class Patients extends REST_Controller
             return;
 
         if (!empty($id)) {
-            $data = $this->Pasien_model->show($id);
+            $data = $this->Patients_model->show($id);
 
             if ($data) {
                 $this->response([
@@ -68,7 +69,7 @@ class Patients extends REST_Controller
                 ], REST_Controller::HTTP_NOT_FOUND);
             }
         } else {
-            $data = $this->Pasien_model->show();
+            $data = $this->Patients_model->show();
 
             $this->response([
                 'status' => true,
@@ -124,7 +125,7 @@ class Patients extends REST_Controller
         }
 
         // list field yang boleh diinput
-        $allowed_data = ['pasien_nm', 'pasien_gender', 'pasien_birthdate', 'pasien_address', 'pasien_phone', 'is_active'];
+        $allowed_data = $this->Allowed_fields;
 
         $data = array_intersect_key($input, array_flip($allowed_data));
 
@@ -133,7 +134,7 @@ class Patients extends REST_Controller
         $data['created_by'] = $user->username;
         $data['is_deleted'] = 0;
 
-        $insert_id = $this->Pasien_model->insert($data);
+        $insert_id = $this->Patients_model->insert($data);
 
         if ($insert_id) {
             $this->response([
@@ -171,7 +172,7 @@ class Patients extends REST_Controller
             return;
         }
 
-        $dataExists = $this->Pasien_model->show($id);
+        $dataExists = $this->Patients_model->show($id);
         if (!$dataExists) {
             $this->response([
                 'status' => false,
@@ -215,7 +216,7 @@ class Patients extends REST_Controller
         }
 
         // list field yang boleh diinput
-        $allowed_data = ['pasien_nm', 'pasien_gender', 'pasien_birthdate', 'pasien_address', 'pasien_phone', 'is_active'];
+        $allowed_data = $this->Allowed_fields;
 
         $data = array_intersect_key($input, array_flip($allowed_data));
 
@@ -240,7 +241,7 @@ class Patients extends REST_Controller
         $data['updated_at'] = date("Y-m-d H:i:s");
         $data['updated_by'] = $user->username;
 
-        $updateStatus = $this->Pasien_model->update($data, $id);
+        $updateStatus = $this->Patients_model->update($data, $id);
 
         if ($updateStatus) {
             $this->response([
@@ -278,7 +279,7 @@ class Patients extends REST_Controller
             return;
         }
 
-        $dataExists = $this->Pasien_model->show($id);
+        $dataExists = $this->Patients_model->show($id);
         if (!$dataExists) {
             $this->response([
                 'status' => false,
@@ -288,7 +289,7 @@ class Patients extends REST_Controller
             return;
         }
 
-        $deleteStatus = $this->Pasien_model->delete($id, $user->username);
+        $deleteStatus = $this->Patients_model->delete($id, $user->username);
 
         if ($deleteStatus) {
             $this->response([

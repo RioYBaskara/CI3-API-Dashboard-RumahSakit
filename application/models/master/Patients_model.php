@@ -1,11 +1,12 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Pasien_model extends CI_Model
+class Patients_model extends CI_Model
 {
     // ubah variabel di bawah dan field show() untuk tabel master
     private $table = 'pasien';
     private $primaryKey = 'pasien_id';
+    private $returnGetFields = "pasien_id, pasien_nm, pasien_birthdate, pasien_gender, pasien_phone, pasien_address, created_at, created_by, updated_at, updated_by";
 
     /**
      * CONSTRUCTOR | LOAD DB
@@ -24,7 +25,7 @@ class Pasien_model extends CI_Model
     public function show($id = 0)
     {
         // field, jangan *
-        $fields = "{$this->primaryKey}, pasien_nm, pasien_birthdate, pasien_gender, pasien_phone, pasien_address, created_at, created_by, updated_at, updated_by";
+        $fields = $this->returnGetFields;
 
         $this->db->select($fields);
         $this->db->where('is_deleted', 0);

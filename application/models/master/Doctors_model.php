@@ -1,11 +1,12 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Product_model extends CI_Model
+class Doctors_model extends CI_Model
 {
-    private $table = 'products';
-    private $primaryKey = 'id';
-    private $returnGetFields = "id, name, price, created_at, created_by, updated_at, updated_by";
+    // ubah variabel di bawah dan field show() untuk tabel master
+    private $table = 'dokter';
+    private $primaryKey = 'dokter_id';
+    private $returnGetFields = "dokter_id, dokter_nm, dokter_specialty, dokter_phone, is_active, created_at, created_by, updated_at, updated_by";
 
     /**
      * CONSTRUCTOR | LOAD DB
