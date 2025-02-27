@@ -100,8 +100,8 @@
                                                         type="checkbox" aria-label="Select all invoices"></th>
                                                 <th class="w-1">No.
                                                 </th>
-                                                <th>ID</th>
                                                 <th>Name</th>
+                                                <th>ID</th>
                                                 <th>Price</th>
                                                 <th>Created</th>
                                                 <th>Updated</th>
@@ -372,8 +372,8 @@
                 <tr>
                     <td><input class="form-check-input m-0 align-middle" type="checkbox" aria-label="Select invoice"></td>
                     <td><span class="text-secondary">${index + 1}</span></td>
-                    <td>${product.id}</td>
                     <td>${product.name}</td>
+                    <td>${product.id}</td>
                     <td>${formattedPrice}</td>
                     <td>${createdAt}</td>
                     <td>${updatedAt}</td>

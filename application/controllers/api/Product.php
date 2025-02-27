@@ -1,16 +1,5 @@
 <?php
 
-/* Table structure for table `products` */
-// CREATE TABLE `products` (
-//   `id` int(10) UNSIGNED NOT NULL,
-//   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-//   `price` double NOT NULL,
-//   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-//   `updated_at` datetime DEFAULT NULL
-// ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-// ALTER TABLE `products` ADD PRIMARY KEY (`id`);
-// ALTER TABLE `products` MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1; COMMIT;
-
 /**
  * Product class.
  * 
@@ -31,6 +20,7 @@ class Product extends REST_Controller
     {
         parent::__construct();
         $this->load->library('Authorization_Token');
+        $this->load->library('form_validation');
         $this->load->model('master/Product_model');
     }
 
@@ -62,28 +52,28 @@ class Product extends REST_Controller
             return;
 
         if (!empty($id)) {
-            $product = $this->Product_model->show($id);
+            $data = $this->Product_model->show($id);
 
-            if ($product) {
+            if ($data) {
                 $this->response([
                     'status' => true,
-                    'message' => 'Product retrieved successfully',
-                    'data' => $product
+                    'message' => 'Data retrieved successfully',
+                    'data' => $data
                 ], REST_Controller::HTTP_OK);
             } else {
                 $this->response([
                     'status' => false,
-                    'message' => 'Product not found',
-                    'error' => 'No product exists with the given ID'
+                    'message' => 'Data not found',
+                    'error' => 'No data exists with the given ID'
                 ], REST_Controller::HTTP_NOT_FOUND);
             }
         } else {
-            $products = $this->Product_model->show();
+            $data = $this->Product_model->show();
 
             $this->response([
                 'status' => true,
-                'message' => 'Products retrieved successfully',
-                'data' => $products ?: []
+                'message' => 'Data retrieved successfully',
+                'data' => $data ?: []
             ], REST_Controller::HTTP_OK);
         }
     }
@@ -100,47 +90,43 @@ class Product extends REST_Controller
         if (!$user)
             return;
 
+        // validasi
+        $this->form_validation->set_rules('name', 'Name', 'required|trim');
+        $this->form_validation->set_rules('price', 'Price', 'required|numeric');
+
+        if ($this->form_validation->run() == FALSE) {
+            $this->response([
+                'status' => false,
+                'message' => 'Bad Request!',
+                'errors' => $this->form_validation->error_array()
+            ], REST_Controller::HTTP_BAD_REQUEST);
+            return;
+        }
+
+        // list field yang boleh diinput
+        $allowed_data = ['name', 'price'];
+
         $input = $this->input->post();
+        $data = array_intersect_key($input, array_flip($allowed_data));
 
-        if (empty($input['name']) || empty($input['price'])) {
-            $this->response([
-                'status' => false,
-                'message' => 'Bad Request',
-                'error' => 'Name and price fields are required'
-            ], REST_Controller::HTTP_BAD_REQUEST);
-            return;
-        }
-
-        if (!is_numeric($input['price'])) {
-            $this->response([
-                'status' => false,
-                'message' => 'Bad Request',
-                'error' => 'Price must be a valid number'
-            ], REST_Controller::HTTP_BAD_REQUEST);
-            return;
-        }
-
-        $data = [
-            'name' => $input['name'],
-            'price' => $input['price'],
-            'created_at' => date("Y-m-d H:i:s"),
-            'created_by' => $user->username,
-            'is_deleted' => 0
-        ];
+        // logging
+        $data['created_at'] = date("Y-m-d H:i:s");
+        $data['created_by'] = $user->username;
+        $data['is_deleted'] = 0;
 
         $insert_id = $this->Product_model->insert($data);
 
         if ($insert_id) {
             $this->response([
                 'status' => true,
-                'message' => 'Product created successfully',
+                'message' => 'Data created successfully',
                 'data' => array_merge(['id' => $insert_id], $input)
             ], REST_Controller::HTTP_CREATED);
         } else {
             $this->response([
                 'status' => false,
                 'message' => 'Internal Server Error',
-                'error' => 'Failed to insert product'
+                'error' => 'Failed to insert data'
             ], REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
@@ -161,69 +147,69 @@ class Product extends REST_Controller
             $this->response([
                 'status' => false,
                 'message' => 'Bad Request',
-                'error' => 'Invalid product ID'
+                'error' => 'Invalid data ID'
             ], REST_Controller::HTTP_BAD_REQUEST);
             return;
         }
 
-        $input = $this->put();
-        if (empty($input['name']) || empty($input['price'])) {
-            $this->response([
-                'status' => false,
-                'message' => 'Bad Request',
-                'error' => 'Name and price fields are required'
-            ], REST_Controller::HTTP_BAD_REQUEST);
-            return;
-        }
-
-        if (!is_numeric($input['price'])) {
-            $this->response([
-                'status' => false,
-                'message' => 'Bad Request',
-                'error' => 'Price must be a valid number'
-            ], REST_Controller::HTTP_BAD_REQUEST);
-            return;
-        }
-
-        $productExists = $this->Product_model->show($id);
-        if (!$productExists) {
+        $dataExists = $this->Product_model->show($id);
+        if (!$dataExists) {
             $this->response([
                 'status' => false,
                 'message' => 'Not Found',
-                'error' => 'Product not found'
+                'error' => 'Data not found'
             ], REST_Controller::HTTP_NOT_FOUND);
             return;
         }
 
-        if ($input['name'] == $productExists['name'] && $input['price'] == $productExists['price']) {
+        $this->load->library('form_validation');
+
+        // validasi
+        $this->form_validation->set_data($this->put());
+        $this->form_validation->set_rules('name', 'Name', 'required|trim');
+        $this->form_validation->set_rules('price', 'Price', 'required|numeric');
+
+        if ($this->form_validation->run() == FALSE) {
             $this->response([
-                'status' => true,
-                'message' => 'No changes detected',
-                'data' => $productExists
-            ], REST_Controller::HTTP_OK);
+                'status' => false,
+                'message' => 'Bad Request!',
+                'errors' => $this->form_validation->error_array()
+            ], REST_Controller::HTTP_BAD_REQUEST);
             return;
         }
 
-        $data = [
-            'name' => $input['name'],
-            'price' => $input['price'],
-            'updated_at' => date("Y-m-d H:i:s"),
-            'updated_by' => $user->username
-        ];
+        // list field yang boleh diinput
+        $allowed_data = ['name', 'price'];
+
+        $input = $this->put();
+        $data = array_intersect_key($input, array_flip($allowed_data));
+
+        // logging
+        $data['updated_at'] = date("Y-m-d H:i:s");
+        $data['updated_by'] = $user->username;
+
+        if ($data['name'] == $dataExists['name'] && $data['price'] == $dataExists['price']) {
+            $this->response([
+                'status' => true,
+                'message' => 'No changes detected',
+                'data' => $dataExists
+            ], REST_Controller::HTTP_OK);
+            return;
+        }
 
         $updateStatus = $this->Product_model->update($data, $id);
 
         if ($updateStatus) {
             $this->response([
                 'status' => true,
-                'message' => 'Product updated successfully',
-                'data' => array_merge(['id' => $id], $input)
+                'message' => 'Data updated successfully',
+                'data' => array_merge(['id' => $id], $data)
             ], REST_Controller::HTTP_OK);
         } else {
             $this->response([
                 'status' => false,
                 'message' => 'Internal Server Error',
-                'error' => 'Failed to update product'
+                'error' => 'Failed to update data'
             ], REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
@@ -249,8 +235,8 @@ class Product extends REST_Controller
             return;
         }
 
-        $productExists = $this->Product_model->show($id);
-        if (!$productExists) {
+        $dataExists = $this->Product_model->show($id);
+        if (!$dataExists) {
             $this->response([
                 'status' => false,
                 'message' => 'Not Found',
@@ -275,6 +261,4 @@ class Product extends REST_Controller
             ], REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
-
-
 }

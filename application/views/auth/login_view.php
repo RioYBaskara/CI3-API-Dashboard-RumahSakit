@@ -83,7 +83,7 @@
     <div class="page page-center">
         <div class="container container-tight py-4">
             <div class="text-center mb-4">
-                <a href="." class="navbar-brand navbar-brand-autodark">
+                <a href="#" class="navbar-brand navbar-brand-autodark">
                     <img src="<?= base_url() ?>public/assets/tabler/static/logo.svg" width="110" height="32"
                         alt="Tabler" class="navbar-brand-image">
                 </a>
@@ -127,7 +127,8 @@
                 </div>
             </div>
             <div class="text-center text-secondary mt-3">
-                Don't have account yet? <a href="<?= base_url() ?>auth/register" tabindex="-1">Sign up</a>
+                Don't have account yet? <a class="btn disabled" href="<?= base_url() ?>auth/register" tabindex="-1">Sign
+                    up</a>
             </div>
         </div>
     </div>
