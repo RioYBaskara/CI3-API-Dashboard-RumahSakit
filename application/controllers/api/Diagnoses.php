@@ -8,9 +8,9 @@
 require APPPATH . '/libraries/REST_Controller.php';
 use Restserver\Libraries\REST_Controller;
 
-class Department extends REST_Controller
+class Diagnoses extends REST_Controller
 {
-    private $Allowed_fields = ['departemen_nm', 'is_active'];
+    private $Allowed_fields = ['diagnosa_kode', 'diagnosa_nm', 'is_active'];
 
     /**
      * CONSTRUCTOR | LOAD MODEL
@@ -22,7 +22,7 @@ class Department extends REST_Controller
         parent::__construct();
         $this->load->library('Authorization_Token');
         $this->load->library('form_validation');
-        $this->load->model('master/Department_model');
+        $this->load->model('master/Diagnoses_model');
     }
 
     private function authenticate()
@@ -53,7 +53,7 @@ class Department extends REST_Controller
             return;
 
         if (!empty($id)) {
-            $data = $this->Department_model->show($id);
+            $data = $this->Diagnoses_model->show($id);
 
             if ($data) {
                 $this->response([
@@ -69,7 +69,7 @@ class Department extends REST_Controller
                 ], REST_Controller::HTTP_NOT_FOUND);
             }
         } else {
-            $data = $this->Department_model->show();
+            $data = $this->Diagnoses_model->show();
 
             $this->response([
                 'status' => true,
@@ -108,8 +108,8 @@ class Department extends REST_Controller
         $this->form_validation->set_data($input);
 
         // validasi
-        $this->form_validation->set_rules('departemen_nm', 'Department Name', 'required|max_length[100]');
-        $this->form_validation->set_rules('is_active', 'Active Status', 'required|in_list[0,1]');
+        $this->form_validation->set_rules('diagnosa_kode', 'Diagnosis Code', 'required|max_length[10]|is_unique[diagnosa.diagnosa_kode]');
+        $this->form_validation->set_rules('diagnosa_nm', 'Diagnosis Name', 'required|max_length[255]');
         $this->form_validation->set_rules('is_active', 'Active Status', 'required|in_list[0,1]');
 
         if ($this->form_validation->run() == FALSE) {
@@ -131,7 +131,7 @@ class Department extends REST_Controller
         $data['created_by'] = $user->username;
         $data['is_deleted'] = 0;
 
-        $insert_id = $this->Department_model->insert($data);
+        $insert_id = $this->Diagnoses_model->insert($data);
 
         if ($insert_id) {
             $this->response([
@@ -160,7 +160,7 @@ class Department extends REST_Controller
         if (!$user)
             return;
 
-        if (empty($id) || !is_numeric($id)) {
+        if (empty($id)) {
             $this->response([
                 'status' => false,
                 'message' => 'Bad Request',
@@ -169,7 +169,7 @@ class Department extends REST_Controller
             return;
         }
 
-        $dataExists = $this->Department_model->show($id);
+        $dataExists = $this->Diagnoses_model->show($id);
         if (!$dataExists) {
             $this->response([
                 'status' => false,
@@ -196,7 +196,13 @@ class Department extends REST_Controller
         $this->form_validation->set_data($input);
 
         // validasi
-        $this->form_validation->set_rules('departemen_nm', 'Department Name', 'required|max_length[100]');
+        $is_unique_rule = '';
+        if (isset($input['diagnosa_kode']) && $input['diagnosa_kode'] !== $dataExists['diagnosa_kode']) {
+            $is_unique_rule = '|is_unique[diagnosa.diagnosa_kode]';
+        }
+
+        $this->form_validation->set_rules('diagnosa_kode', 'Diagnosis Code', 'required|max_length[10]' . $is_unique_rule);
+        $this->form_validation->set_rules('diagnosa_nm', 'Diagnosis Name', 'required|max_length[255]');
         $this->form_validation->set_rules('is_active', 'Active Status', 'required|in_list[0,1]');
 
         if ($this->form_validation->run() == FALSE) {
@@ -234,7 +240,7 @@ class Department extends REST_Controller
         $data['updated_at'] = date("Y-m-d H:i:s");
         $data['updated_by'] = $user->username;
 
-        $updateStatus = $this->Department_model->update($data, $id);
+        $updateStatus = $this->Diagnoses_model->update($data, $id);
 
         if ($updateStatus) {
             $this->response([
@@ -251,7 +257,6 @@ class Department extends REST_Controller
         }
     }
 
-
     /**
      * DELETE method.
      *
@@ -263,7 +268,7 @@ class Department extends REST_Controller
         if (!$user)
             return;
 
-        if (empty($id) || !is_numeric($id)) {
+        if (empty($id)) {
             $this->response([
                 'status' => false,
                 'message' => 'Bad Request',
@@ -272,7 +277,7 @@ class Department extends REST_Controller
             return;
         }
 
-        $dataExists = $this->Department_model->show($id);
+        $dataExists = $this->Diagnoses_model->show($id);
         if (!$dataExists) {
             $this->response([
                 'status' => false,
@@ -282,7 +287,7 @@ class Department extends REST_Controller
             return;
         }
 
-        $deleteStatus = $this->Department_model->delete($id, $user->username);
+        $deleteStatus = $this->Diagnoses_model->delete($id, $user->username);
 
         if ($deleteStatus) {
             $this->response([
