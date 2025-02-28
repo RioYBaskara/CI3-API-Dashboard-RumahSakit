@@ -1,10 +1,10 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Rooms_model extends CI_Model
+class Appointments_model extends CI_Model
 {
-    private $table = 'kamar';
-    private $primaryKey = 'kamar_id';
+    private $table = 'appointment';
+    private $primaryKey = 'appointment_id';
 
     /**
      * CONSTRUCTOR | LOAD DB
@@ -22,13 +22,17 @@ class Rooms_model extends CI_Model
      */
     public function show($id = 0)
     {
-        $fields = "kamar.kamar_id, kamar.departemen_id, departemen.departemen_nm, kamar.kamar_nm, kamar.kamar_kapasitas, 
-               kamar.created_at, kamar.created_by, kamar.updated_at, kamar.updated_by";
+        $fields = "appointment.appointment_id, appointment.pasien_id, pasien.pasien_nm, 
+                   appointment.dokter_id, dokter.dokter_nm, appointment.departemen_id, 
+                   departemen.departemen_nm, appointment.appointment_date, appointment.appointment_status,
+                   appointment.created_at, appointment.created_by, appointment.updated_at, appointment.updated_by";
 
         $this->db->select($fields);
         $this->db->from($this->table);
-        $this->db->join('departemen', 'departemen.departemen_id = kamar.departemen_id', 'left');
-        $this->db->where('kamar.is_deleted', 0);
+        $this->db->join('pasien', 'pasien.pasien_id = appointment.pasien_id', 'left');
+        $this->db->join('dokter', 'dokter.dokter_id = appointment.dokter_id', 'left');
+        $this->db->join('departemen', 'departemen.departemen_id = appointment.departemen_id', 'left');
+        $this->db->where('appointment.is_deleted', 0);
 
         if (!empty($id)) {
             $this->db->where($this->table . '.' . $this->primaryKey, $id);
@@ -66,6 +70,25 @@ class Rooms_model extends CI_Model
         $this->db->update($this->table, $data);
 
         return $this->db->affected_rows() > 0;
+    }
+
+    /**
+     * UPDATE | PATCH method.
+     *
+     * @return Response
+     */
+    public function updateStatus($id, $status, $updated_by)
+    {
+        if (!$this->show($id)) {
+            return false;
+        }
+
+        $this->db->where($this->primaryKey, $id);
+        return $this->db->update($this->table, [
+            'appointment_status' => $status,
+            'updated_at' => date('Y-m-d H:i:s'),
+            'updated_by' => $updated_by
+        ]);
     }
 
     /**

@@ -58,6 +58,8 @@ $route['product'] = 'api/Product';
 $route['product/(:any)'] = 'api/Product/$1';
 $route['product/(:num)']['PUT'] = 'api/Product/$1';
 $route['product/(:num)']['DELETE'] = 'api/Product/$1';
+$route['api/appointments/(:num)/cancel']['patch'] = 'api/appointments/cancel/$1';
+$route['api/appointments/(:num)/complete']['patch'] = 'api/appointments/complete/$1';
 
 // $route['register'] = 'api/User/register';
 // $route['login'] = 'api/User/login';
