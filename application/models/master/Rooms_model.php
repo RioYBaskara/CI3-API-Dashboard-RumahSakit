@@ -3,10 +3,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Rooms_model extends CI_Model
 {
-    // ubah variabel di bawah dan field show() untuk tabel master
     private $table = 'kamar';
     private $primaryKey = 'kamar_id';
-    private $returnGetFields = "kamar_id, departemen_id, kamar_nm, kamar_kapasitas, created_at, created_by, updated_at, updated_by";
 
     /**
      * CONSTRUCTOR | LOAD DB
@@ -24,17 +22,20 @@ class Rooms_model extends CI_Model
      */
     public function show($id = 0)
     {
-        // field, jangan *
-        $fields = $this->returnGetFields;
+        $fields = "kamar.kamar_id, kamar.departemen_id, departemen.departemen_nm, kamar.kamar_nm, kamar.kamar_kapasitas, 
+               kamar.created_at, kamar.created_by, kamar.updated_at, kamar.updated_by";
 
         $this->db->select($fields);
-        $this->db->where('is_deleted', 0);
+        $this->db->from($this->table);
+        $this->db->join('departemen', 'departemen.departemen_id = kamar.departemen_id', 'left');
+        $this->db->where('kamar.is_deleted', 0);
 
         if (!empty($id)) {
-            return $this->db->get_where($this->table, [$this->primaryKey => $id])->row_array() ?: null;
+            $this->db->where('kamar.' . $this->primaryKey, $id);
+            return $this->db->get()->row_array() ?: null;
         }
 
-        return $this->db->get($this->table)->result();
+        return $this->db->get()->result();
     }
 
     /**
