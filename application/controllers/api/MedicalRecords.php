@@ -8,6 +8,17 @@
 require APPPATH . '/libraries/REST_Controller.php';
 use Restserver\Libraries\REST_Controller;
 
+/**
+ * @property MedicalRecords_model $MedicalRecords_model
+ * @property Patients_model $Patients_model
+ * @property Appointments_model $Appointments_model
+ * @property Diagnoses_model $Diagnoses_model
+ * @property Doctors_model $Doctors_model
+ * @property Department_model $Department_model
+ * @property input $input
+ * @property authorization_token $authorization_token
+ * @property form_validation $form_validation
+ */
 class MedicalRecords extends REST_Controller
 {
     private $Allowed_fields = ['appointment_id', 'pasien_id', 'dokter_id', 'diagnosa_kode', 'rekam_medis_notes', 'is_active'];
@@ -158,11 +169,11 @@ class MedicalRecords extends REST_Controller
         $this->form_validation->set_data($input);
 
         // validasi
-        $this->form_validation->set_rules('appointment_id', 'Appointment ID', 'required|numeric|callback_check_appointment_id');
-        $this->form_validation->set_rules('pasien_id', 'Pasien ID', 'required|numeric|callback_check_pasien_id');
-        $this->form_validation->set_rules('dokter_id', 'Dokter ID', 'required|numeric|callback_check_dokter_id');
-        $this->form_validation->set_rules('diagnosa_kode', 'Diagnosa Kode', 'required|max_length[10]|callback_check_diagnosa_kode');
-        $this->form_validation->set_rules('rekam_medis_notes', 'Rekam Medis Notes', 'required|max_length[500]');
+        $this->form_validation->set_rules('appointment_id', 'appointment_id', 'required|numeric|callback_check_appointment_id');
+        $this->form_validation->set_rules('pasien_id', 'pasien_id', 'required|numeric|callback_check_pasien_id');
+        $this->form_validation->set_rules('dokter_id', 'dokter_id', 'required|numeric|callback_check_dokter_id');
+        $this->form_validation->set_rules('diagnosa_kode', 'diagnosa_kode', 'required|max_length[10]|callback_check_diagnosa_kode');
+        $this->form_validation->set_rules('rekam_medis_notes', 'rekam_medis_notes', 'required|max_length[500]');
 
         if ($this->form_validation->run() == FALSE) {
             $this->response([

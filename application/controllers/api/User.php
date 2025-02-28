@@ -4,6 +4,18 @@ defined('BASEPATH') or exit('No direct script access allowed');
 require(APPPATH . '/libraries/REST_Controller.php');
 use Restserver\Libraries\REST_Controller;
 
+/**
+ * @property user_model $user_model
+ * @property MedicalRecords_model $MedicalRecords_model
+ * @property Patients_model $Patients_model
+ * @property Appointments_model $Appointments_model
+ * @property Diagnoses_model $Diagnoses_model
+ * @property Doctors_model $Doctors_model
+ * @property Department_model $Department_model
+ * @property input $input
+ * @property authorization_token $authorization_token
+ * @property form_validation $form_validation
+ */
 class User extends REST_Controller
 {
 	public function __construct()

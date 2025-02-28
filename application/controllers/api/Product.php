@@ -8,6 +8,18 @@
 require APPPATH . '/libraries/REST_Controller.php';
 use Restserver\Libraries\REST_Controller;
 
+/**
+ * @property Product_model $Product_model
+ * @property MedicalRecords_model $MedicalRecords_model
+ * @property Patients_model $Patients_model
+ * @property Appointments_model $Appointments_model
+ * @property Diagnoses_model $Diagnoses_model
+ * @property Doctors_model $Doctors_model
+ * @property Department_model $Department_model
+ * @property input $input
+ * @property authorization_token $authorization_token
+ * @property form_validation $form_validation
+ */
 class Product extends REST_Controller
 {
     private $Allowed_fields = ['name', 'price'];

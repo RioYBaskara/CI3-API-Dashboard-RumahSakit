@@ -8,6 +8,17 @@
 require APPPATH . '/libraries/REST_Controller.php';
 use Restserver\Libraries\REST_Controller;
 
+/**
+ * @property MedicalRecords_model $MedicalRecords_model
+ * @property Patients_model $Patients_model
+ * @property Appointments_model $Appointments_model
+ * @property Diagnoses_model $Diagnoses_model
+ * @property Doctors_model $Doctors_model
+ * @property Department_model $Department_model
+ * @property input $input
+ * @property authorization_token $authorization_token
+ * @property form_validation $form_validation
+ */
 class Appointments extends REST_Controller
 {
     private $Allowed_fields = ['pasien_id', 'dokter_id', 'departemen_id', 'appointment_date', 'is_active'];
@@ -146,11 +157,11 @@ class Appointments extends REST_Controller
         $this->form_validation->set_data($input);
 
         // validasi
-        $this->form_validation->set_rules('pasien_id', 'Pasien ID', 'required|numeric|callback_check_pasien_id');
-        $this->form_validation->set_rules('dokter_id', 'Dokter ID', 'required|numeric|callback_check_dokter_id');
-        $this->form_validation->set_rules('departemen_id', 'Departemen ID', 'required|numeric|callback_check_departemen_id');
-        $this->form_validation->set_rules('appointment_date', 'Appointment Date', 'required');
-        $this->form_validation->set_rules('active_st', 'Status Aktif', 'required|in_list[0,1]');
+        $this->form_validation->set_rules('pasien_id', 'pasien_id', 'required|numeric|callback_check_pasien_id');
+        $this->form_validation->set_rules('dokter_id', 'dokter_id', 'required|numeric|callback_check_dokter_id');
+        $this->form_validation->set_rules('departemen_id', 'departemen_id', 'required|numeric|callback_check_departemen_id');
+        $this->form_validation->set_rules('appointment_date', 'appointment_date', 'required');
+        $this->form_validation->set_rules('is_active', 'is_active', 'required|in_list[0,1]');
 
         if ($this->form_validation->run() == FALSE) {
             $this->response([
@@ -236,11 +247,11 @@ class Appointments extends REST_Controller
         $this->form_validation->set_data($input);
 
         // validasi
-        $this->form_validation->set_rules('pasien_id', 'Pasien ID', 'required|numeric|callback_check_pasien_id');
-        $this->form_validation->set_rules('dokter_id', 'Dokter ID', 'required|numeric|callback_check_dokter_id');
-        $this->form_validation->set_rules('departemen_id', 'Departemen ID', 'required|numeric|callback_check_departemen_id');
-        $this->form_validation->set_rules('appointment_date', 'Appointment Date', 'required');
-        $this->form_validation->set_rules('active_st', 'Status Aktif', 'required|in_list[0,1]');
+        $this->form_validation->set_rules('pasien_id', 'pasien_id', 'required|numeric|callback_check_pasien_id');
+        $this->form_validation->set_rules('dokter_id', 'dokter_id', 'required|numeric|callback_check_dokter_id');
+        $this->form_validation->set_rules('departemen_id', 'departemen_id', 'required|numeric|callback_check_departemen_id');
+        $this->form_validation->set_rules('appointment_date', 'appointment_date', 'required');
+        $this->form_validation->set_rules('is_active', 'Status Aktif', 'required|in_list[0,1]');
 
         if ($this->form_validation->run() == FALSE) {
             $this->response([

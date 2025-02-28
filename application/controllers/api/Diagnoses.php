@@ -8,6 +8,17 @@
 require APPPATH . '/libraries/REST_Controller.php';
 use Restserver\Libraries\REST_Controller;
 
+/**
+ * @property MedicalRecords_model $MedicalRecords_model
+ * @property Patients_model $Patients_model
+ * @property Appointments_model $Appointments_model
+ * @property Diagnoses_model $Diagnoses_model
+ * @property Doctors_model $Doctors_model
+ * @property Department_model $Department_model
+ * @property input $input
+ * @property authorization_token $authorization_token
+ * @property form_validation $form_validation
+ */
 class Diagnoses extends REST_Controller
 {
     private $Allowed_fields = ['diagnosa_kode', 'diagnosa_nm', 'is_active'];
@@ -108,9 +119,9 @@ class Diagnoses extends REST_Controller
         $this->form_validation->set_data($input);
 
         // validasi
-        $this->form_validation->set_rules('diagnosa_kode', 'Diagnosis Code', 'required|max_length[10]|is_unique[diagnosa.diagnosa_kode]');
-        $this->form_validation->set_rules('diagnosa_nm', 'Diagnosis Name', 'required|max_length[255]');
-        $this->form_validation->set_rules('is_active', 'Active Status', 'required|in_list[0,1]');
+        $this->form_validation->set_rules('diagnosa_kode', 'diagnosa_kode', 'required|max_length[10]|is_unique[diagnosa.diagnosa_kode]');
+        $this->form_validation->set_rules('diagnosa_nm', 'diagnosa_nm', 'required|max_length[255]');
+        $this->form_validation->set_rules('is_active', 'is_active', 'required|in_list[0,1]');
 
         if ($this->form_validation->run() == FALSE) {
             $this->response([
@@ -201,9 +212,9 @@ class Diagnoses extends REST_Controller
             $is_unique_rule = '|is_unique[diagnosa.diagnosa_kode]';
         }
 
-        $this->form_validation->set_rules('diagnosa_kode', 'Diagnosis Code', 'required|max_length[10]' . $is_unique_rule);
-        $this->form_validation->set_rules('diagnosa_nm', 'Diagnosis Name', 'required|max_length[255]');
-        $this->form_validation->set_rules('is_active', 'Active Status', 'required|in_list[0,1]');
+        $this->form_validation->set_rules('diagnosa_kode', 'diagnosa_kode', 'required|max_length[10]' . $is_unique_rule);
+        $this->form_validation->set_rules('diagnosa_nm', 'diagnosa_nm', 'required|max_length[255]');
+        $this->form_validation->set_rules('is_active', 'is_active', 'required|in_list[0,1]');
 
         if ($this->form_validation->run() == FALSE) {
             $this->response([
