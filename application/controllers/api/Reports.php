@@ -71,11 +71,9 @@ class Reports extends REST_Controller
         if (!$this->authenticate())
             return;
 
-        // parameter
         $start_date = $this->input->get('start_date');
         $end_date = $this->input->get('end_date');
 
-        // validasi
         if (empty($start_date) || empty($end_date)) {
             $this->response([
                 'status' => false,
@@ -200,6 +198,41 @@ class Reports extends REST_Controller
                 'date_range' => "$start_date to $end_date",
                 'filter' => $filter,
                 'data' => $report_data
+            ], REST_Controller::HTTP_OK);
+        } else {
+            $this->response([
+                'status' => false,
+                'message' => 'No data found for the given date range.',
+                'error' => 'Data not found'
+            ], REST_Controller::HTTP_NOT_FOUND);
+        }
+    }
+
+    public function revenue_get()
+    {
+        $filter = $this->input->get('filter');
+        $start_date = $this->input->get('start_date');
+        $end_date = $this->input->get('end_date');
+
+        if (empty($filter) || empty($start_date) || empty($end_date)) {
+            $this->response([
+                'status' => false,
+                'message' => 'filter, start_date, and end_date are required.',
+                'error' => 'Bad Request'
+            ], REST_Controller::HTTP_BAD_REQUEST);
+            return;
+        }
+
+        $report_data = $this->Reports_model->get_revenue_report($filter, $start_date, $end_date);
+
+        if ($report_data) {
+            $this->response([
+                'status' => true,
+                'message' => 'Success fetching revenue report',
+                'date_range' => "$start_date to $end_date",
+                'filter' => $filter,
+                'total_revenue' => $report_data['total_revenue'],
+                'data' => $report_data['data']
             ], REST_Controller::HTTP_OK);
         } else {
             $this->response([

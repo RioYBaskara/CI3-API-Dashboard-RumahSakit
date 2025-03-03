@@ -286,4 +286,53 @@ class Reports_model extends CI_Model
 
         return $formatted_data;
     }
+
+    public function get_revenue_report($filter, $start_date, $end_date)
+    {
+        $data = [];
+        $total_revenue = 0;
+
+        $this->db->select('invoice_date, SUM(invoice_amount) as total_revenue');
+        $this->db->from('invoice');
+        $this->db->where('invoice_status', 'Paid');
+        $this->db->where('invoice_date >=', $start_date);
+        $this->db->where('invoice_date <=', $end_date);
+        $this->db->group_by('invoice_date');
+        $invoices = $this->db->get()->result_array();
+
+        foreach ($invoices as $invoice) {
+            $invoice_date = $invoice['invoice_date'];
+            $revenue = (float) $invoice['total_revenue'];
+
+            $date_key = date('Y-m-d', strtotime($invoice_date));
+            if ($filter === 'weekly') {
+                $week_of_month = $this->getWeekOfMonth($invoice_date);
+                $month_year = date('F Y', strtotime($invoice_date));
+                $date_key = "Week $week_of_month, $month_year";
+            } elseif ($filter === 'monthly') {
+                $date_key = date('F Y', strtotime($invoice_date));
+            }
+
+            if (!isset($data[$date_key])) {
+                $data[$date_key] = 0;
+            }
+            $data[$date_key] += $revenue;
+            $total_revenue += $revenue;
+        }
+
+        $formatted_data = [];
+        foreach ($data as $key => $value) {
+            $formatted_entry = [
+                $filter === 'daily' ? 'date' : ($filter === 'weekly' ? 'week' : 'month') => $key,
+                'total_revenue' => $value
+            ];
+
+            $formatted_data[] = $formatted_entry;
+        }
+
+        return [
+            'total_revenue' => $total_revenue,
+            'data' => $formatted_data
+        ];
+    }
 }
