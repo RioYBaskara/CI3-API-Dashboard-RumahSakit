@@ -72,6 +72,17 @@ class Reports_model extends CI_Model
         ];
     }
 
+    private function getWeekOfMonth($date)
+    {
+        $week_of_year = date('W', strtotime($date));
+
+        $first_day_of_month = date('Y-m-01', strtotime($date));
+        $first_week_of_month = date('W', strtotime($first_day_of_month));
+
+        $week_of_month = $week_of_year - $first_week_of_month + 1;
+
+        return $week_of_month;
+    }
     public function get_patient_visits_report($filter, $start_date, $end_date)
     {
         $data = [];
@@ -159,15 +170,71 @@ class Reports_model extends CI_Model
         ];
     }
 
-    private function getWeekOfMonth($date)
+    public function get_patient_visits_by_department($filter, $start_date, $end_date)
     {
-        $week_of_year = date('W', strtotime($date));
+        $data = [];
+        $total = [
+            'total_appointments' => 0
+        ];
 
-        $first_day_of_month = date('Y-m-01', strtotime($date));
-        $first_week_of_month = date('W', strtotime($first_day_of_month));
+        $this->db->select('appointment.appointment_date, departemen.departemen_nm');
+        $this->db->from('appointment');
+        $this->db->join('departemen', 'departemen.departemen_id = appointment.departemen_id');
+        $this->db->where('appointment.appointment_date >=', $start_date);
+        $this->db->where('appointment.appointment_date <=', $end_date);
+        $appointments = $this->db->get()->result_array();
 
-        $week_of_month = $week_of_year - $first_week_of_month + 1;
+        foreach ($appointments as $appointment) {
+            $department_name = $appointment['departemen_nm'];
+            $appointment_date = $appointment['appointment_date'];
 
-        return $week_of_month;
+            $date_key = date('Y-m-d', strtotime($appointment_date));
+            if ($filter === 'weekly') {
+                $week_of_month = $this->getWeekOfMonth($appointment_date);
+                $month_year = date('F Y', strtotime($appointment_date));
+                $date_key = "Week $week_of_month, $month_year";
+            } elseif ($filter === 'monthly') {
+                $date_key = date('F Y', strtotime($appointment_date));
+            }
+
+            if (!isset($data[$date_key])) {
+                $data[$date_key] = [
+                    'total_appointments' => 0
+                ];
+            }
+
+            if (!isset($data[$date_key][$department_name])) {
+                $data[$date_key][$department_name] = 0;
+            }
+            $data[$date_key][$department_name]++;
+            $data[$date_key]['total_appointments']++;
+
+            if (!isset($total[$department_name])) {
+                $total[$department_name] = 0;
+            }
+            $total[$department_name]++;
+            $total['total_appointments']++;
+        }
+
+        $formatted_data = [];
+        foreach ($data as $key => $value) {
+            $formatted_entry = [
+                $filter === 'daily' ? 'date' : ($filter === 'weekly' ? 'week' : 'month') => $key,
+                'total_appointments' => $value['total_appointments']
+            ];
+
+            foreach ($value as $department => $count) {
+                if ($department !== 'total_appointments') {
+                    $formatted_entry[$department] = $count;
+                }
+            }
+
+            $formatted_data[] = $formatted_entry;
+        }
+
+        return [
+            'total' => $total,
+            'data' => $formatted_data
+        ];
     }
 }
