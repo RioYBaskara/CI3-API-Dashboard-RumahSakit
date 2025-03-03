@@ -237,4 +237,53 @@ class Reports_model extends CI_Model
             'data' => $formatted_data
         ];
     }
+
+    public function get_top_diagnoses($filter, $start_date, $end_date)
+    {
+        $data = [];
+
+        $this->db->select('rekam_medis.created_at, rekam_medis.diagnosa_kode, diagnosa.diagnosa_nm, COUNT(rekam_medis.diagnosa_kode) as total_cases');
+        $this->db->from('rekam_medis');
+        $this->db->join('diagnosa', 'diagnosa.diagnosa_kode = rekam_medis.diagnosa_kode');
+        $this->db->where('rekam_medis.created_at >=', $start_date);
+        $this->db->where('rekam_medis.created_at <=', $end_date);
+        $this->db->group_by('rekam_medis.diagnosa_kode');
+        $this->db->order_by('total_cases', 'DESC');
+        $diagnoses = $this->db->get()->result_array();
+
+        foreach ($diagnoses as $diagnosis) {
+            $diagnosis_date = $diagnosis['created_at'];
+
+            $date_key = date('Y-m-d', strtotime($diagnosis_date));
+            if ($filter === 'weekly') {
+                $week_of_month = $this->getWeekOfMonth($diagnosis_date);
+                $month_year = date('F Y', strtotime($diagnosis_date));
+                $date_key = "Week $week_of_month, $month_year";
+            } elseif ($filter === 'monthly') {
+                $date_key = date('F Y', strtotime($diagnosis_date));
+            }
+
+            if (!isset($data[$date_key])) {
+                $data[$date_key] = [
+                    'icd_10_code' => $diagnosis['diagnosa_kode'],
+                    'diagnosis_name' => $diagnosis['diagnosa_nm'],
+                    'total_cases' => $diagnosis['total_cases']
+                ];
+            }
+        }
+
+        $formatted_data = [];
+        foreach ($data as $key => $value) {
+            $formatted_entry = [
+                $filter === 'daily' ? 'date' : ($filter === 'weekly' ? 'week' : 'month') => $key,
+                'icd_10_code' => $value['icd_10_code'],
+                'diagnosis_name' => $value['diagnosis_name'],
+                'total_cases' => $value['total_cases']
+            ];
+
+            $formatted_data[] = $formatted_entry;
+        }
+
+        return $formatted_data;
+    }
 }
