@@ -62,6 +62,8 @@ $route['api/appointments/(:num)/cancel']['patch'] = 'api/appointments/cancel/$1'
 $route['api/appointments/(:num)/complete']['patch'] = 'api/appointments/complete/$1';
 $route['api/medical-records/(:any)'] = 'api/MedicalRecords/$1';
 $route['api/medical-records'] = 'api/MedicalRecords';
+$route['api/invoices/(:num)/cancel']['patch'] = 'api/invoices/cancel/$1';
+$route['api/invoices/(:num)/paid']['patch'] = 'api/invoices/paid/$1';
 
 // $route['register'] = 'api/User/register';
 // $route['login'] = 'api/User/login';
