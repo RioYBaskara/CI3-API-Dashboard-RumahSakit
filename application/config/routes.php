@@ -66,6 +66,9 @@ $route['api/invoices/(:num)/cancel']['patch'] = 'api/invoices/cancel/$1';
 $route['api/invoices/(:num)/paid']['patch'] = 'api/invoices/paid/$1';
 $route['api/inpatients/(:num)/discharge']['patch'] = 'api/inpatients/discharge/$1';
 
+// API REPORT/Dashboard
+$route['api/reports/patient-visits'] = 'api/reports/patient_visits';
+
 // $route['register'] = 'api/User/register';
 // $route['login'] = 'api/User/login';
 // $route['logout'] = 'api/User/logout';
