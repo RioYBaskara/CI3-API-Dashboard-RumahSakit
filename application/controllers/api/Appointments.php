@@ -33,7 +33,7 @@ class Appointments extends REST_Controller
         parent::__construct();
         $this->load->library('Authorization_Token');
         $this->load->library('form_validation');
-        $this->load->model('master/Appointments_model');
+        $this->load->model('api/Appointments_model');
     }
 
     private function authenticate()
@@ -92,7 +92,7 @@ class Appointments extends REST_Controller
 
     public function check_pasien_id($pasien_id)
     {
-        $this->load->model('master/Patients_model');
+        $this->load->model('api/Patients_model');
         $pasien = $this->Patients_model->show($pasien_id);
 
         if (!$pasien) {
@@ -105,7 +105,7 @@ class Appointments extends REST_Controller
 
     public function check_dokter_id($dokter_id)
     {
-        $this->load->model('master/Doctors_model');
+        $this->load->model('api/Doctors_model');
         $dokter = $this->Doctors_model->show($dokter_id);
 
         if (!$dokter) {
@@ -118,7 +118,7 @@ class Appointments extends REST_Controller
 
     public function check_departemen_id($departemen_id)
     {
-        $this->load->model('master/Department_model');
+        $this->load->model('api/Department_model');
         $departemen = $this->Department_model->show($departemen_id);
 
         if (!$departemen) {

@@ -33,7 +33,7 @@ class MedicalRecords extends REST_Controller
         parent::__construct();
         $this->load->library('Authorization_Token');
         $this->load->library('form_validation');
-        $this->load->model('master/MedicalRecords_model');
+        $this->load->model('api/MedicalRecords_model');
     }
 
     private function authenticate()
@@ -92,7 +92,7 @@ class MedicalRecords extends REST_Controller
 
     public function check_appointment_id($appointment_id)
     {
-        $this->load->model('master/Appointments_model');
+        $this->load->model('api/Appointments_model');
         $appointment = $this->Appointments_model->show($appointment_id);
 
         if (!$appointment) {
@@ -104,7 +104,7 @@ class MedicalRecords extends REST_Controller
     }
     public function check_pasien_id($pasien_id)
     {
-        $this->load->model('master/Patients_model');
+        $this->load->model('api/Patients_model');
         $pasien = $this->Patients_model->show($pasien_id);
 
         if (!$pasien) {
@@ -117,7 +117,7 @@ class MedicalRecords extends REST_Controller
 
     public function check_dokter_id($dokter_id)
     {
-        $this->load->model('master/Doctors_model');
+        $this->load->model('api/Doctors_model');
         $dokter = $this->Doctors_model->show($dokter_id);
 
         if (!$dokter) {
@@ -130,7 +130,7 @@ class MedicalRecords extends REST_Controller
 
     public function check_diagnosa_kode($diagnosa_kode)
     {
-        $this->load->model('master/Diagnoses_model');
+        $this->load->model('api/Diagnoses_model');
         $diagnosa = $this->Diagnoses_model->show($diagnosa_kode);
 
         if (!$diagnosa) {

@@ -34,7 +34,7 @@ class Product extends REST_Controller
         parent::__construct();
         $this->load->library('Authorization_Token');
         $this->load->library('form_validation');
-        $this->load->model('master/Product_model');
+        $this->load->model('api/Product_model');
     }
 
     private function authenticate()

@@ -33,7 +33,7 @@ class Department extends REST_Controller
         parent::__construct();
         $this->load->library('Authorization_Token');
         $this->load->library('form_validation');
-        $this->load->model('master/Department_model');
+        $this->load->model('api/Department_model');
     }
 
     private function authenticate()

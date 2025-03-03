@@ -34,7 +34,7 @@ class Rooms extends REST_Controller
         parent::__construct();
         $this->load->library('Authorization_Token');
         $this->load->library('form_validation');
-        $this->load->model('master/Rooms_model');
+        $this->load->model('api/Rooms_model');
     }
 
     private function authenticate()
@@ -93,7 +93,7 @@ class Rooms extends REST_Controller
 
     public function check_departemen_id($departemen_id)
     {
-        $this->load->model('master/Department_model');
+        $this->load->model('api/Department_model');
 
         $departemen = $this->Department_model->show($departemen_id);
 

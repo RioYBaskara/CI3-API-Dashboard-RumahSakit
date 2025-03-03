@@ -33,7 +33,7 @@ class Patients extends REST_Controller
         parent::__construct();
         $this->load->library('Authorization_Token');
         $this->load->library('form_validation');
-        $this->load->model('master/Patients_model');
+        $this->load->model('api/Patients_model');
     }
 
     private function authenticate()
