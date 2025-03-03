@@ -31,7 +31,7 @@ class MedicalRecords_model extends CI_Model
         $this->db->join('dokter', 'dokter.dokter_id = rekam_medis.dokter_id', 'left');
         $this->db->join('appointment', 'appointment.appointment_id = rekam_medis.appointment_id', 'left');
         $this->db->join('diagnosa', 'diagnosa.diagnosa_kode = rekam_medis.diagnosa_kode', 'left');
-        $this->db->where('appointment.is_deleted', 0);
+        $this->db->where('rekam_medis.is_deleted', 0);
 
         if (!empty($id)) {
             $this->db->where($this->table . '.' . $this->primaryKey, $id);
