@@ -14,14 +14,15 @@ use Restserver\Libraries\REST_Controller;
  * @property Diagnoses_model $Diagnoses_model
  * @property Doctors_model $Doctors_model
  * @property Department_model $Department_model
- * @property Invoices_model $Invoices_model
+ * @property Inpatients_model $Inpatients_model
+ * @property Rooms_model $Rooms_model
  * @property input $input
  * @property authorization_token $authorization_token
  * @property form_validation $form_validation
  */
-class Invoices extends REST_Controller
+class Inpatients extends REST_Controller
 {
-    private $Allowed_fields = ['pasien_id', 'invoice_amount', 'invoice_date', 'is_active'];
+    private $Allowed_fields = ['pasien_id', 'kamar_id', 'rawat_inap_masuk', 'rawat_inap_keluar', 'is_active'];
 
     /**
      * CONSTRUCTOR | LOAD MODEL
@@ -33,7 +34,7 @@ class Invoices extends REST_Controller
         parent::__construct();
         $this->load->library('Authorization_Token');
         $this->load->library('form_validation');
-        $this->load->model('api/Invoices_model');
+        $this->load->model('api/Inpatients_model');
     }
 
     private function authenticate()
@@ -64,7 +65,7 @@ class Invoices extends REST_Controller
             return;
 
         if (!empty($id)) {
-            $data = $this->Invoices_model->show($id);
+            $data = $this->Inpatients_model->show($id);
 
             if ($data) {
                 $this->response([
@@ -80,7 +81,7 @@ class Invoices extends REST_Controller
                 ], REST_Controller::HTTP_NOT_FOUND);
             }
         } else {
-            $data = $this->Invoices_model->show();
+            $data = $this->Inpatients_model->show();
 
             $this->response([
                 'status' => true,
@@ -97,6 +98,19 @@ class Invoices extends REST_Controller
 
         if (!$pasien) {
             $this->form_validation->set_message('check_pasien_id', 'The {field} does not exist in the pasien table.');
+            return FALSE;
+        }
+
+        return TRUE;
+    }
+
+    public function check_kamar_id($kamar_id)
+    {
+        $this->load->model('api/Rooms_model');
+        $kamar = $this->Rooms_model->show($kamar_id);
+
+        if (!$kamar) {
+            $this->form_validation->set_message('check_kamar_id', 'The {field} does not exist in the kamar table.');
             return FALSE;
         }
 
@@ -131,10 +145,10 @@ class Invoices extends REST_Controller
         $this->form_validation->set_data($input);
 
         // validasi
-        $this->form_validation->set_rules('pasien_id', 'pasien_id', 'required|numeric|callback_check_pasien_id');
-        $this->form_validation->set_rules('invoice_amount', 'invoice_amount', 'required|numeric|greater_than[0]');
-        $this->form_validation->set_rules('invoice_date', 'invoice_date', 'required');
-        $this->form_validation->set_rules('is_active', 'is_active', 'required|in_list[0,1]');
+        $this->form_validation->set_rules('pasien_id', 'Pasien ID', 'required|numeric|callback_check_pasien_id');
+        $this->form_validation->set_rules('kamar_id', 'Kamar ID', 'required|numeric|callback_check_kamar_id');
+        $this->form_validation->set_rules('rawat_inap_masuk', 'Tanggal Masuk Rawat Inap', 'required');
+        $this->form_validation->set_rules('is_active', 'Status Aktif', 'required|in_list[0,1]');
 
         if ($this->form_validation->run() == FALSE) {
             $this->response([
@@ -142,6 +156,16 @@ class Invoices extends REST_Controller
                 'message' => 'Bad Request!',
                 'errors' => $this->form_validation->error_array()
             ], REST_Controller::HTTP_BAD_REQUEST);
+            return;
+        }
+
+        $pasien_id = $input['pasien_id'];
+        if ($this->Inpatients_model->isPatientStillAdmitted($pasien_id)) {
+            $this->response([
+                'status' => false,
+                'message' => 'Patient is still admitted',
+                'error' => 'Patient has not been discharged from the previous inpatient care'
+            ], REST_Controller::HTTP_CONFLICT);
             return;
         }
 
@@ -155,7 +179,7 @@ class Invoices extends REST_Controller
         $data['created_by'] = $user->username;
         $data['is_deleted'] = 0;
 
-        $insert_id = $this->Invoices_model->insert($data);
+        $insert_id = $this->Inpatients_model->insert($data);
 
         if ($insert_id) {
             $this->response([
@@ -193,7 +217,7 @@ class Invoices extends REST_Controller
             return;
         }
 
-        $dataExists = $this->Invoices_model->show($id);
+        $dataExists = $this->Inpatients_model->show($id);
         if (!$dataExists) {
             $this->response([
                 'status' => false,
@@ -220,10 +244,10 @@ class Invoices extends REST_Controller
         $this->form_validation->set_data($input);
 
         // validasi
-        $this->form_validation->set_rules('pasien_id', 'pasien_id', 'required|numeric|callback_check_pasien_id');
-        $this->form_validation->set_rules('invoice_amount', 'invoice_amount', 'required|numeric|greater_than[0]');
-        $this->form_validation->set_rules('invoice_date', 'invoice_date', 'required');
-        $this->form_validation->set_rules('is_active', 'is_active', 'required|in_list[0,1]');
+        $this->form_validation->set_rules('pasien_id', 'Pasien ID', 'required|numeric|callback_check_pasien_id');
+        $this->form_validation->set_rules('kamar_id', 'Kamar ID', 'required|numeric|callback_check_kamar_id');
+        $this->form_validation->set_rules('rawat_inap_masuk', 'Tanggal Masuk Rawat Inap', 'required');
+        $this->form_validation->set_rules('is_active', 'Status Aktif', 'required|in_list[0,1]');
 
         if ($this->form_validation->run() == FALSE) {
             $this->response([
@@ -238,6 +262,15 @@ class Invoices extends REST_Controller
         $allowed_data = $this->Allowed_fields;
 
         $data = array_intersect_key($input, array_flip($allowed_data));
+
+        if (empty($dataExists['rawat_inap_keluar']) && isset($data['rawat_inap_keluar'])) {
+            $this->response([
+                'status' => false,
+                'message' => 'Bad Request',
+                'error' => 'rawat_inap_keluar cannot be updated because the patient has not been discharged yet'
+            ], REST_Controller::HTTP_BAD_REQUEST);
+            return;
+        }
 
         $noChange = true;
         foreach ($data as $key => $value) {
@@ -260,7 +293,7 @@ class Invoices extends REST_Controller
         $data['updated_at'] = date("Y-m-d H:i:s");
         $data['updated_by'] = $user->username;
 
-        $updateStatus = $this->Invoices_model->update($data, $id);
+        $updateStatus = $this->Inpatients_model->update($data, $id);
 
         if ($updateStatus) {
             $this->response([
@@ -282,7 +315,7 @@ class Invoices extends REST_Controller
      *
      * @return Response
      */
-    public function cancel_patch($id)
+    public function discharge_patch($id)
     {
         $user = $this->authenticate();
         if (!$user)
@@ -297,7 +330,7 @@ class Invoices extends REST_Controller
             return;
         }
 
-        $dataExists = $this->Invoices_model->show($id);
+        $dataExists = $this->Inpatients_model->show($id);
 
         if (!$dataExists) {
             $this->response([
@@ -308,84 +341,24 @@ class Invoices extends REST_Controller
             return;
         }
 
-        if ($dataExists['invoice_status'] === 'Cancelled') {
+        if ($dataExists['rawat_inap_keluar'] != null) {
             $this->response([
                 "status" => false,
-                "message" => "Invoice is already cancelled"
+                "message" => "The patient has been discharged"
             ], REST_Controller::HTTP_CONFLICT);
             return;
         }
 
-        if ($dataExists['invoice_status'] !== 'Unpaid') {
-            $this->response([
-                "status" => false,
-                "message" => "Only unpaid invoices can be cancelled"
-            ], REST_Controller::HTTP_CONFLICT);
-            return;
-        }
+        $currentDateTime = date('Y-m-d H:i:s');
 
-        $this->Invoices_model->updateStatus($id, 'Cancelled', $user->username);
+        $this->Inpatients_model->updateKeluar($id, $currentDateTime, $user->username);
 
         $this->response([
             "status" => true,
-            "message" => "Invoice cancelled successfully",
+            "message" => "Patient discharged successfully",
             "data" => [
-                "invoice_id" => $id,
-                "invoice_status" => "Cancelled"
-            ]
-        ], REST_Controller::HTTP_OK);
-    }
-
-    public function paid_patch($id)
-    {
-        $user = $this->authenticate();
-        if (!$user)
-            return;
-
-        if (empty($id) || !is_numeric($id)) {
-            $this->response([
-                'status' => false,
-                'message' => 'Bad Request',
-                'error' => 'Invalid data ID'
-            ], REST_Controller::HTTP_BAD_REQUEST);
-            return;
-        }
-
-        $dataExists = $this->Invoices_model->show($id);
-
-        if (!$dataExists) {
-            $this->response([
-                "status" => false,
-                "message" => "Not found",
-                'error' => 'Data not found'
-            ], REST_Controller::HTTP_NOT_FOUND);
-            return;
-        }
-
-        if ($dataExists['invoice_status'] === 'Paid') {
-            $this->response([
-                "status" => false,
-                "message" => "Invoice is already Paid"
-            ], REST_Controller::HTTP_CONFLICT);
-            return;
-        }
-
-        if ($dataExists['invoice_status'] !== 'Unpaid') {
-            $this->response([
-                "status" => false,
-                "message" => "Only unpaid invoices can be completed"
-            ], REST_Controller::HTTP_CONFLICT);
-            return;
-        }
-
-        $this->Invoices_model->updateStatus($id, 'Paid', $user->username);
-
-        $this->response([
-            "status" => true,
-            "message" => "Invoice paid successfully",
-            "data" => [
-                "invoice_id" => $id,
-                "invoice_status" => "Paid"
+                "rawat_inap_id" => $id,
+                "rawat_inap_keluar" => $currentDateTime
             ]
         ], REST_Controller::HTTP_OK);
     }
@@ -410,7 +383,7 @@ class Invoices extends REST_Controller
             return;
         }
 
-        $dataExists = $this->Invoices_model->show($id);
+        $dataExists = $this->Inpatients_model->show($id);
         if (!$dataExists) {
             $this->response([
                 'status' => false,
@@ -420,7 +393,7 @@ class Invoices extends REST_Controller
             return;
         }
 
-        $deleteStatus = $this->Invoices_model->delete($id, $user->username);
+        $deleteStatus = $this->Inpatients_model->delete($id, $user->username);
 
         if ($deleteStatus) {
             $this->response([
