@@ -98,8 +98,10 @@ class Reports_model extends CI_Model
         $this->db->join('pasien', 'pasien.pasien_id = appointment.pasien_id');
         $this->db->where('appointment.appointment_date >=', $start_date);
         $this->db->where('appointment.appointment_date <=', $end_date);
+        $this->db->order_by('appointment.appointment_date', 'ASC');
         $appointments = $this->db->get()->result_array();
 
+        $processed_data = [];
         foreach ($appointments as $appointment) {
             $age = date_diff(date_create($appointment['pasien_birthdate']), date_create('today'))->y;
 
@@ -123,6 +125,21 @@ class Reports_model extends CI_Model
                 $date_key = date('F Y', strtotime($appointment['appointment_date']));
             }
 
+            $processed_data[] = [
+                'date_key' => $date_key,
+                'appointment_date' => $appointment['appointment_date'],
+                'category' => $category
+            ];
+        }
+
+        usort($processed_data, function ($a, $b) {
+            return strtotime($a['appointment_date']) - strtotime($b['appointment_date']);
+        });
+
+        foreach ($processed_data as $item) {
+            $date_key = $item['date_key'];
+            $category = $item['category'];
+
             if (!isset($data[$date_key])) {
                 $data[$date_key] = [
                     'child' => 0,
@@ -137,31 +154,15 @@ class Reports_model extends CI_Model
 
         $formatted_data = [];
         foreach ($data as $key => $value) {
-            if ($filter === 'daily') {
-                $formatted_data[] = [
-                    'date' => $key,
-                    'child' => $value['child'],
-                    'adult' => $value['adult'],
-                    'elderly' => $value['elderly'],
-                    'total_patients' => $value['total_patients']
-                ];
-            } elseif ($filter === 'weekly') {
-                $formatted_data[] = [
-                    'week' => $key,
-                    'child' => $value['child'],
-                    'adult' => $value['adult'],
-                    'elderly' => $value['elderly'],
-                    'total_patients' => $value['total_patients']
-                ];
-            } elseif ($filter === 'monthly') {
-                $formatted_data[] = [
-                    'month' => $key,
-                    'child' => $value['child'],
-                    'adult' => $value['adult'],
-                    'elderly' => $value['elderly'],
-                    'total_patients' => $value['total_patients']
-                ];
-            }
+            $formatted_entry = [
+                $filter === 'daily' ? 'date' : ($filter === 'weekly' ? 'week' : 'month') => $key,
+                'child' => $value['child'],
+                'adult' => $value['adult'],
+                'elderly' => $value['elderly'],
+                'total_patients' => $value['total_patients']
+            ];
+
+            $formatted_data[] = $formatted_entry;
         }
 
         return [
@@ -182,8 +183,10 @@ class Reports_model extends CI_Model
         $this->db->join('departemen', 'departemen.departemen_id = appointment.departemen_id');
         $this->db->where('appointment.appointment_date >=', $start_date);
         $this->db->where('appointment.appointment_date <=', $end_date);
+        $this->db->order_by('appointment.appointment_date', 'ASC');
         $appointments = $this->db->get()->result_array();
 
+        $processed_data = [];
         foreach ($appointments as $appointment) {
             $department_name = $appointment['departemen_nm'];
             $appointment_date = $appointment['appointment_date'];
@@ -196,6 +199,21 @@ class Reports_model extends CI_Model
             } elseif ($filter === 'monthly') {
                 $date_key = date('F Y', strtotime($appointment_date));
             }
+
+            $processed_data[] = [
+                'date_key' => $date_key,
+                'appointment_date' => $appointment_date,
+                'department_name' => $department_name
+            ];
+        }
+
+        usort($processed_data, function ($a, $b) {
+            return strtotime($a['appointment_date']) - strtotime($b['appointment_date']);
+        });
+
+        foreach ($processed_data as $item) {
+            $date_key = $item['date_key'];
+            $department_name = $item['department_name'];
 
             if (!isset($data[$date_key])) {
                 $data[$date_key] = [
@@ -248,9 +266,10 @@ class Reports_model extends CI_Model
         $this->db->where('rekam_medis.created_at >=', $start_date);
         $this->db->where('rekam_medis.created_at <=', $end_date);
         $this->db->group_by('rekam_medis.diagnosa_kode');
-        $this->db->order_by('total_cases', 'DESC');
+        $this->db->order_by('rekam_medis.created_at', 'ASC');
         $diagnoses = $this->db->get()->result_array();
 
+        $processed_data = [];
         foreach ($diagnoses as $diagnosis) {
             $diagnosis_date = $diagnosis['created_at'];
 
@@ -263,11 +282,27 @@ class Reports_model extends CI_Model
                 $date_key = date('F Y', strtotime($diagnosis_date));
             }
 
+            $processed_data[] = [
+                'date_key' => $date_key,
+                'diagnosis_date' => $diagnosis_date,
+                'diagnosa_kode' => $diagnosis['diagnosa_kode'],
+                'diagnosa_nm' => $diagnosis['diagnosa_nm'],
+                'total_cases' => $diagnosis['total_cases']
+            ];
+        }
+
+        usort($processed_data, function ($a, $b) {
+            return strtotime($a['diagnosis_date']) - strtotime($b['diagnosis_date']);
+        });
+
+        foreach ($processed_data as $item) {
+            $date_key = $item['date_key'];
+
             if (!isset($data[$date_key])) {
                 $data[$date_key] = [
-                    'icd_10_code' => $diagnosis['diagnosa_kode'],
-                    'diagnosis_name' => $diagnosis['diagnosa_nm'],
-                    'total_cases' => $diagnosis['total_cases']
+                    'icd_10_code' => $item['diagnosa_kode'],
+                    'diagnosis_name' => $item['diagnosa_nm'],
+                    'total_cases' => $item['total_cases']
                 ];
             }
         }
@@ -298,8 +333,10 @@ class Reports_model extends CI_Model
         $this->db->where('invoice_date >=', $start_date);
         $this->db->where('invoice_date <=', $end_date);
         $this->db->group_by('invoice_date');
+        $this->db->order_by('invoice_date', 'ASC');
         $invoices = $this->db->get()->result_array();
 
+        $processed_data = [];
         foreach ($invoices as $invoice) {
             $invoice_date = $invoice['invoice_date'];
             $revenue = (float) $invoice['total_revenue'];
@@ -312,6 +349,21 @@ class Reports_model extends CI_Model
             } elseif ($filter === 'monthly') {
                 $date_key = date('F Y', strtotime($invoice_date));
             }
+
+            $processed_data[] = [
+                'date_key' => $date_key,
+                'invoice_date' => $invoice_date,
+                'revenue' => $revenue
+            ];
+        }
+
+        usort($processed_data, function ($a, $b) {
+            return strtotime($a['invoice_date']) - strtotime($b['invoice_date']);
+        });
+
+        foreach ($processed_data as $item) {
+            $date_key = $item['date_key'];
+            $revenue = $item['revenue'];
 
             if (!isset($data[$date_key])) {
                 $data[$date_key] = 0;
@@ -348,8 +400,10 @@ class Reports_model extends CI_Model
         $this->db->where('rawat_inap_masuk >=', $start_date);
         $this->db->where('rawat_inap_masuk <=', $end_date);
         $this->db->group_by('rawat_inap_masuk');
+        $this->db->order_by('rawat_inap_masuk', 'ASC');
         $inpatients = $this->db->get()->result_array();
 
+        $processed_data = [];
         foreach ($inpatients as $inpatient) {
             $rawat_inap_date = $inpatient['rawat_inap_masuk'];
             $total_beds_occupied = (int) $inpatient['total_beds_occupied'];
@@ -364,6 +418,23 @@ class Reports_model extends CI_Model
                 $date_key = date('F Y', strtotime($rawat_inap_date));
             }
 
+            $processed_data[] = [
+                'date_key' => $date_key,
+                'rawat_inap_date' => $rawat_inap_date,
+                'total_beds_occupied' => $total_beds_occupied,
+                'total_beds_available' => $total_beds_available
+            ];
+        }
+
+        usort($processed_data, function ($a, $b) {
+            return strtotime($a['rawat_inap_date']) - strtotime($b['rawat_inap_date']);
+        });
+
+        foreach ($processed_data as $item) {
+            $date_key = $item['date_key'];
+            $total_beds_occupied = $item['total_beds_occupied'];
+            $total_beds_available = $item['total_beds_available'];
+
             if (!isset($data[$date_key])) {
                 $data[$date_key] = [
                     'total_bed_capacity' => $total_bed_capacity,
@@ -371,6 +442,7 @@ class Reports_model extends CI_Model
                     'total_beds_available' => $total_bed_capacity
                 ];
             }
+
             $data[$date_key]['total_beds_occupied'] += $total_beds_occupied;
             $data[$date_key]['total_beds_available'] -= $total_beds_occupied;
         }
