@@ -389,4 +389,93 @@ class Reports_model extends CI_Model
 
         return $formatted_data;
     }
+
+    public function get_new_vs_returning_patients($filter, $start_date, $end_date)
+    {
+        $data = [];
+        $total_summary = [
+            'new_patients' => 0,
+            'returning_patients' => 0
+        ];
+
+        $this->db->select('appointment_id, pasien_id, appointment_date');
+        $this->db->from('appointment');
+        $this->db->where('appointment_date >=', $start_date);
+        $this->db->where('appointment_date <=', $end_date);
+        $this->db->order_by('appointment_date', 'ASC');
+        $appointments = $this->db->get()->result_array();
+
+        $this->db->select('pasien_id, MIN(appointment_date) as first_appointment_date');
+        $this->db->from('appointment');
+        $this->db->group_by('pasien_id');
+        $first_appointments = $this->db->get()->result_array();
+
+        $first_appointment_dates = [];
+        foreach ($first_appointments as $first_appointment) {
+            $first_appointment_dates[$first_appointment['pasien_id']] = $first_appointment['first_appointment_date'];
+        }
+
+        $processed_data = [];
+        foreach ($appointments as $appointment) {
+            $pasien_id = $appointment['pasien_id'];
+            $appointment_date = $appointment['appointment_date'];
+
+            $date_key = date('Y-m-d', strtotime($appointment_date));
+            if ($filter === 'weekly') {
+                $week_of_month = $this->getWeekOfMonth($appointment_date);
+                $month_year = date('F Y', strtotime($appointment_date));
+                $date_key = "Week $week_of_month, $month_year";
+            } elseif ($filter === 'monthly') {
+                $date_key = date('F Y', strtotime($appointment_date));
+            }
+
+            $is_new_patient = ($first_appointment_dates[$pasien_id] === $appointment_date);
+
+            $processed_data[] = [
+                'date_key' => $date_key,
+                'appointment_date' => $appointment_date,
+                'is_new_patient' => $is_new_patient
+            ];
+        }
+
+        usort($processed_data, function ($a, $b) {
+            return strtotime($a['appointment_date']) - strtotime($b['appointment_date']);
+        });
+
+        foreach ($processed_data as $item) {
+            $date_key = $item['date_key'];
+            $is_new_patient = $item['is_new_patient'];
+
+            if (!isset($data[$date_key])) {
+                $data[$date_key] = [
+                    'new_patients' => 0,
+                    'returning_patients' => 0
+                ];
+            }
+
+            if ($is_new_patient) {
+                $data[$date_key]['new_patients']++;
+                $total_summary['new_patients']++;
+            } else {
+                $data[$date_key]['returning_patients']++;
+                $total_summary['returning_patients']++;
+            }
+        }
+
+        $formatted_data = [];
+        foreach ($data as $key => $value) {
+            $formatted_entry = [
+                $filter === 'daily' ? 'date' : ($filter === 'weekly' ? 'week' : 'month') => $key,
+                'new_patients' => $value['new_patients'],
+                'returning_patients' => $value['returning_patients']
+            ];
+
+            $formatted_data[] = $formatted_entry;
+        }
+
+        return [
+            'data' => $formatted_data,
+            'total_summary' => $total_summary
+        ];
+    }
 }

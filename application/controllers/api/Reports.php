@@ -292,4 +292,42 @@ class Reports extends REST_Controller
             ], REST_Controller::HTTP_NOT_FOUND);
         }
     }
+
+    public function patient_new_vs_returning_get()
+    {
+        if (!$this->authenticate())
+            return;
+
+        $filter = $this->input->get('filter');
+        $start_date = $this->input->get('start_date');
+        $end_date = $this->input->get('end_date');
+
+        if (empty($filter) || empty($start_date) || empty($end_date)) {
+            $this->response([
+                'status' => false,
+                'message' => 'filter, start_date, and end_date are required.',
+                'error' => 'Bad Request'
+            ], REST_Controller::HTTP_BAD_REQUEST);
+            return;
+        }
+
+        $report_data = $this->Reports_model->get_new_vs_returning_patients($filter, $start_date, $end_date);
+
+        if ($report_data) {
+            $this->response([
+                'status' => true,
+                'message' => 'Success fetching new vs returning patients report',
+                'date_range' => "$start_date to $end_date",
+                'filter' => $filter,
+                'data' => $report_data['data'],
+                'total_summary' => $report_data['total_summary']
+            ], REST_Controller::HTTP_OK);
+        } else {
+            $this->response([
+                'status' => false,
+                'message' => 'No data found for the given date range.',
+                'error' => 'Data not found'
+            ], REST_Controller::HTTP_NOT_FOUND);
+        }
+    }
 }
