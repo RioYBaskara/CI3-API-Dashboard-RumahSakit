@@ -335,4 +335,58 @@ class Reports_model extends CI_Model
             'data' => $formatted_data
         ];
     }
+
+    public function get_inpatient_capacity_report($filter, $start_date, $end_date)
+    {
+        $data = [];
+
+        $this->db->select('SUM(kamar_kapasitas) as total_bed_capacity');
+        $total_bed_capacity = $this->db->get('kamar')->row()->total_bed_capacity;
+
+        $this->db->select('rawat_inap_masuk, COUNT(rawat_inap_id) as total_beds_occupied');
+        $this->db->from('rawat_inap');
+        $this->db->where('rawat_inap_masuk >=', $start_date);
+        $this->db->where('rawat_inap_masuk <=', $end_date);
+        $this->db->group_by('rawat_inap_masuk');
+        $inpatients = $this->db->get()->result_array();
+
+        foreach ($inpatients as $inpatient) {
+            $rawat_inap_date = $inpatient['rawat_inap_masuk'];
+            $total_beds_occupied = (int) $inpatient['total_beds_occupied'];
+            $total_beds_available = $total_bed_capacity - $total_beds_occupied;
+
+            $date_key = date('Y-m-d', strtotime($rawat_inap_date));
+            if ($filter === 'weekly') {
+                $week_of_month = $this->getWeekOfMonth($rawat_inap_date);
+                $month_year = date('F Y', strtotime($rawat_inap_date));
+                $date_key = "Week $week_of_month, $month_year";
+            } elseif ($filter === 'monthly') {
+                $date_key = date('F Y', strtotime($rawat_inap_date));
+            }
+
+            if (!isset($data[$date_key])) {
+                $data[$date_key] = [
+                    'total_bed_capacity' => $total_bed_capacity,
+                    'total_beds_occupied' => 0,
+                    'total_beds_available' => $total_bed_capacity
+                ];
+            }
+            $data[$date_key]['total_beds_occupied'] += $total_beds_occupied;
+            $data[$date_key]['total_beds_available'] -= $total_beds_occupied;
+        }
+
+        $formatted_data = [];
+        foreach ($data as $key => $value) {
+            $formatted_entry = [
+                $filter === 'daily' ? 'date' : ($filter === 'weekly' ? 'week' : 'month') => $key,
+                'total_bed_capacity' => $value['total_bed_capacity'],
+                'total_beds_occupied' => $value['total_beds_occupied'],
+                'total_beds_available' => $value['total_beds_available']
+            ];
+
+            $formatted_data[] = $formatted_entry;
+        }
+
+        return $formatted_data;
+    }
 }

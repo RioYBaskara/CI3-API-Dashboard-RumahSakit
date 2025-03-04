@@ -70,6 +70,7 @@ $route['api/inpatients/(:num)/discharge']['patch'] = 'api/inpatients/discharge/$
 $route['api/reports/patient-visits'] = 'api/reports/patient_visits';
 $route['api/reports/patient-visit-department'] = 'api/reports/patient_visit_department';
 $route['api/reports/top-diagnoses'] = 'api/reports/top_diagnoses';
+$route['api/reports/inpatient-capacity'] = 'api/reports/inpatient_capacity';
 
 // $route['register'] = 'api/User/register';
 // $route['login'] = 'api/User/login';
