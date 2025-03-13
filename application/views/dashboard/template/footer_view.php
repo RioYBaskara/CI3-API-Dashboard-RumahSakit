@@ -26,6 +26,45 @@
             "patient-new-vs-returning"
         ];
 
+        document.querySelector(".cari-data").addEventListener("click", function (event) {
+            event.preventDefault();
+            fetchAllData();
+        });
+
+        async function fetchAllData() {
+            loadingSpinner.classList.remove("d-none");
+
+            try {
+                await Promise.all(endpoints.map(fetchData));
+            } finally {
+                loadingSpinner.classList.add("d-none");
+            }
+        }
+
+        async function fetchData(endpoint) {
+            const params = getFilterParams();
+            const url = `${baseUrl}/${endpoint}?filter=${params.filter}&start_date=${params.start_date}&end_date=${params.end_date}`;
+
+            console.log(`Fetching: ${url}`);
+
+            toggleLoading(true, endpoint);
+
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+
+                if (data.status) {
+                    updateUI(endpoint, data.data);
+                } else {
+                    console.error(`API Error (${endpoint}):`, data.message);
+                }
+            } catch (error) {
+                console.error(`Fetch error di ${endpoint}:`, error);
+            } finally {
+                toggleLoading(false, endpoint);
+            }
+        }
+
         function getFilterParams() {
             const selectFilter = document.getElementById("filterdata");
             const dateRangePicker = document.getElementById("reportrange");
@@ -42,7 +81,6 @@
 
             return { filter: filterValue, start_date: startDate, end_date: endDate };
         }
-
         function formatDate(dateString) {
             const date = new Date(dateString);
             const year = date.getFullYear();
@@ -51,73 +89,33 @@
             return `${year}-${month}-${day}`;
         }
 
-        async function fetchData(endpoint) {
-            const params = getFilterParams();
-            const url = `${baseUrl}/${endpoint}?filter=${params.filter}&start_date=${params.start_date}&end_date=${params.end_date}`;
+        function toggleLoading(state, endpoint) {
+            document.querySelectorAll(`[data-endpoint="${endpoint}"] .placeholder-glow`).forEach(placeholder => {
+                placeholder.classList.toggle("d-none", !state);
+            });
 
-            console.log(`Fetching: ${url}`);
-
-            toggleLoading(true);
-
-            try {
-                const response = await fetch(url);
-                const data = await response.json();
-
-                if (data.status) {
-                    updateUI(endpoint, data.data);
-                } else {
-                    console.error(`API Error (${endpoint}):`, data.message);
-                }
-            } catch (error) {
-                console.error(`Fetch error di ${endpoint}:`, error);
-            } finally {
-                toggleLoading(false);
-            }
+            document.querySelectorAll(`[data-endpoint="${endpoint}"] .data-content`).forEach(content => {
+                content.classList.toggle("d-none", state);
+            });
         }
 
         function updateUI(endpoint, data) {
             if (endpoint === "summary") {
                 updateSummaryData(data);
             } else {
-                console.log(`Data untuk ${endpoint}:`, data);
+                updateSingleData(endpoint, data);
             }
         }
-
         function updateSummaryData(summaryData) {
             Object.keys(summaryData).forEach(key => {
                 const element = document.querySelector(`.${key.replace(/_/g, "-")} .data-content`);
                 if (element) {
                     element.textContent = summaryData[key];
                 } else {
-                    console.warn(`⚠ Elemen tidak ditemukan: ${key}`);
+                    console.warn(`Elemen tidak ditemukan: ${key}`);
                 }
             });
         }
-
-        function toggleLoading(state) {
-            document.querySelectorAll(".placeholder-glow").forEach(placeholder => {
-                placeholder.classList.toggle("d-none", !state);
-            });
-
-            document.querySelectorAll(".data-content").forEach(content => {
-                content.classList.toggle("d-none", state);
-            });
-        }
-
-        async function fetchAllData() {
-            loadingSpinner.classList.remove("d-none");
-
-            try {
-                await Promise.all(endpoints.map(fetchData));
-            } finally {
-                loadingSpinner.classList.add("d-none");
-            }
-        }
-
-        document.querySelector(".cari-data").addEventListener("click", function (event) {
-            event.preventDefault();
-            fetchAllData();
-        });
 
         window.getFilterParams = getFilterParams;
         window.fetchData = fetchData;
@@ -133,8 +131,6 @@
             setTimeout(function () {
                 cariDataButton.click();
             }, 100);
-        } else {
-            console.error('Tombol dengan class "cari-data" tidak ditemukan.');
         }
     });
 </script>

@@ -242,7 +242,7 @@
                 <div class="col-12">
                     <div class="row row-cards">
                         <!-- summary -->
-                        <div class="col-sm-6 col-lg-3">
+                        <div class="col-sm-6 col-lg-3 summary" data-endpoint="summary">
                             <div class="card card-sm">
                                 <div class="card-body">
                                     <div class="row align-items-center">
@@ -271,14 +271,14 @@
                                                 <p class="placeholder-glow mb-0">
                                                     <span class="placeholder col-6"></span>
                                                 </p>
-                                                <span class="data-content d-none">ERROR</span>
+                                                <span class="data-content d-none">undefined</span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-6 col-lg-3">
+                        <div class="col-sm-6 col-lg-3 summary" data-endpoint="summary">
                             <div class="card card-sm">
                                 <div class="card-body">
                                     <div class="row align-items-center">
@@ -306,14 +306,14 @@
                                                 <p class="placeholder-glow mb-0">
                                                     <span class="placeholder col-6"></span>
                                                 </p>
-                                                <span class="data-content d-none">ERROR</span>
+                                                <span class="data-content d-none">undefined</span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-6 col-lg-3">
+                        <div class="col-sm-6 col-lg-3 summary" data-endpoint="summary">
                             <div class="card card-sm">
                                 <div class="card-body">
                                     <div class="row align-items-center">
@@ -342,14 +342,14 @@
                                                 <p class="placeholder-glow mb-0">
                                                     <span class="placeholder col-6"></span>
                                                 </p>
-                                                <span class="data-content d-none">ERROR</span>
+                                                <span class="data-content d-none">undefined</span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-6 col-lg-3">
+                        <div class="col-sm-6 col-lg-3 summary" data-endpoint="summary">
                             <div class="card card-sm">
                                 <div class="card-body">
                                     <div class="row align-items-center">
@@ -377,14 +377,14 @@
                                                 <p class="placeholder-glow mb-0">
                                                     <span class="placeholder col-6"></span>
                                                 </p>
-                                                <span class="data-content d-none">ERROR</span>
+                                                <span class="data-content d-none">undefined</span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-6 col-lg-3">
+                        <div class="col-sm-6 col-lg-3 summary" data-endpoint="summary">
                             <div class="card card-sm">
                                 <div class="card-body">
                                     <div class="row align-items-center">
@@ -410,14 +410,14 @@
                                                 <p class="placeholder-glow mb-0">
                                                     <span class="placeholder col-6"></span>
                                                 </p>
-                                                <span class="data-content d-none">ERROR</span>
+                                                <span class="data-content d-none">undefined</span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-6 col-lg-3">
+                        <div class="col-sm-6 col-lg-3 summary" data-endpoint="summary">
                             <div class="card card-sm">
                                 <div class="card-body">
                                     <div class="row align-items-center">
@@ -442,14 +442,14 @@
                                                 <p class="placeholder-glow mb-0">
                                                     <span class="placeholder col-6"></span>
                                                 </p>
-                                                <span class="data-content d-none">ERROR</span>
+                                                <span class="data-content d-none">undefined</span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-6 col-lg-3">
+                        <div class="col-sm-6 col-lg-3 summary" data-endpoint="summary">
                             <div class="card card-sm">
                                 <div class="card-body">
                                     <div class="row align-items-center">
@@ -476,14 +476,14 @@
                                                 <p class="placeholder-glow mb-0">
                                                     <span class="placeholder col-6"></span>
                                                 </p>
-                                                <span class="data-content d-none">ERROR</span>
+                                                <span class="data-content d-none">undefined</span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-6 col-lg-3">
+                        <div class="col-sm-6 col-lg-3 summary" data-endpoint="summary">
                             <div class="card card-sm">
                                 <div class="card-body">
                                     <div class="row align-items-center">
@@ -509,7 +509,7 @@
                                                 <p class="placeholder-glow mb-0">
                                                     <span class="placeholder col-6"></span>
                                                 </p>
-                                                <span class="data-content d-none">ERROR</span>
+                                                <span class="data-content d-none">undefined</span>
                                             </div>
                                         </div>
                                     </div>
