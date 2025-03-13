@@ -13,7 +13,7 @@ class Auth extends CI_Controller
         $this->load->view('auth/login_view');
     }
 
-    public function dashboard()
+    public function dashboardtesting()
     {
         if (!isset($_COOKIE['access_token'])) {
             redirect('auth/login');
@@ -23,12 +23,12 @@ class Auth extends CI_Controller
         $this->load->view('auth/dashboard_view');
     }
 
-    public function dashboardtesting()
+    public function dashboard()
     {
-        // if (!isset($_COOKIE['access_token'])) {
-        //     redirect('auth/login');
-        //     exit;
-        // }
+        if (!isset($_COOKIE['access_token'])) {
+            redirect('auth/login');
+            exit;
+        }
 
         $this->load->view('dashboard/template/header_view');
         $this->load->view('dashboard/template/sidebar_view');

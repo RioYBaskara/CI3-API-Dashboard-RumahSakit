@@ -14,8 +14,17 @@
     document.addEventListener("DOMContentLoaded", function () {
         // dinamiskan
         const baseUrl = "http://localhost/ci3_api_rs/api/reports";
-
         const loadingSpinner = document.getElementById("loadingSpinner");
+
+        const endpoints = [
+            "summary",
+            "patient-visits",
+            "patient-visit-department",
+            "top-diagnoses",
+            "revenue",
+            "inpatient-capacity",
+            "patient-new-vs-returning"
+        ];
 
         function getFilterParams() {
             const selectFilter = document.getElementById("filterdata");
@@ -42,38 +51,64 @@
             return `${year}-${month}-${day}`;
         }
 
-        // fetching data GET
         async function fetchData(endpoint) {
             const params = getFilterParams();
             const url = `${baseUrl}/${endpoint}?filter=${params.filter}&start_date=${params.start_date}&end_date=${params.end_date}`;
 
-            console.log("Fetching data from:", url);
+            console.log(`Fetching: ${url}`);
+
+            toggleLoading(true);
 
             try {
                 const response = await fetch(url);
                 const data = await response.json();
 
                 if (data.status) {
-                    console.log(`✅ Data dari ${endpoint}:`, data.data);
+                    updateUI(endpoint, data.data);
                 } else {
-                    console.error(`❌ Error dari ${endpoint}:`, data.message);
+                    console.error(`API Error (${endpoint}):`, data.message);
                 }
             } catch (error) {
-                console.error(`❌ Fetch error di ${endpoint}:`, error);
+                console.error(`Fetch error di ${endpoint}:`, error);
+            } finally {
+                toggleLoading(false);
             }
+        }
+
+        function updateUI(endpoint, data) {
+            if (endpoint === "summary") {
+                updateSummaryData(data);
+            } else {
+                console.log(`Data untuk ${endpoint}:`, data);
+            }
+        }
+
+        function updateSummaryData(summaryData) {
+            Object.keys(summaryData).forEach(key => {
+                const element = document.querySelector(`.${key.replace(/_/g, "-")} .data-content`);
+                if (element) {
+                    element.textContent = summaryData[key];
+                } else {
+                    console.warn(`⚠ Elemen tidak ditemukan: ${key}`);
+                }
+            });
+        }
+
+        function toggleLoading(state) {
+            document.querySelectorAll(".placeholder-glow").forEach(placeholder => {
+                placeholder.classList.toggle("d-none", !state);
+            });
+
+            document.querySelectorAll(".data-content").forEach(content => {
+                content.classList.toggle("d-none", state);
+            });
         }
 
         async function fetchAllData() {
             loadingSpinner.classList.remove("d-none");
 
             try {
-                await fetchData("summary");
-                await fetchData("patient-visits");
-                await fetchData("patient-visit-department");
-                await fetchData("top-diagnoses");
-                await fetchData("revenue");
-                await fetchData("inpatient-capacity");
-                await fetchData("patient-new-vs-returning");
+                await Promise.all(endpoints.map(fetchData));
             } finally {
                 loadingSpinner.classList.add("d-none");
             }
@@ -86,6 +121,21 @@
 
         window.getFilterParams = getFilterParams;
         window.fetchData = fetchData;
+    });
+</script>
+
+<!-- autofetch -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const cariDataButton = document.querySelector('.cari-data');
+
+        if (cariDataButton) {
+            setTimeout(function () {
+                cariDataButton.click();
+            }, 100);
+        } else {
+            console.error('Tombol dengan class "cari-data" tidak ditemukan.');
+        }
     });
 </script>
 

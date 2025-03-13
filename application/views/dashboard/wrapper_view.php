@@ -241,30 +241,37 @@
                 </div>
                 <div class="col-12">
                     <div class="row row-cards">
+                        <!-- summary -->
                         <div class="col-sm-6 col-lg-3">
                             <div class="card card-sm">
                                 <div class="card-body">
                                     <div class="row align-items-center">
                                         <div class="col-auto">
-                                            <span
-                                                class="bg-primary text-white avatar"><!-- Download SVG icon from http://tabler-icons.io/i/currency-dollar -->
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24"
-                                                    height="24" viewBox="0 0 24 24" stroke-width="2"
-                                                    stroke="currentColor" fill="none" stroke-linecap="round"
-                                                    stroke-linejoin="round">
+                                            <span class="bg-primary text-white avatar">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="icon icon-tabler icons-tabler-outline icon-tabler-calendar-clock">
                                                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                                     <path
-                                                        d="M16.7 8a3 3 0 0 0 -2.7 -2h-4a3 3 0 0 0 0 6h4a3 3 0 0 1 0 6h-4a3 3 0 0 1 -2.7 -2" />
-                                                    <path d="M12 3v3m0 12v3" />
+                                                        d="M10.5 21h-4.5a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v3" />
+                                                    <path d="M16 3v4" />
+                                                    <path d="M8 3v4" />
+                                                    <path d="M4 11h10" />
+                                                    <path d="M18 18m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+                                                    <path d="M18 16.5v1.5l.5 .5" />
                                                 </svg>
                                             </span>
                                         </div>
                                         <div class="col">
-                                            <div class="font-weight-medium">
-                                                132 Sales
-                                            </div>
                                             <div class="text-secondary">
-                                                12 waiting payments
+                                                Janji Temu
+                                            </div>
+                                            <div class="font-weight-medium total-appointments">
+                                                <p class="placeholder-glow mb-0">
+                                                    <span class="placeholder col-6"></span>
+                                                </p>
+                                                <span class="data-content d-none">ERROR</span>
                                             </div>
                                         </div>
                                     </div>
@@ -276,26 +283,30 @@
                                 <div class="card-body">
                                     <div class="row align-items-center">
                                         <div class="col-auto">
-                                            <span
-                                                class="bg-green text-white avatar"><!-- Download SVG icon from http://tabler-icons.io/i/shopping-cart -->
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24"
-                                                    height="24" viewBox="0 0 24 24" stroke-width="2"
-                                                    stroke="currentColor" fill="none" stroke-linecap="round"
-                                                    stroke-linejoin="round">
+                                            <span class="bg-primary text-white avatar">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="icon icon-tabler icons-tabler-outline icon-tabler-calendar-check">
                                                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                    <path d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                                                    <path d="M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                                                    <path d="M17 17h-11v-14h-2" />
-                                                    <path d="M6 5l14 1l-1 7h-13" />
+                                                    <path
+                                                        d="M11.5 21h-5.5a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v6" />
+                                                    <path d="M16 3v4" />
+                                                    <path d="M8 3v4" />
+                                                    <path d="M4 11h16" />
+                                                    <path d="M15 19l2 2l4 -4" />
                                                 </svg>
                                             </span>
                                         </div>
                                         <div class="col">
-                                            <div class="font-weight-medium">
-                                                78 Orders
-                                            </div>
                                             <div class="text-secondary">
-                                                32 shipped
+                                                Janji Temu Selesai
+                                            </div>
+                                            <div class="font-weight-medium total-completed-appointments">
+                                                <p class="placeholder-glow mb-0">
+                                                    <span class="placeholder col-6"></span>
+                                                </p>
+                                                <span class="data-content d-none">ERROR</span>
                                             </div>
                                         </div>
                                     </div>
@@ -307,24 +318,31 @@
                                 <div class="card-body">
                                     <div class="row align-items-center">
                                         <div class="col-auto">
-                                            <span
-                                                class="bg-twitter text-white avatar"><!-- Download SVG icon from http://tabler-icons.io/i/brand-twitter -->
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24"
-                                                    height="24" viewBox="0 0 24 24" stroke-width="2"
-                                                    stroke="currentColor" fill="none" stroke-linecap="round"
-                                                    stroke-linejoin="round">
+                                            <span class="bg-primary text-white avatar">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="icon icon-tabler icons-tabler-outline icon-tabler-calendar-cancel">
                                                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                                     <path
-                                                        d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034 1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c0 -.249 1.51 -2.772 1.818 -4.013z" />
+                                                        d="M12.5 21h-6.5a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v5" />
+                                                    <path d="M16 3v4" />
+                                                    <path d="M8 3v4" />
+                                                    <path d="M4 11h16" />
+                                                    <path d="M19 19m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+                                                    <path d="M17 21l4 -4" />
                                                 </svg>
                                             </span>
                                         </div>
                                         <div class="col">
-                                            <div class="font-weight-medium">
-                                                623 Shares
-                                            </div>
                                             <div class="text-secondary">
-                                                16 today
+                                                Janji Temu Batal
+                                            </div>
+                                            <div class="font-weight-medium total-cancelled-appointments">
+                                                <p class="placeholder-glow mb-0">
+                                                    <span class="placeholder col-6"></span>
+                                                </p>
+                                                <span class="data-content d-none">ERROR</span>
                                             </div>
                                         </div>
                                     </div>
@@ -336,24 +354,162 @@
                                 <div class="card-body">
                                     <div class="row align-items-center">
                                         <div class="col-auto">
-                                            <span
-                                                class="bg-facebook text-white avatar"><!-- Download SVG icon from http://tabler-icons.io/i/brand-facebook -->
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24"
-                                                    height="24" viewBox="0 0 24 24" stroke-width="2"
-                                                    stroke="currentColor" fill="none" stroke-linecap="round"
-                                                    stroke-linejoin="round">
+                                            <span class="bg-green text-white avatar">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="icon icon-tabler icons-tabler-outline icon-tabler-report-medical">
                                                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                                     <path
-                                                        d="M7 10v4h3v7h4v-7h3l1 -4h-4v-2a1 1 0 0 1 1 -1h3v-4h-3a5 5 0 0 0 -5 5v2h-3" />
+                                                        d="M9 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-12a2 2 0 0 0 -2 -2h-2" />
+                                                    <path
+                                                        d="M9 3m0 2a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v0a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2z" />
+                                                    <path d="M10 14l4 0" />
+                                                    <path d="M12 12l0 4" />
                                                 </svg>
                                             </span>
                                         </div>
                                         <div class="col">
-                                            <div class="font-weight-medium">
-                                                132 Likes
-                                            </div>
                                             <div class="text-secondary">
-                                                21 today
+                                                Rekam Medis
+                                            </div>
+                                            <div class="font-weight-medium total-medical-records">
+                                                <p class="placeholder-glow mb-0">
+                                                    <span class="placeholder col-6"></span>
+                                                </p>
+                                                <span class="data-content d-none">ERROR</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="card card-sm">
+                                <div class="card-body">
+                                    <div class="row align-items-center">
+                                        <div class="col-auto">
+                                            <span class="bg-cyan text-white avatar">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="icon icon-tabler icons-tabler-outline icon-tabler-user-plus">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                    <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
+                                                    <path d="M16 19h6" />
+                                                    <path d="M19 16v6" />
+                                                    <path d="M6 21v-2a4 4 0 0 1 4 -4h4" />
+                                                </svg>
+                                            </span>
+                                        </div>
+                                        <div class="col">
+                                            <div class="text-secondary">
+                                                Pasien Baru
+                                            </div>
+                                            <div class="font-weight-medium total-new-patients">
+                                                <p class="placeholder-glow mb-0">
+                                                    <span class="placeholder col-6"></span>
+                                                </p>
+                                                <span class="data-content d-none">ERROR</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="card card-sm">
+                                <div class="card-body">
+                                    <div class="row align-items-center">
+                                        <div class="col-auto">
+                                            <span class="bg-cyan text-white avatar">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="icon icon-tabler icons-tabler-outline icon-tabler-bed-flat">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                    <path d="M5 11m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                                                    <path d="M10 13h11v-2a3 3 0 0 0 -3 -3h-8v5z" />
+                                                    <path d="M3 16h18" />
+                                                </svg>
+                                            </span>
+                                        </div>
+                                        <div class="col">
+                                            <div class="text-secondary">
+                                                Rawat Inap
+                                            </div>
+                                            <div class="font-weight-medium total-inpatients">
+                                                <p class="placeholder-glow mb-0">
+                                                    <span class="placeholder col-6"></span>
+                                                </p>
+                                                <span class="data-content d-none">ERROR</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="card card-sm">
+                                <div class="card-body">
+                                    <div class="row align-items-center">
+                                        <div class="col-auto">
+                                            <span class="bg-yellow text-white avatar">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="icon icon-tabler icons-tabler-outline icon-tabler-file-dollar">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                    <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+                                                    <path
+                                                        d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
+                                                    <path d="M14 11h-2.5a1.5 1.5 0 0 0 0 3h1a1.5 1.5 0 0 1 0 3h-2.5" />
+                                                    <path d="M12 17v1m0 -8v1" />
+                                                </svg>
+                                            </span>
+                                        </div>
+                                        <div class="col">
+                                            <div class="text-secondary">
+                                                Tagihan Terbayar
+                                            </div>
+                                            <div class="font-weight-medium total-paid-invoices">
+                                                <p class="placeholder-glow mb-0">
+                                                    <span class="placeholder col-6"></span>
+                                                </p>
+                                                <span class="data-content d-none">ERROR</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="card card-sm">
+                                <div class="card-body">
+                                    <div class="row align-items-center">
+                                        <div class="col-auto">
+                                            <span class="bg-yellow text-white avatar">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="icon icon-tabler icons-tabler-outline icon-tabler-coin">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                    <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+                                                    <path
+                                                        d="M14.8 9a2 2 0 0 0 -1.8 -1h-2a2 2 0 1 0 0 4h2a2 2 0 1 1 0 4h-2a2 2 0 0 1 -1.8 -1" />
+                                                    <path d="M12 7v10" />
+                                                </svg>
+                                            </span>
+                                        </div>
+                                        <div class="col">
+                                            <div class="text-secondary">
+                                                Total Penghasilan
+                                            </div>
+                                            <div class="font-weight-medium total-paid-revenue">
+                                                <p class="placeholder-glow mb-0">
+                                                    <span class="placeholder col-6"></span>
+                                                </p>
+                                                <span class="data-content d-none">ERROR</span>
                                             </div>
                                         </div>
                                     </div>
