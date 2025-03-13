@@ -1,3 +1,8 @@
+<!-- loading spinner -->
+<div id="loadingSpinner" class="d-none">
+    <div class="spinner-grow text-primary" role="status"></div>
+</div>
+
 <div class="page-wrapper">
     <!-- Page header -->
     <div class="page-header d-print-none">

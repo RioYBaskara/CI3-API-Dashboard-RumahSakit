@@ -269,6 +269,16 @@ class Reports_model extends CI_Model
         $this->db->order_by('rekam_medis.created_at', 'ASC');
         $diagnoses = $this->db->get()->result_array();
 
+        if (empty($diagnoses)) {
+            return [
+                [
+                    'icd_10_code' => null,
+                    'diagnosis_name' => null,
+                    'total_cases' => 0
+                ]
+            ];
+        }
+
         $processed_data = [];
         foreach ($diagnoses as $diagnosis) {
             $diagnosis_date = $diagnosis['created_at'];
@@ -393,7 +403,7 @@ class Reports_model extends CI_Model
         $data = [];
 
         $this->db->select('SUM(kamar_kapasitas) as total_bed_capacity');
-        $total_bed_capacity = $this->db->get('kamar')->row()->total_bed_capacity;
+        $total_bed_capacity = $this->db->get('kamar')->row()->total_bed_capacity ?? 0;
 
         $this->db->select('rawat_inap_masuk, COUNT(rawat_inap_id) as total_beds_occupied');
         $this->db->from('rawat_inap');
@@ -402,6 +412,16 @@ class Reports_model extends CI_Model
         $this->db->group_by('rawat_inap_masuk');
         $this->db->order_by('rawat_inap_masuk', 'ASC');
         $inpatients = $this->db->get()->result_array();
+
+        if (empty($inpatients)) {
+            return [
+                [
+                    'total_bed_capacity' => $total_bed_capacity,
+                    'total_beds_occupied' => 0,
+                    'total_beds_available' => $total_bed_capacity
+                ]
+            ];
+        }
 
         $processed_data = [];
         foreach ($inpatients as $inpatient) {
