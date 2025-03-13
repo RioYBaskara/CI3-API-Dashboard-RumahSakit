@@ -60,10 +60,12 @@ class Reports extends REST_Controller
         $end_date = $this->input->get('end_date');
 
         $this->response([
-            'tes' => 'Masuk',
+            'status' => true,
+            'message' => "200 OK",
             'start_date' => $start_date,
-            'end_date' => $end_date
-        ]);
+            'end_date' => $end_date,
+            'tes' => 'Masuk'
+        ], REST_Controller::HTTP_OK);
     }
 
     public function summary_get()
