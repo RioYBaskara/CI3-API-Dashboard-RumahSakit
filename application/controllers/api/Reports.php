@@ -132,7 +132,7 @@ class Reports extends REST_Controller
                 'message' => 'Patient visit report retrieved successfully',
                 'filter' => $filter,
                 'date_range' => "$start_date to $end_date",
-                'total' => $report_data['total'],
+                'total_summary' => $report_data['total'],
                 'data' => $report_data['data']
             ], REST_Controller::HTTP_OK);
         } else {
@@ -170,7 +170,7 @@ class Reports extends REST_Controller
                 'message' => 'Patient visit by department report retrieved successfully',
                 'filter' => $filter,
                 'date_range' => "$start_date to $end_date",
-                'total' => $report_data['total'],
+                'total_summary' => $report_data['total'],
                 'data' => $report_data['data']
             ], REST_Controller::HTTP_OK);
         } else {
@@ -321,8 +321,8 @@ class Reports extends REST_Controller
                 'message' => 'Success fetching new vs returning patients report',
                 'date_range' => "$start_date to $end_date",
                 'filter' => $filter,
-                'data' => $report_data['data'],
-                'total_summary' => $report_data['total_summary']
+                'total_summary' => $report_data['total_summary'],
+                'data' => $report_data['data']
             ], REST_Controller::HTTP_OK);
         } else {
             $this->response([

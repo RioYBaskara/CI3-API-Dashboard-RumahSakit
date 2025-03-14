@@ -90,7 +90,7 @@
         }
 
         function toggleLoading(state, endpoint) {
-            document.querySelectorAll(`[data-endpoint="${endpoint}"] .placeholder-glow`).forEach(placeholder => {
+            document.querySelectorAll(`[data-endpoint="${endpoint}"] .placeholder`).forEach(placeholder => {
                 placeholder.classList.toggle("d-none", !state);
             });
 
