@@ -118,11 +118,12 @@
                                             <div class="text-secondary">
                                                 Appointments
                                             </div>
-                                            <div class="font-weight-medium total-appointments">
+                                            <div class="font-weight-medium total-appointments"
+                                                id="summary-total-appointments">
                                                 <p class="placeholder-glow mb-0">
                                                     <span class="placeholder col-6"></span>
                                                 </p>
-                                                <span class="data-content d-none">undefined</span>
+                                                <span class="data-content d-none data-response">undefined</span>
                                             </div>
                                         </div>
                                     </div>
@@ -153,11 +154,12 @@
                                             <div class="text-secondary">
                                                 Completed Appointments
                                             </div>
-                                            <div class="font-weight-medium total-completed-appointments">
+                                            <div class="font-weight-medium total-completed-appointments"
+                                                id="summary-total-completed-appointments">
                                                 <p class="placeholder-glow mb-0">
                                                     <span class="placeholder col-6"></span>
                                                 </p>
-                                                <span class="data-content d-none">undefined</span>
+                                                <span class="data-content d-none data-response">undefined</span>
                                             </div>
                                         </div>
                                     </div>
@@ -189,11 +191,12 @@
                                             <div class="text-secondary">
                                                 Cancelled Appointments
                                             </div>
-                                            <div class="font-weight-medium total-cancelled-appointments">
+                                            <div class="font-weight-medium total-cancelled-appointments"
+                                                id="summary-total-cancelled-appointments">
                                                 <p class="placeholder-glow mb-0">
                                                     <span class="placeholder col-6"></span>
                                                 </p>
-                                                <span class="data-content d-none">undefined</span>
+                                                <span class="data-content d-none data-response">undefined</span>
                                             </div>
                                         </div>
                                     </div>
@@ -224,11 +227,12 @@
                                             <div class="text-secondary">
                                                 Medical Records
                                             </div>
-                                            <div class="font-weight-medium total-medical-records">
+                                            <div class="font-weight-medium total-medical-records"
+                                                id="summary-total-medical-records">
                                                 <p class="placeholder-glow mb-0">
                                                     <span class="placeholder col-6"></span>
                                                 </p>
-                                                <span class="data-content d-none">undefined</span>
+                                                <span class="data-content d-none data-response">undefined</span>
                                             </div>
                                         </div>
                                     </div>
@@ -257,11 +261,12 @@
                                             <div class="text-secondary">
                                                 New Patients
                                             </div>
-                                            <div class="font-weight-medium total-new-patients">
+                                            <div class="font-weight-medium total-new-patients"
+                                                id="summary-total-new-patients">
                                                 <p class="placeholder-glow mb-0">
                                                     <span class="placeholder col-6"></span>
                                                 </p>
-                                                <span class="data-content d-none">undefined</span>
+                                                <span class="data-content d-none data-response">undefined</span>
                                             </div>
                                         </div>
                                     </div>
@@ -289,11 +294,12 @@
                                             <div class="text-secondary">
                                                 Inpatients
                                             </div>
-                                            <div class="font-weight-medium total-inpatients">
+                                            <div class="font-weight-medium total-inpatients"
+                                                id="summary-total-inpatients">
                                                 <p class="placeholder-glow mb-0">
                                                     <span class="placeholder col-6"></span>
                                                 </p>
-                                                <span class="data-content d-none">undefined</span>
+                                                <span class="data-content d-none data-response">undefined</span>
                                             </div>
                                         </div>
                                     </div>
@@ -323,11 +329,12 @@
                                             <div class="text-secondary">
                                                 Paid Invoices
                                             </div>
-                                            <div class="font-weight-medium total-paid-invoices">
+                                            <div class="font-weight-medium total-paid-invoices"
+                                                id="summary-total-paid-invoices">
                                                 <p class="placeholder-glow mb-0">
                                                     <span class="placeholder col-6"></span>
                                                 </p>
-                                                <span class="data-content d-none">undefined</span>
+                                                <span class="data-content d-none data-response">undefined</span>
                                             </div>
                                         </div>
                                     </div>
@@ -356,18 +363,19 @@
                                             <div class="text-secondary">
                                                 Total Revenue
                                             </div>
-                                            <div class="font-weight-medium total-paid-revenue">
+                                            <div class="font-weight-medium total-paid-revenue"
+                                                id="summary-total-paid-revenue">
                                                 <p class="placeholder-glow mb-0">
                                                     <span class="placeholder col-6"></span>
                                                 </p>
-                                                <span class="data-content d-none">undefined</span>
+                                                <span class="data-content d-none data-response">undefined</span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12">
+                        <div class="col-12 patient-visits" data-endpoint="patient-visits">
                             <div class="card">
                                 <div class="card-header">
                                     <h3 class="card-title">Patient Visits</h3>
@@ -376,12 +384,16 @@
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                    <div class="row">
+                                    <div class="row mb-3">
                                         <div class="col-md-3">
                                             <div class="card bg-primary-lt">
                                                 <div class="card-body text-center">
                                                     <h4 class="mb-1">Child</h4>
-                                                    <p class="fs-3 fw-bold" id="summary-child">undefined</p>
+                                                    <p class="placeholder-glow mb-0">
+                                                        <span class="placeholder col-6"></span>
+                                                    </p>
+                                                    <p class="fs-3 fw-bold data-response d-none" id="summary-child"
+                                                        data-key="total_summary.child">undefined</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -389,7 +401,11 @@
                                             <div class="card bg-success-lt">
                                                 <div class="card-body text-center">
                                                     <h4 class="mb-1">Adult</h4>
-                                                    <p class="fs-3 fw-bold" id="summary-adult">undefined</p>
+                                                    <p class="placeholder-glow mb-0">
+                                                        <span class="placeholder col-6"></span>
+                                                    </p>
+                                                    <p class="fs-3 fw-bold data-response d-none" id="summary-adult"
+                                                        data-key="total_summary.adult">undefined</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -397,7 +413,11 @@
                                             <div class="card bg-warning-lt">
                                                 <div class="card-body text-center">
                                                     <h4 class="mb-1">Elderly</h4>
-                                                    <p class="fs-3 fw-bold" id="summary-elderly">undefined</p>
+                                                    <p class="placeholder-glow mb-0">
+                                                        <span class="placeholder col-6"></span>
+                                                    </p>
+                                                    <p class="fs-3 fw-bold data-response d-none" id="summary-elderly"
+                                                        data-key="total_summary.elderly">undefined</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -405,11 +425,23 @@
                                             <div class="card bg-dark-lt">
                                                 <div class="card-body text-center">
                                                     <h4 class="mb-1">Total Patients</h4>
-                                                    <p class="fs-3 fw-bold" id="summary-total">undefined</p>
+                                                    <p class="placeholder-glow mb-0">
+                                                        <span class="placeholder col-6"></span>
+                                                    </p>
+                                                    <p class="fs-3 fw-bold data-response d-none" id="summary-total"
+                                                        data-key="total_summary.total_patients">undefined</p>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                    <tr id="loading-row">
+                                        <td colspan="7" class="text-center">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-indeterminate bg-green">
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
 
                                     <div id="patient-visits-chart"></div>
                                 </div>

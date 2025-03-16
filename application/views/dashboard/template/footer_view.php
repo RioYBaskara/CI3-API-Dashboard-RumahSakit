@@ -19,11 +19,11 @@
         const endpoints = [
             "summary",
             "patient-visits",
-            "patient-visit-department",
-            "top-diagnoses",
-            "revenue",
-            "inpatient-capacity",
-            "patient-new-vs-returning"
+            // "patient-visit-department",
+            // "top-diagnoses",
+            // "revenue",
+            // "inpatient-capacity",
+            // "patient-new-vs-returning"
         ];
 
         document.querySelector(".cari-data").addEventListener("click", function (event) {
@@ -54,7 +54,7 @@
                 const data = await response.json();
 
                 if (data.status) {
-                    updateUI(endpoint, data.data);
+                    updateUI(endpoint, data);
                 } else {
                     console.error(`API Error (${endpoint}):`, data.message);
                 }
@@ -90,41 +90,92 @@
         }
 
         function toggleLoading(state, endpoint) {
-            document.querySelectorAll(`[data-endpoint="${endpoint}"] .placeholder`).forEach(placeholder => {
-                placeholder.classList.toggle("d-none", !state);
-            });
+            const container = document.querySelector(`[data-endpoint="${endpoint}"]`);
+            if (container) {
+                const placeholders = container.querySelectorAll(".placeholder-glow");
+                const progressBar = container.querySelector(".progress");
+                const dataResponses = container.querySelectorAll(".data-response");
 
-            document.querySelectorAll(`[data-endpoint="${endpoint}"] .data-content`).forEach(content => {
-                content.classList.toggle("d-none", state);
-            });
+                placeholders.forEach(ph => ph.classList.toggle("d-none", !state));
+                if (progressBar) progressBar.classList.toggle("d-none", !state);
+
+                dataResponses.forEach(dr => dr.classList.toggle("d-none", state));
+            }
         }
+
 
         function updateUI(endpoint, data) {
             if (endpoint === "summary") {
-                updateSummaryData(data);
-            } else {
-                updateSingleData(endpoint, data);
-            }
-
-            if (chartRegistry[endpoint]) {
-                chartRegistry[endpoint].updateSeries([data.total || 0]);
+                updateSummaryData(data.data);
+            } else if (endpoint === "patient-visits") {
+                updatePatientVisitsChart(data);
             }
         }
-        function updateSummaryData(summaryData) {
-            Object.keys(summaryData).forEach(key => {
-                const element = document.querySelector(`.${key.replace(/_/g, "-")} .data-content`);
+
+        function updateSummaryData(summaryData, endpoint) {
+            toggleLoading(true, endpoint);
+
+            Object.entries(summaryData).forEach(([key, value]) => {
+                const element = document.getElementById(`summary-${key.replace(/_/g, "-")}`);
                 if (element) {
-                    element.textContent = summaryData[key];
+                    element.textContent = value;
                 } else {
                     console.warn(`Elemen tidak ditemukan: ${key}`);
                 }
             });
-        }
-        function updateSingleData(endpoint, data) {
-            const element = document.querySelector(`[data-endpoint="${endpoint}"] .data-content`);
-            if (element) {
-                element.textContent = data.total || "N/A";
+
+            if (summaryData.date_range) {
+                document.getElementById("date-range").textContent = `${summaryData.date_range.start_date} to ${summaryData.date_range.end_date}`;
             }
+
+            toggleLoading(false, endpoint);
+        }
+
+        function updatePatientVisitsChart(response, endpoint) {
+            toggleLoading(true, endpoint);
+
+            const { date_range, total_summary, data, filter } = response;
+
+            document.getElementById("summary-child").textContent = total_summary.child;
+            document.getElementById("summary-adult").textContent = total_summary.adult;
+            document.getElementById("summary-elderly").textContent = total_summary.elderly;
+            document.getElementById("summary-total").textContent = total_summary.total_patients;
+            document.getElementById("date-range").textContent = `${date_range.start_date} to ${date_range.end_date}`;
+
+            let categoryKey = "date";
+            if (filter === "weekly") categoryKey = "week";
+            if (filter === "monthly") categoryKey = "month";
+
+            const categories = data.map(item => item[categoryKey]);
+            const childData = data.map(item => item.child);
+            const adultData = data.map(item => item.adult);
+            const elderlyData = data.map(item => item.elderly);
+
+            if (window.patientVisitsChart) {
+                window.patientVisitsChart.updateOptions({
+                    xaxis: { categories },
+                    series: [
+                        { name: "Child", data: childData },
+                        { name: "Adult", data: adultData },
+                        { name: "Elderly", data: elderlyData }
+                    ]
+                });
+            } else {
+                var options = {
+                    chart: { type: "line", height: 350, toolbar: { show: true } },
+                    series: [
+                        { name: "Child", data: childData },
+                        { name: "Adult", data: adultData },
+                        { name: "Elderly", data: elderlyData }
+                    ],
+                    xaxis: { categories }
+                };
+
+                window.patientVisitsChart = new ApexCharts(document.querySelector("#patient-visits-chart"), options);
+                window.patientVisitsChart.render();
+            }
+
+            toggleLoading(false, endpoint);
         }
 
         window.getFilterParams = getFilterParams;
@@ -165,7 +216,8 @@
                 'Last 7 Days': [moment().subtract(6, 'days'), moment()],
                 'Last 30 Days': [moment().subtract(29, 'days'), moment()],
                 'This Month': [moment().startOf('month'), moment().endOf('month')],
-                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+                'This Year': [moment().startOf('year'), moment().endOf('year')],
             }
         }, cb);
 
@@ -175,64 +227,7 @@
 </script>
 
 <!-- apexchart example -->
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        // contoh response api
-        const response = {
-            "status": true,
-            "message": "Patient visit report retrieved successfully",
-            "filter": "weekly",
-            "date_range": "2025-01-01 to 2025-05-01",
-            "total_summary": {
-                "child": 1,
-                "adult": 8,
-                "elderly": 0,
-                "total_patients": 9
-            },
-            "data": [
-                { "week": "Week 1, January 2025", "child": 1, "adult": 0, "elderly": 0, "total_patients": 1 },
-                { "week": "Week 4, January 2025", "child": 0, "adult": 1, "elderly": 0, "total_patients": 1 },
-                { "week": "Week 5, February 2025", "child": 0, "adult": 3, "elderly": 0, "total_patients": 3 },
-                { "week": "Week 2, March 2025", "child": 0, "adult": 1, "elderly": 0, "total_patients": 1 },
-                { "week": "Week 3, March 2025", "child": 0, "adult": 1, "elderly": 0, "total_patients": 1 },
-                { "week": "Week 5, March 2025", "child": 0, "adult": 1, "elderly": 0, "total_patients": 1 },
-                { "week": "Week 4, April 2025", "child": 0, "adult": 1, "elderly": 0, "total_patients": 1 }
-            ]
-        };
 
-        // total-summary
-        document.getElementById("summary-child").textContent = response.total_summary.child;
-        document.getElementById("summary-adult").textContent = response.total_summary.adult;
-        document.getElementById("summary-elderly").textContent = response.total_summary.elderly;
-        document.getElementById("summary-total").textContent = response.total_summary.total_patients;
-        document.getElementById("date-range").textContent = response.date_range;
-
-        const weeks = response.data.map(item => item.week);
-        const childData = response.data.map(item => item.child);
-        const adultData = response.data.map(item => item.adult);
-        const elderlyData = response.data.map(item => item.elderly);
-
-        // apexchart
-        var options = {
-            chart: {
-                type: "line",
-                height: 350,
-                toolbar: { show: false }
-            },
-            series: [
-                { name: "Child", data: childData },
-                { name: "Adult", data: adultData },
-                { name: "Elderly", data: elderlyData }
-            ],
-            xaxis: {
-                categories: weeks
-            }
-        };
-
-        var chart = new ApexCharts(document.querySelector("#patient-visits-chart"), options);
-        chart.render();
-    });
-</script>
 </body>
 
 </html>
