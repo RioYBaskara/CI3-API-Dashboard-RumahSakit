@@ -136,11 +136,13 @@
 
             const { date_range, total_summary, data, filter } = response;
 
+            console.log(response);
+
             document.getElementById("summary-child").textContent = total_summary.child;
             document.getElementById("summary-adult").textContent = total_summary.adult;
             document.getElementById("summary-elderly").textContent = total_summary.elderly;
             document.getElementById("summary-total").textContent = total_summary.total_patients;
-            document.getElementById("date-range").textContent = `${date_range.start_date} to ${date_range.end_date}`;
+            document.getElementById("date-range").textContent = date_range;
 
             let categoryKey = "date";
             if (filter === "weekly") categoryKey = "week";

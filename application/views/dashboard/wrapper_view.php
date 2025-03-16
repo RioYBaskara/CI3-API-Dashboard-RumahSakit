@@ -380,7 +380,10 @@
                                 <div class="card-header">
                                     <h3 class="card-title">Patient Visits</h3>
                                     <div class="card-options">
-                                        <span id="date-range">undefined to undefined</span>
+                                        <p class="placeholder-glow mb-0">
+                                            <span class="placeholder col-6 d-inline-block" style="width: 100px;"></span>
+                                        </p>
+                                        <span id="date-range" class="data-response d-none">undefined to undefined</span>
                                     </div>
                                 </div>
                                 <div class="card-body">
