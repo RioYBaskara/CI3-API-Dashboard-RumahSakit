@@ -159,6 +159,18 @@ class Inpatients extends REST_Controller
             return;
         }
 
+        $kamar_id = $input['kamar_id'];
+
+        $this->load->model('api/Rooms_model');
+        if ($this->Rooms_model->isRoomFull($kamar_id)) {
+            $this->response([
+                'status' => false,
+                'message' => 'Room is full',
+                'error' => 'The selected room is already at full capacity'
+            ], REST_Controller::HTTP_CONFLICT);
+            return;
+        }
+
         $pasien_id = $input['pasien_id'];
         if ($this->Inpatients_model->isPatientStillAdmitted($pasien_id)) {
             $this->response([
@@ -255,6 +267,19 @@ class Inpatients extends REST_Controller
                 'message' => 'Bad Request!',
                 'errors' => $this->form_validation->error_array()
             ], REST_Controller::HTTP_BAD_REQUEST);
+            return;
+        }
+
+        // mark, aneh/kedepannya mungkin ada conflict
+        $kamar_id = $input['kamar_id'];
+
+        $this->load->model('api/Rooms_model');
+        if ($this->Rooms_model->isRoomFull($kamar_id)) {
+            $this->response([
+                'status' => false,
+                'message' => 'Room is full',
+                'error' => 'The selected room is already at full capacity'
+            ], REST_Controller::HTTP_CONFLICT);
             return;
         }
 

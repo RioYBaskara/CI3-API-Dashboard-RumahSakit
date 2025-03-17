@@ -90,4 +90,23 @@ class Rooms_model extends CI_Model
 
         return $this->db->affected_rows() > 0;
     }
+
+    public function isRoomFull($kamar_id)
+    {
+        $this->db->select('kamar.kamar_kapasitas, COUNT(rawat_inap.rawat_inap_id) AS jumlah_penghuni');
+        $this->db->from('kamar');
+        $this->db->join('rawat_inap', 'rawat_inap.kamar_id = kamar.kamar_id AND rawat_inap.is_deleted = 0 AND rawat_inap.rawat_inap_keluar IS NULL', 'left');
+        $this->db->where('kamar.kamar_id', $kamar_id);
+        $this->db->where('kamar.is_deleted', 0);
+        $this->db->group_by('kamar.kamar_id');
+
+        $query = $this->db->get();
+        $room = $query->row();
+
+        if ($room) {
+            return $room->jumlah_penghuni >= $room->kamar_kapasitas;
+        }
+
+        return false;
+    }
 }
