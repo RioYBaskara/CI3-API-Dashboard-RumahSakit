@@ -554,7 +554,7 @@
                                             <span class="placeholder col-6 d-inline-block" style="width: 100px;"></span>
                                         </p>
                                         <span id="total-revenue"
-                                            class="fs-3 fw-bold text-success data-response d-none">Rp 0</span>
+                                            class="fs-3 fw-bold text-success data-response d-none">Rp undefined</span>
                                     </div>
                                 </div>
                                 <div class="card-body">
@@ -592,6 +592,38 @@
                                         </td>
                                     </tr>
                                     <div id="inpatient-chart" style="height: 350px;"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- new vs returning patients -->
+                        <div class="col-12 patient-comparison" data-endpoint="patient-new-vs-returning">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">New vs Returning Patients</h3>
+                                    <div class="card-options d-flex flex-column">
+                                        <p class="placeholder-glow mb-0">
+                                            <span class="placeholder col-6 d-inline-block" style="width: 100px;"></span>
+                                        </p>
+                                        <span class="date-range data-response d-none">undefined to undefined</span>
+                                        <br>
+                                        <span class="fw-bold">Total New Patients:</span>
+                                        <span id="total-new-patients"
+                                            class="fs-5 fw-bold text-primary data-response d-none">undefined</span>
+                                        <span class="fw-bold">Total Returning Patients:</span>
+                                        <span id="total-returning-patients"
+                                            class="fs-5 fw-bold text-success data-response d-none">undefined</span>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <tr id="loading-row">
+                                        <td colspan="7" class="text-center">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-indeterminate bg-blue"></div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <div id="patients-chart"></div>
                                 </div>
                             </div>
                         </div>

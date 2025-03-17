@@ -23,7 +23,7 @@
             "top-diagnoses",
             "revenue",
             "inpatient-capacity",
-            // "patient-new-vs-returning"
+            "patient-new-vs-returning"
         ];
 
         document.querySelector(".cari-data").addEventListener("click", function (event) {
@@ -123,6 +123,9 @@
             } else if (endpoint === "inpatient-capacity") {
                 updateDateRange(endpoint, data.date_range);
                 updateInpatientCapacityChart(data, endpoint);
+            } else if (endpoint === "patient-new-vs-returning") {
+                updateDateRange(endpoint, data.date_range);
+                updatePatientChart(data, endpoint);
             }
         }
 
@@ -433,6 +436,61 @@
 
                 window.inpatientChart = new ApexCharts(container.querySelector("#inpatient-chart"), options);
                 window.inpatientChart.render();
+            }
+
+            toggleLoading(false, endpoint);
+        }
+
+        function updatePatientChart(response, endpoint) {
+            const container = document.querySelector(`[data-endpoint="${endpoint}"]`);
+            if (!container) return;
+
+            toggleLoading(true, endpoint);
+
+            const totalNewPatientsElement = container.querySelector("#total-new-patients");
+            const totalReturningPatientsElement = container.querySelector("#total-returning-patients");
+
+            totalNewPatientsElement.textContent = response.total_summary.new_patients;
+            totalReturningPatientsElement.textContent = response.total_summary.returning_patients;
+
+            if (!response.data || response.data.length === 0) {
+                toggleLoading(false, endpoint);
+                return;
+            }
+
+            let dateKey = "date";
+            if (response.filter === "weekly") dateKey = "week";
+            if (response.filter === "monthly") dateKey = "month";
+
+            const categories = response.data.map(item => item[dateKey]);
+            const newPatientsData = response.data.map(item => item.new_patients);
+            const returningPatientsData = response.data.map(item => item.returning_patients);
+
+            if (window.patientsChart) {
+                window.patientsChart.updateOptions({
+                    xaxis: { categories },
+                    series: [
+                        { name: "New Patients", data: newPatientsData },
+                        { name: "Returning Patients", data: returningPatientsData }
+                    ]
+                });
+            } else {
+                const options = {
+                    chart: { type: "line", height: 350, toolbar: { show: true } },
+                    series: [
+                        { name: "New Patients", data: newPatientsData },
+                        { name: "Returning Patients", data: returningPatientsData }
+                    ],
+                    xaxis: { categories },
+                    yaxis: { labels: { formatter: value => value.toLocaleString() } },
+                    tooltip: { y: { formatter: value => value.toLocaleString() } },
+                    plotOptions: {
+                        bar: { columnWidth: "50%", grouped: true }
+                    }
+                };
+
+                window.patientsChart = new ApexCharts(container.querySelector("#patients-chart"), options);
+                window.patientsChart.render();
             }
 
             toggleLoading(false, endpoint);
