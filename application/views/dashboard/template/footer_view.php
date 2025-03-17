@@ -22,7 +22,7 @@
             "patient-visit-department",
             "top-diagnoses",
             "revenue",
-            // "inpatient-capacity",
+            "inpatient-capacity",
             // "patient-new-vs-returning"
         ];
 
@@ -119,6 +119,9 @@
                 updateTopDiagnosesTable(data, endpoint);
             } else if (endpoint === "revenue") {
                 updateRevenueChart(data, endpoint);
+            } else if (endpoint === "inpatient-capacity") {
+                updateDateRange(endpoint, data.date_range);
+                updateInpatientCapacityChart(data, endpoint);
             }
         }
 
@@ -385,6 +388,53 @@
                 currency: "IDR",
                 minimumFractionDigits: 0
             }).format(value);
+        }
+
+        function updateInpatientCapacityChart(response, endpoint) {
+            const container = document.querySelector(`[data-endpoint="${endpoint}"]`);
+            if (!container) return;
+
+            toggleLoading(true, endpoint);
+
+            if (!response.data || response.data.length === 0) {
+                toggleLoading(false, endpoint);
+                return;
+            }
+
+            let dateKey = "date";
+            if (response.filter === "weekly") dateKey = "week";
+            if (response.filter === "monthly") dateKey = "month";
+
+            const categories = response.data.map(item => item[dateKey]);
+            const bedsOccupied = response.data.map(item => item.total_beds_occupied);
+            const bedsAvailable = response.data.map(item => item.total_beds_available);
+
+            if (window.inpatientChart) {
+                window.inpatientChart.updateOptions({
+                    xaxis: { categories },
+                    series: [
+                        { name: "Occupied Beds", data: bedsOccupied },
+                        { name: "Available Beds", data: bedsAvailable }
+                    ]
+                });
+            } else {
+                const options = {
+                    chart: { type: "bar", height: 350, stacked: true, toolbar: { show: true } },
+                    series: [
+                        { name: "Occupied Beds", data: bedsOccupied },
+                        { name: "Available Beds", data: bedsAvailable }
+                    ],
+                    xaxis: { categories },
+                    yaxis: { title: { text: "Number of Beds" } },
+                    tooltip: { shared: false },
+                    fill: { opacity: 1 }
+                };
+
+                window.inpatientChart = new ApexCharts(container.querySelector("#inpatient-chart"), options);
+                window.inpatientChart.render();
+            }
+
+            toggleLoading(false, endpoint);
         }
 
     });

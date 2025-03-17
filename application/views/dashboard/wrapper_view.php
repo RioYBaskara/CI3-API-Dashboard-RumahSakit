@@ -566,6 +566,33 @@
                             </div>
                         </div>
 
+                        <!-- inpatient capacity -->
+                        <div class="col-12 inpatient-capacity" data-endpoint="inpatient-capacity">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">Inpatient Capacity Report</h3>
+                                    <div class="card-options">
+                                        <span class="fw-bold">Date Range:</span>
+                                        <p class="placeholder-glow mb-0">
+                                            <span class="placeholder col-6 d-inline-block" style="width: 100px;"></span>
+                                        </p>
+                                        <span id="inpatient-date-range"
+                                            class="fs-5 fw-bold text-info data-response d-none"></span>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <tr id="loading-row">
+                                        <td colspan="7" class="text-center">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-indeterminate bg-blue"></div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <div id="inpatient-chart" style="height: 350px;"></div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
