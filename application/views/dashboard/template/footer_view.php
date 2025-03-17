@@ -21,7 +21,7 @@
             "patient-visits",
             "patient-visit-department",
             "top-diagnoses",
-            // "revenue",
+            "revenue",
             // "inpatient-capacity",
             // "patient-new-vs-returning"
         ];
@@ -117,6 +117,8 @@
             } else if (endpoint === "top-diagnoses") {
                 updateDateRange(endpoint, data.date_range);
                 updateTopDiagnosesTable(data, endpoint);
+            } else if (endpoint === "revenue") {
+                updateRevenueChart(data, endpoint);
             }
         }
 
@@ -222,8 +224,6 @@
             toggleLoading(true, endpoint);
 
             const { date_range, total_summary, data, filter } = response;
-
-            console.log(response);
 
             container.querySelector("#summary-total-appointments").textContent = total_summary.total_appointments;
 
@@ -334,6 +334,59 @@
 
             toggleLoading(false, endpoint);
         }
+
+        function updateRevenueChart(response, endpoint) {
+            const container = document.querySelector(`[data-endpoint="${endpoint}"]`);
+            if (!container) return;
+
+            toggleLoading(true, endpoint);
+
+            const totalRevenueElement = container.querySelector("#total-revenue");
+            totalRevenueElement.textContent = formatCurrency(response.total_revenue);
+
+            if (!response.data || response.data.length === 0) {
+                toggleLoading(false, endpoint);
+                return;
+            }
+
+            let dateKey = "date";
+            if (response.filter === "weekly") dateKey = "week";
+            if (response.filter === "monthly") dateKey = "month";
+
+            const categories = response.data.map(item => item[dateKey]);
+            const seriesData = response.data.map(item => item.total_revenue);
+
+            if (window.revenueChart) {
+                window.revenueChart.updateOptions({
+                    xaxis: { categories },
+                    series: [{ name: "Revenue", data: seriesData }]
+                });
+            } else {
+                const options = {
+                    chart: { type: "line", height: 350, toolbar: { show: true } },
+                    stroke: { curve: "smooth", width: 3 },
+                    markers: { size: 5, hover: { size: 7 } },
+                    series: [{ name: "Revenue", data: seriesData }],
+                    xaxis: { categories },
+                    yaxis: { labels: { formatter: value => formatCurrency(value) } },
+                    tooltip: { y: { formatter: value => formatCurrency(value) } }
+                };
+
+                window.revenueChart = new ApexCharts(container.querySelector("#revenue-chart"), options);
+                window.revenueChart.render();
+            }
+
+            toggleLoading(false, endpoint);
+        }
+
+        function formatCurrency(value) {
+            return new Intl.NumberFormat("id-ID", {
+                style: "currency",
+                currency: "IDR",
+                minimumFractionDigits: 0
+            }).format(value);
+        }
+
     });
 </script>
 
@@ -354,7 +407,7 @@
 <script type="text/javascript">
     $(function () {
 
-        var start = moment().subtract(29, 'days');
+        var start = moment().startOf('year');
         var end = moment();
 
         function cb(start, end) {

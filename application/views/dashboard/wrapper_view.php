@@ -538,6 +538,34 @@
                             </div>
                         </div>
 
+                        <!-- revenue -->
+                        <div class="col-12 revenue" data-endpoint="revenue">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">Revenue Report</h3>
+                                    <div class="card-options">
+                                        <span class="fw-bold">Total Revenue: </span>
+                                        <p class="placeholder-glow mb-0">
+                                            <span class="placeholder col-6 d-inline-block" style="width: 100px;"></span>
+                                        </p>
+                                        <span id="total-revenue"
+                                            class="fs-3 fw-bold text-success data-response d-none">Rp 0</span>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <tr id="loading-row">
+                                        <td colspan="7" class="text-center">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-indeterminate bg-green">
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <div id="revenue-chart"></div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
