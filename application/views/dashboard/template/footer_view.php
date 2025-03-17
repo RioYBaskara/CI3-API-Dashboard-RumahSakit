@@ -20,7 +20,7 @@
             "summary",
             "patient-visits",
             "patient-visit-department",
-            // "top-diagnoses",
+            "top-diagnoses",
             // "revenue",
             // "inpatient-capacity",
             // "patient-new-vs-returning"
@@ -114,6 +114,9 @@
             } else if (endpoint === "patient-visit-department") {
                 updateDateRange(endpoint, data.date_range);
                 updatePatientVisitsDepartmentChart(data, endpoint);
+            } else if (endpoint === "top-diagnoses") {
+                updateDateRange(endpoint, data.date_range);
+                updateTopDiagnosesTable(data, endpoint);
             }
         }
 
@@ -288,9 +291,49 @@
             toggleLoading(false, endpoint);
         }
 
+        function updateTopDiagnosesTable(response, endpoint) {
+            const container = document.querySelector(`[data-endpoint="${endpoint}"]`);
+            if (!container) return;
 
-        window.getFilterParams = getFilterParams;
-        window.fetchData = fetchData;
+            toggleLoading(true, endpoint);
+
+            const tableHead = container.querySelector("#top-diagnoses-table thead tr");
+            const tableBody = container.querySelector("#top-diagnoses-table tbody");
+
+            tableHead.innerHTML = "";
+            tableBody.innerHTML = "";
+
+            if (!response.data || response.data.length === 0) {
+                tableBody.innerHTML = `<tr><td colspan="4" class="text-center">No data available</td></tr>`;
+                toggleLoading(false, endpoint);
+                return;
+            }
+
+            let dateKey = "date";
+            if (response.filter === "weekly") dateKey = "week";
+            if (response.filter === "monthly") dateKey = "month";
+
+            tableHead.innerHTML = `
+                <th>${dateKey.charAt(0).toUpperCase() + dateKey.slice(1)}</th>
+                <th>ICD-10 Code</th>
+                <th>Diagnosis Name</th>
+                <th class="text-center">Total Cases</th>
+            `;
+
+            response.data.forEach(item => {
+                const row = `
+            <tr>
+                <td>${item[dateKey]}</td>
+                <td>${item.icd_10_code}</td>
+                <td>${item.diagnosis_name}</td>
+                <td class="text-center fw-bold">${item.total_cases}</td>
+            </tr>
+        `;
+                tableBody.innerHTML += row;
+            });
+
+            toggleLoading(false, endpoint);
+        }
     });
 </script>
 
