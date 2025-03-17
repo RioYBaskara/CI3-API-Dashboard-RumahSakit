@@ -543,7 +543,12 @@
                             <div class="card">
                                 <div class="card-header">
                                     <h3 class="card-title">Revenue Report</h3>
-                                    <div class="card-options">
+                                    <div class="card-options d-flex flex-column">
+                                        <p class="placeholder-glow mb-0">
+                                            <span class="placeholder col-6 d-inline-block" style="width: 100px;"></span>
+                                        </p>
+                                        <span class="date-range data-response d-none">undefined to undefined</span>
+                                        <br>
                                         <span class="fw-bold">Total Revenue: </span>
                                         <p class="placeholder-glow mb-0">
                                             <span class="placeholder col-6 d-inline-block" style="width: 100px;"></span>
@@ -572,12 +577,10 @@
                                 <div class="card-header">
                                     <h3 class="card-title">Inpatient Capacity Report</h3>
                                     <div class="card-options">
-                                        <span class="fw-bold">Date Range:</span>
                                         <p class="placeholder-glow mb-0">
                                             <span class="placeholder col-6 d-inline-block" style="width: 100px;"></span>
                                         </p>
-                                        <span id="inpatient-date-range"
-                                            class="fs-5 fw-bold text-info data-response d-none"></span>
+                                        <span class="date-range data-response d-none">undefined to undefined</span>
                                     </div>
                                 </div>
                                 <div class="card-body">

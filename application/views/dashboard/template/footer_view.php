@@ -118,6 +118,7 @@
                 updateDateRange(endpoint, data.date_range);
                 updateTopDiagnosesTable(data, endpoint);
             } else if (endpoint === "revenue") {
+                updateDateRange(endpoint, data.date_range);
                 updateRevenueChart(data, endpoint);
             } else if (endpoint === "inpatient-capacity") {
                 updateDateRange(endpoint, data.date_range);
