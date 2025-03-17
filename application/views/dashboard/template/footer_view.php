@@ -19,7 +19,7 @@
         const endpoints = [
             "summary",
             "patient-visits",
-            // "patient-visit-department",
+            "patient-visit-department",
             // "top-diagnoses",
             // "revenue",
             // "inpatient-capacity",
@@ -55,6 +55,7 @@
 
                 if (data.status) {
                     updateUI(endpoint, data);
+
                 } else {
                     console.error(`API Error (${endpoint}):`, data.message);
                 }
@@ -106,43 +107,69 @@
 
         function updateUI(endpoint, data) {
             if (endpoint === "summary") {
-                updateSummaryData(data.data);
+                updateSummaryData(data.data, endpoint);
             } else if (endpoint === "patient-visits") {
-                updatePatientVisitsChart(data);
+                updateDateRange(endpoint, data.date_range);
+                updatePatientVisitsChart(data, endpoint);
+            } else if (endpoint === "patient-visit-department") {
+                updateDateRange(endpoint, data.date_range);
+                updatePatientVisitsDepartmentChart(data, endpoint);
             }
         }
 
+        function updateDateRange(endpoint, dateRange) {
+            setTimeout(function () {
+                const container = document.querySelector(`[data-endpoint="${endpoint}"]`);
+                if (!container) {
+                    console.error(`Container untuk endpoint "${endpoint}" tidak ditemukan.`);
+                    return;
+                }
+
+                const dateRangeElements = container.querySelectorAll(".date-range");
+
+                dateRangeElements.forEach(element => {
+                    element.textContent = dateRange;
+                    element.classList.remove("d-none");
+                });
+            }, 10);
+        }
+
+
         function updateSummaryData(summaryData, endpoint) {
+            const container = document.querySelector(`[data-endpoint="${endpoint}"]`);
+
+            if (!container) {
+                console.warn(`Container dengan endpoint "${endpoint}" tidak ditemukan.`);
+                return;
+            }
+
             toggleLoading(true, endpoint);
 
             Object.entries(summaryData).forEach(([key, value]) => {
-                const element = document.getElementById(`summary-${key.replace(/_/g, "-")}`);
+                const element = container.querySelector(`#summary-${key.replace(/_/g, "-")}`);
+
                 if (element) {
-                    element.textContent = value;
+                    element.innerHTML = `<span class="data-content">${value}</span>`;
                 } else {
-                    console.warn(`Elemen tidak ditemukan: ${key}`);
+                    console.warn(`Elemen tidak ditemukan: summary-${key.replace(/_/g, "-")}`);
                 }
             });
-
-            if (summaryData.date_range) {
-                document.getElementById("date-range").textContent = `${summaryData.date_range.start_date} to ${summaryData.date_range.end_date}`;
-            }
 
             toggleLoading(false, endpoint);
         }
 
         function updatePatientVisitsChart(response, endpoint) {
+            const container = document.querySelector(`[data-endpoint="${endpoint}"]`);
+            if (!container) return;
+
             toggleLoading(true, endpoint);
 
             const { date_range, total_summary, data, filter } = response;
 
-            console.log(response);
-
-            document.getElementById("summary-child").textContent = total_summary.child;
-            document.getElementById("summary-adult").textContent = total_summary.adult;
-            document.getElementById("summary-elderly").textContent = total_summary.elderly;
-            document.getElementById("summary-total").textContent = total_summary.total_patients;
-            document.getElementById("date-range").textContent = date_range;
+            container.querySelector(".summary-child").textContent = total_summary.child;
+            container.querySelector(".summary-adult").textContent = total_summary.adult;
+            container.querySelector(".summary-elderly").textContent = total_summary.elderly;
+            container.querySelector(".summary-total").textContent = total_summary.total_patients;
 
             let categoryKey = "date";
             if (filter === "weekly") categoryKey = "week";
@@ -153,8 +180,11 @@
             const adultData = data.map(item => item.adult);
             const elderlyData = data.map(item => item.elderly);
 
-            if (window.patientVisitsChart) {
-                window.patientVisitsChart.updateOptions({
+            let chartEl = container.querySelector("#patient-visits-chart");
+            if (!chartEl) return;
+
+            if (chartEl.chartInstance) {
+                chartEl.chartInstance.updateOptions({
                     xaxis: { categories },
                     series: [
                         { name: "Child", data: childData },
@@ -173,12 +203,91 @@
                     xaxis: { categories }
                 };
 
-                window.patientVisitsChart = new ApexCharts(document.querySelector("#patient-visits-chart"), options);
-                window.patientVisitsChart.render();
+                let chart = new ApexCharts(chartEl, options);
+                chart.render();
+
+                chartEl.chartInstance = chart;
             }
 
             toggleLoading(false, endpoint);
         }
+
+        function updatePatientVisitsDepartmentChart(response, endpoint) {
+            const container = document.querySelector(`[data-endpoint="${endpoint}"]`);
+            if (!container) return;
+
+            toggleLoading(true, endpoint);
+
+            const { date_range, total_summary, data, filter } = response;
+
+            console.log(response);
+
+            container.querySelector("#summary-total-appointments").textContent = total_summary.total_appointments;
+
+            const summaryContainer = container.querySelector("#summary-container");
+
+            while (summaryContainer.children.length > 1) {
+                summaryContainer.removeChild(summaryContainer.lastChild);
+            }
+
+            Object.entries(total_summary).forEach(([dept, count]) => {
+                if (dept !== "total_appointments") {
+                    const colDiv = document.createElement("div");
+                    colDiv.className = "col-md-3";
+                    colDiv.innerHTML = `
+                <div class="card bg-success-lt">
+                    <div class="card-body text-center">
+                        <h4 class="mb-1">${dept}</h4>
+                        <p class="placeholder-glow mb-0">
+                            <span class="placeholder col-6"></span>
+                        </p>
+                        <p class="fs-3 fw-bold data-response" id="summary-${dept.replace(/\s+/g, "-").toLowerCase()}">${count}</p>
+                    </div>
+                </div>
+            `;
+                    summaryContainer.appendChild(colDiv);
+                }
+            });
+
+            let categoryKey = "date";
+            if (filter === "weekly") categoryKey = "week";
+            if (filter === "monthly") categoryKey = "month";
+
+            const categories = data.map(item => item[categoryKey]);
+
+            const departmentNames = Object.keys(total_summary).filter(key => key !== "total_appointments");
+
+            const seriesData = departmentNames.map(department => {
+                return {
+                    name: department,
+                    data: data.map(item => item[department] || 0)
+                };
+            });
+
+            let chartEl = container.querySelector("#patient-visit-department-chart");
+            if (!chartEl) return;
+
+            if (chartEl.chartInstance) {
+                chartEl.chartInstance.updateOptions({
+                    xaxis: { categories },
+                    series: seriesData
+                });
+            } else {
+                const options = {
+                    chart: { type: "bar", height: 350, toolbar: { show: true } },
+                    series: seriesData,
+                    xaxis: { categories }
+                };
+
+                let chart = new ApexCharts(chartEl, options);
+                chart.render();
+
+                chartEl.chartInstance = chart;
+            }
+
+            toggleLoading(false, endpoint);
+        }
+
 
         window.getFilterParams = getFilterParams;
         window.fetchData = fetchData;
