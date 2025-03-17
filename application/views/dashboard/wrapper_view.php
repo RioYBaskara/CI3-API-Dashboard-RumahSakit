@@ -518,6 +518,14 @@
                                     </div>
                                 </div>
                                 <div class="card-body">
+                                    <tr id="loading-row">
+                                        <td colspan="7" class="text-center">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-indeterminate bg-green">
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
                                     <div class="table-responsive">
                                         <table class="table card-table" id="top-diagnoses-table">
                                             <thead>
