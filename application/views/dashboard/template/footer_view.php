@@ -206,7 +206,7 @@
                 });
             } else {
                 var options = {
-                    chart: { type: "line", height: 350, toolbar: { show: true } },
+                    chart: { type: "line", height: 250, toolbar: { show: true } },
                     series: [
                         { name: "Child", data: childData },
                         { name: "Adult", data: adultData },
@@ -243,15 +243,15 @@
             Object.entries(total_summary).forEach(([dept, count]) => {
                 if (dept !== "total_appointments") {
                     const colDiv = document.createElement("div");
-                    colDiv.className = "col-md-3";
+                    colDiv.className = "col-md-3 col-6";
                     colDiv.innerHTML = `
-                <div class="card bg-success-lt">
-                    <div class="card-body text-center">
-                        <h4 class="mb-1">${dept}</h4>
+                <div class="card bg-primary-lt">
+                    <div class="card-body text-center p-2">
+                        <h4 class="mb-0 fs-6 fw-light">${dept}</h4>
                         <p class="placeholder-glow mb-0">
                             <span class="placeholder col-6"></span>
                         </p>
-                        <p class="fs-3 fw-bold data-response" id="summary-${dept.replace(/\s+/g, "-").toLowerCase()}">${count}</p>
+                        <p class="fs-3 fw-bold data-response d-none fs-2" id="summary-${dept.replace(/\s+/g, "-").toLowerCase()}">${count}</p>
                     </div>
                 </div>
             `;
@@ -284,7 +284,7 @@
                 });
             } else {
                 const options = {
-                    chart: { type: "bar", height: 350, toolbar: { show: true } },
+                    chart: { type: "bar", height: 250, toolbar: { show: true } },
                     series: seriesData,
                     xaxis: { categories }
                 };
@@ -370,7 +370,7 @@
                 });
             } else {
                 const options = {
-                    chart: { type: "line", height: 350, toolbar: { show: true } },
+                    chart: { type: "line", height: 250, toolbar: { show: true } },
                     stroke: { curve: "smooth", width: 3 },
                     markers: { size: 5, hover: { size: 7 } },
                     series: [{ name: "Revenue", data: seriesData }],
@@ -423,7 +423,7 @@
                 });
             } else {
                 const options = {
-                    chart: { type: "bar", height: 350, stacked: true, toolbar: { show: true } },
+                    chart: { type: "bar", height: 250, stacked: true, toolbar: { show: true } },
                     series: [
                         { name: "Occupied Beds", data: bedsOccupied },
                         { name: "Available Beds", data: bedsAvailable }
@@ -476,7 +476,7 @@
                 });
             } else {
                 const options = {
-                    chart: { type: "line", height: 350, toolbar: { show: true } },
+                    chart: { type: "line", height: 250, toolbar: { show: true } },
                     series: [
                         { name: "New Patients", data: newPatientsData },
                         { name: "Returning Patients", data: returningPatientsData }

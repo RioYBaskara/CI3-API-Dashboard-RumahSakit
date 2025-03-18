@@ -87,84 +87,80 @@
         </div>
     </div>
     <!-- Page body -->
-    <div class="page-body">
+    <di class="page-body">
         <div class="container-xl">
             <div class="row row-deck row-cards">
                 <div class="col-12">
                     <div class="row row-cards">
-                        <!-- patient visits -->
-                        <div class="col-12 patient-visits" data-endpoint="patient-visits">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h3 class="card-title">Patient Visits</h3>
-                                    <div class="card-options">
-                                        <p class="placeholder-glow mb-0">
-                                            <span class="placeholder col-6 d-inline-block" style="width: 100px;"></span>
-                                        </p>
-                                        <span class="date-range data-response d-none">undefined to undefined</span>
+                        <!-- RS Profile -->
+                        <!-- dinamiskan -->
+                        <div class="row row-deck">
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3 class="card-title">RS Localhost</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="text-center">
+                                            <!-- Placeholder Gambar -->
+                                            <div class="ratio ratio-16x9 placeholder mb-3">
+                                                <div class="placeholder-image"></div>
+                                            </div>
+                                            <h4 class="mb-1">RS Localhost</h4>
+                                            <p class="text-muted">Rumah Sakit Terbaik di Kota</p>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="card-body">
-                                    <div class="row mb-3 summary">
-                                        <div class="col-md-3">
-                                            <div class="card bg-primary-lt">
-                                                <div class="card-body text-center">
-                                                    <h4 class="mb-1">Child</h4>
-                                                    <p class="placeholder-glow mb-0">
-                                                        <span class="placeholder col-6"></span>
-                                                    </p>
-                                                    <p class="fs-3 fw-bold data-response d-none summary-child">undefined
-                                                    </p>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Informasi Fasyankes</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row align-items-center h-100">
+                                            <div class="col-md-6">
+                                                <div class="mb-4"> <!-- Tambahkan margin-bottom yang lebih besar -->
+                                                    <label class="form-label text-muted small m-0">Kode
+                                                        Fasyankes</label>
+                                                    <div class="form-control-plaintext fw-bold p-0">
+                                                        <b>12345</b>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-4">
+                                                    <label class="form-label text-muted small m-0">Tipe
+                                                        Fasyankes</label>
+                                                    <div class="form-control-plaintext fw-bold p-0"><b>Rumah
+                                                            Sakit
+                                                        </b></div>
+                                                </div>
+                                                <div class="mb-4">
+                                                    <label class="form-label text-muted small m-0">Nama
+                                                        Fasyankes</label>
+                                                    <div class="form-control-plaintext fw-bold p-0"><b>RS
+                                                            Localhost
+                                                        </b></div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="card bg-success-lt">
-                                                <div class="card-body text-center">
-                                                    <h4 class="mb-1">Adult</h4>
-                                                    <p class="placeholder-glow mb-0">
-                                                        <span class="placeholder col-6"></span>
-                                                    </p>
-                                                    <p class="fs-3 fw-bold data-response d-none summary-adult">undefined
-                                                    </p>
+                                            <div class="col-md-6">
+                                                <div class="mb-4">
+                                                    <label class="form-label text-muted small m-0">Alamat
+                                                        Fasyankes</label>
+                                                    <div class="form-control-plaintext fw-bold p-0"><b>Jl.
+                                                            Contoh
+                                                            No.
+                                                            123, Kota Contoh</b></div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="card bg-warning-lt">
-                                                <div class="card-body text-center">
-                                                    <h4 class="mb-1">Elderly</h4>
-                                                    <p class="placeholder-glow mb-0">
-                                                        <span class="placeholder col-6"></span>
-                                                    </p>
-                                                    <p class="fs-3 fw-bold data-response d-none summary-elderly">
-                                                        undefined</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="card bg-dark-lt">
-                                                <div class="card-body text-center">
-                                                    <h4 class="mb-1">Total Patients</h4>
-                                                    <p class="placeholder-glow mb-0">
-                                                        <span class="placeholder col-6"></span>
-                                                    </p>
-                                                    <p class="fs-3 fw-bold data-response d-none summary-total">undefined
-                                                    </p>
+                                                <div class="mb-4">
+                                                    <label class="form-label text-muted small m-0">Kepala
+                                                        Fasyankes</label>
+                                                    <div class="form-control-plaintext fw-bold p-0"><b>Dr. John
+                                                            Doe</b>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <tr id="loading-row">
-                                        <td colspan="7" class="text-center">
-                                            <div class="progress">
-                                                <div class="progress-bar progress-bar-indeterminate bg-green">
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-
-                                    <div id="patient-visits-chart"></div>
                                 </div>
                             </div>
                         </div>
@@ -172,10 +168,10 @@
                         <!-- summary -->
                         <div class="summary" data-endpoint="summary">
                             <div class="row">
-                                <div class="col-sm-6 col-lg-3 ">
-                                    <div class="card card-sm">
-                                        <div class="card-body">
-                                            <div class="row align-items-center">
+                                <div class="col-sm-6 col-lg-3 pb-3">
+                                    <div class="card card-sm h-100">
+                                        <div class="card-body d-flex flex-column">
+                                            <div class="row align-items-center flex-grow-1">
                                                 <div class="col-auto">
                                                     <span class="bg-primary text-white avatar">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -195,25 +191,25 @@
                                                     </span>
                                                 </div>
                                                 <div class="col">
-                                                    <div class="text-secondary">
-                                                        Appointments
-                                                    </div>
+                                                    <div class="text-secondary fs-6">Appointments</div>
                                                     <div class="font-weight-medium total-appointments"
                                                         id="summary-total-appointments">
                                                         <p class="placeholder-glow mb-0">
                                                             <span class="placeholder col-6"></span>
                                                         </p>
-                                                        <span class="data-content d-none data-response">undefined</span>
+                                                        <span
+                                                            class="data-content d-none data-response fw-bold fs-2">undefined</span>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-6 col-lg-3 ">
-                                    <div class="card card-sm">
-                                        <div class="card-body">
-                                            <div class="row align-items-center">
+
+                                <div class="col-sm-6 col-lg-3 pb-3">
+                                    <div class="card card-sm h-100">
+                                        <div class="card-body d-flex flex-column">
+                                            <div class="row align-items-center flex-grow-1">
                                                 <div class="col-auto">
                                                     <span class="bg-primary text-white avatar">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -232,25 +228,25 @@
                                                     </span>
                                                 </div>
                                                 <div class="col">
-                                                    <div class="text-secondary">
-                                                        Completed Appointments
-                                                    </div>
+                                                    <div class="text-secondary fs-6">Completed Appointments</div>
                                                     <div class="font-weight-medium total-completed-appointments"
                                                         id="summary-total-completed-appointments">
                                                         <p class="placeholder-glow mb-0">
                                                             <span class="placeholder col-6"></span>
                                                         </p>
-                                                        <span class="data-content d-none data-response">undefined</span>
+                                                        <span
+                                                            class="data-content d-none data-response fw-bold fs-2">undefined</span>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-6 col-lg-3 ">
-                                    <div class="card card-sm">
-                                        <div class="card-body">
-                                            <div class="row align-items-center">
+
+                                <div class="col-sm-6 col-lg-3 pb-3">
+                                    <div class="card card-sm h-100">
+                                        <div class="card-body d-flex flex-column">
+                                            <div class="row align-items-center flex-grow-1">
                                                 <div class="col-auto">
                                                     <span class="bg-primary text-white avatar">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -270,25 +266,25 @@
                                                     </span>
                                                 </div>
                                                 <div class="col">
-                                                    <div class="text-secondary">
-                                                        Cancelled Appointments
-                                                    </div>
+                                                    <div class="text-secondary fs-6">Cancelled Appointments</div>
                                                     <div class="font-weight-medium total-cancelled-appointments"
                                                         id="summary-total-cancelled-appointments">
                                                         <p class="placeholder-glow mb-0">
                                                             <span class="placeholder col-6"></span>
                                                         </p>
-                                                        <span class="data-content d-none data-response">undefined</span>
+                                                        <span
+                                                            class="data-content d-none data-response fw-bold fs-2">undefined</span>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-6 col-lg-3 ">
-                                    <div class="card card-sm">
-                                        <div class="card-body">
-                                            <div class="row align-items-center">
+
+                                <div class="col-sm-6 col-lg-3 pb-3">
+                                    <div class="card card-sm h-100">
+                                        <div class="card-body d-flex flex-column">
+                                            <div class="row align-items-center flex-grow-1">
                                                 <div class="col-auto">
                                                     <span class="bg-green text-white avatar">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -307,25 +303,25 @@
                                                     </span>
                                                 </div>
                                                 <div class="col">
-                                                    <div class="text-secondary">
-                                                        Medical Records
-                                                    </div>
+                                                    <div class="text-secondary fs-6">Medical Records</div>
                                                     <div class="font-weight-medium total-medical-records"
                                                         id="summary-total-medical-records">
                                                         <p class="placeholder-glow mb-0">
                                                             <span class="placeholder col-6"></span>
                                                         </p>
-                                                        <span class="data-content d-none data-response">undefined</span>
+                                                        <span
+                                                            class="data-content d-none data-response fw-bold fs-2">undefined</span>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-6 col-lg-3 ">
-                                    <div class="card card-sm">
-                                        <div class="card-body">
-                                            <div class="row align-items-center">
+
+                                <div class="col-sm-6 col-lg-3 pb-3">
+                                    <div class="card card-sm h-100">
+                                        <div class="card-body d-flex flex-column">
+                                            <div class="row align-items-center flex-grow-1">
                                                 <div class="col-auto">
                                                     <span class="bg-cyan text-white avatar">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -342,25 +338,25 @@
                                                     </span>
                                                 </div>
                                                 <div class="col">
-                                                    <div class="text-secondary">
-                                                        New Patients
-                                                    </div>
+                                                    <div class="text-secondary fs-6">New Patients</div>
                                                     <div class="font-weight-medium total-new-patients"
                                                         id="summary-total-new-patients">
                                                         <p class="placeholder-glow mb-0">
                                                             <span class="placeholder col-6"></span>
                                                         </p>
-                                                        <span class="data-content d-none data-response">undefined</span>
+                                                        <span
+                                                            class="data-content d-none data-response fw-bold fs-2">undefined</span>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-6 col-lg-3 ">
-                                    <div class="card card-sm">
-                                        <div class="card-body">
-                                            <div class="row align-items-center">
+
+                                <div class="col-sm-6 col-lg-3 pb-3">
+                                    <div class="card card-sm h-100">
+                                        <div class="card-body d-flex flex-column">
+                                            <div class="row align-items-center flex-grow-1">
                                                 <div class="col-auto">
                                                     <span class="bg-cyan text-white avatar">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -376,25 +372,25 @@
                                                     </span>
                                                 </div>
                                                 <div class="col">
-                                                    <div class="text-secondary">
-                                                        Inpatients
-                                                    </div>
+                                                    <div class="text-secondary fs-6">Inpatients</div>
                                                     <div class="font-weight-medium total-inpatients"
                                                         id="summary-total-inpatients">
                                                         <p class="placeholder-glow mb-0">
                                                             <span class="placeholder col-6"></span>
                                                         </p>
-                                                        <span class="data-content d-none data-response">undefined</span>
+                                                        <span
+                                                            class="data-content d-none data-response fw-bold fs-2">undefined</span>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-6 col-lg-3 ">
-                                    <div class="card card-sm">
-                                        <div class="card-body">
-                                            <div class="row align-items-center">
+
+                                <div class="col-sm-6 col-lg-3 pb-3">
+                                    <div class="card card-sm h-100">
+                                        <div class="card-body d-flex flex-column">
+                                            <div class="row align-items-center flex-grow-1">
                                                 <div class="col-auto">
                                                     <span class="bg-yellow text-white avatar">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -413,25 +409,25 @@
                                                     </span>
                                                 </div>
                                                 <div class="col">
-                                                    <div class="text-secondary">
-                                                        Paid Invoices
-                                                    </div>
+                                                    <div class="text-secondary fs-6">Paid Invoices</div>
                                                     <div class="font-weight-medium total-paid-invoices"
                                                         id="summary-total-paid-invoices">
                                                         <p class="placeholder-glow mb-0">
                                                             <span class="placeholder col-6"></span>
                                                         </p>
-                                                        <span class="data-content d-none data-response">undefined</span>
+                                                        <span
+                                                            class="data-content d-none data-response fw-bold fs-2">undefined</span>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-6 col-lg-3 ">
-                                    <div class="card card-sm">
-                                        <div class="card-body">
-                                            <div class="row align-items-center">
+
+                                <div class="col-sm-6 col-lg-3 pb-3">
+                                    <div class="card card-sm h-100">
+                                        <div class="card-body d-flex flex-column">
+                                            <div class="row align-items-center flex-grow-1">
                                                 <div class="col-auto">
                                                     <span class="bg-yellow text-white avatar">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -448,15 +444,14 @@
                                                     </span>
                                                 </div>
                                                 <div class="col">
-                                                    <div class="text-secondary">
-                                                        Total Revenue
-                                                    </div>
+                                                    <div class="text-secondary fs-6">Total Revenue</div>
                                                     <div class="font-weight-medium total-paid-revenue"
                                                         id="summary-total-paid-revenue">
                                                         <p class="placeholder-glow mb-0">
                                                             <span class="placeholder col-6"></span>
                                                         </p>
-                                                        <span class="data-content d-none data-response">undefined</span>
+                                                        <span
+                                                            class="data-content d-none data-response fw-bold fs-2">undefined</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -466,9 +461,81 @@
                             </div>
                         </div>
 
+                        <!-- patient visits -->
+                        <div class="col-md-6 patient-visits" data-endpoint="patient-visits">
+                            <div class="card h-100">
+                                <div class="card-header">
+                                    <h3 class="card-title">Patient Visits</h3>
+                                    <div class="card-options">
+                                        <p class="placeholder-glow mb-0">
+                                            <span class="placeholder col-6 d-inline-block" style="width: 100px;"></span>
+                                        </p>
+                                        <span class="date-range data-response d-none">undefined to undefined</span>
+                                    </div>
+                                </div>
+                                <div class="card-body d-flex flex-column">
+                                    <div class="row mb-3 summary">
+                                        <div class="col-md-3 col-6 p-1">
+                                            <div class="card bg-primary-lt h-100">
+                                                <div
+                                                    class="card-body text-center p-2 d-flex flex-column justify-content-center">
+                                                    <h4 class="mb-0 fs-6 fw-light">Child</h4>
+                                                    <p class="placeholder-glow mb-0">
+                                                        <span class="placeholder col-6"></span>
+                                                    </p>
+                                                    <p class="fs-3 fw-bold data-response fs-2 d-none summary-child">
+                                                        undefined</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 col-6 p-1">
+                                            <div class="card bg-success-lt h-100">
+                                                <div
+                                                    class="card-body text-center p-2 d-flex flex-column justify-content-center">
+                                                    <h4 class="mb-0 fs-6 fw-light">Adult</h4>
+                                                    <p class="placeholder-glow mb-0">
+                                                        <span class="placeholder col-6"></span>
+                                                    </p>
+                                                    <p class="fs-3 fw-bold data-response fs-2 d-none summary-adult">
+                                                        undefined</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 col-6 p-1">
+                                            <div class="card bg-warning-lt h-100">
+                                                <div
+                                                    class="card-body text-center p-2 d-flex flex-column justify-content-center">
+                                                    <h4 class="mb-0 fs-6 fw-light">Elderly</h4>
+                                                    <p class="placeholder-glow mb-0">
+                                                        <span class="placeholder col-6"></span>
+                                                    </p>
+                                                    <p class="fs-3 fw-bold data-response fs-2 d-none summary-elderly">
+                                                        undefined</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 col-6 p-1">
+                                            <div class="card bg-dark-lt h-100">
+                                                <div
+                                                    class="card-body text-center p-2 d-flex flex-column justify-content-center">
+                                                    <h4 class="mb-0 fs-6 fw-light">Total Patients</h4>
+                                                    <p class="placeholder-glow mb-0">
+                                                        <span class="placeholder col-6"></span>
+                                                    </p>
+                                                    <p class="fs-3 fw-bold data-response fs-2 d-none summary-total">
+                                                        undefined</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="patient-visits-chart" class="flex-grow-1"></div>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- patient visits by department -->
-                        <div class="col-12 patient-visit-department" data-endpoint="patient-visit-department">
-                            <div class="card">
+                        <div class="col-md-6 patient-visit-department" data-endpoint="patient-visit-department">
+                            <div class="card h-100">
                                 <div class="card-header">
                                     <h3 class="card-title">Patient Visits By Department</h3>
                                     <div class="card-options">
@@ -478,36 +545,30 @@
                                         <span class="date-range data-response d-none">undefined to undefined</span>
                                     </div>
                                 </div>
-                                <div class="card-body">
+                                <div class="card-body d-flex flex-column">
                                     <div class="row mb-3" id="summary-container">
-                                        <div class="col">
-                                            <div class="card bg-info-lt">
-                                                <div class="card-body text-center">
-                                                    <h4 class="mb-1">Total Appointments</h4>
+                                        <div class="col-12 p-2">
+                                            <div class="card bg-info-lt h-100">
+                                                <div
+                                                    class="card-body text-center p-2 d-flex flex-column justify-content-center">
+                                                    <h4 class="mb-0 fs-6 fw-light">Total Appointments</h4>
                                                     <p class="placeholder-glow mb-0">
                                                         <span class="placeholder col-6"></span>
                                                     </p>
-                                                    <p class="fs-3 fw-bold data-response d-none"
+                                                    <p class="fs-3 fw-bold data-response d-none fs-2"
                                                         id="summary-total-appointments">undefined</p>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <tr id="loading-row">
-                                        <td colspan="7" class="text-center">
-                                            <div class="progress">
-                                                <div class="progress-bar progress-bar-indeterminate bg-green"></div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <div id="patient-visit-department-chart"></div>
+                                    <div id="patient-visit-department-chart" class="flex-grow-1"></div>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Top Diagnoses -->
-                        <div class="col-12 top-diagnoses" data-endpoint="top-diagnoses">
-                            <div class="card">
+                        <div class="col-md-4 top-diagnoses" data-endpoint="top-diagnoses">
+                            <div class="card h-100">
                                 <div class="card-header">
                                     <h3 class="card-title">Most Common Diagnoses</h3>
                                     <div class="card-options">
@@ -517,16 +578,8 @@
                                         <span class="date-range data-response d-none">undefined to undefined</span>
                                     </div>
                                 </div>
-                                <div class="card-body">
-                                    <tr id="loading-row">
-                                        <td colspan="7" class="text-center">
-                                            <div class="progress">
-                                                <div class="progress-bar progress-bar-indeterminate bg-green">
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <div class="table-responsive">
+                                <div class="card-body d-flex flex-column">
+                                    <div class="table-responsive flex-grow-1">
                                         <table class="table card-table" id="top-diagnoses-table">
                                             <thead>
                                                 <tr></tr>
@@ -538,42 +591,9 @@
                             </div>
                         </div>
 
-                        <!-- revenue -->
-                        <div class="col-12 revenue" data-endpoint="revenue">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h3 class="card-title">Revenue Report</h3>
-                                    <div class="card-options d-flex flex-column">
-                                        <p class="placeholder-glow mb-0">
-                                            <span class="placeholder col-6 d-inline-block" style="width: 100px;"></span>
-                                        </p>
-                                        <span class="date-range data-response d-none">undefined to undefined</span>
-                                        <br>
-                                        <span class="fw-bold">Total Revenue: </span>
-                                        <p class="placeholder-glow mb-0">
-                                            <span class="placeholder col-6 d-inline-block" style="width: 100px;"></span>
-                                        </p>
-                                        <span id="total-revenue"
-                                            class="fs-3 fw-bold text-success data-response d-none">Rp undefined</span>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <tr id="loading-row">
-                                        <td colspan="7" class="text-center">
-                                            <div class="progress">
-                                                <div class="progress-bar progress-bar-indeterminate bg-green">
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <div id="revenue-chart"></div>
-                                </div>
-                            </div>
-                        </div>
-
                         <!-- inpatient capacity -->
-                        <div class="col-12 inpatient-capacity" data-endpoint="inpatient-capacity">
-                            <div class="card">
+                        <div class="col-md-8 inpatient-capacity" data-endpoint="inpatient-capacity">
+                            <div class="card h-100">
                                 <div class="card-header">
                                     <h3 class="card-title">Inpatient Capacity Report</h3>
                                     <div class="card-options">
@@ -583,22 +603,41 @@
                                         <span class="date-range data-response d-none">undefined to undefined</span>
                                     </div>
                                 </div>
-                                <div class="card-body">
-                                    <tr id="loading-row">
-                                        <td colspan="7" class="text-center">
-                                            <div class="progress">
-                                                <div class="progress-bar progress-bar-indeterminate bg-blue"></div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <div id="inpatient-chart" style="height: 350px;"></div>
+                                <div class="card-body d-flex flex-column">
+                                    <div id="inpatient-chart" class="flex-grow-1"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- revenue -->
+                        <div class="col-md-6 revenue" data-endpoint="revenue">
+                            <div class="card h-100">
+                                <div class="card-header">
+                                    <h3 class="card-title">Revenue Report</h3>
+                                    <div class="card-options d-flex flex-column">
+                                        <p class="placeholder-glow mb-0">
+                                            <span class="placeholder col-6 d-inline-block" style="width: 100px;"></span>
+                                        </p>
+                                        <span class="date-range data-response d-none">undefined to undefined</span>
+                                    </div>
+                                </div>
+                                <div class="card-body d-flex flex-column">
+                                    <div id="revenue-chart" class="flex-grow-1"></div>
+                                    <div class="mt-3">
+                                        <span class="fw-bold">Total Revenue: </span>
+                                        <p class="placeholder-glow mb-0">
+                                            <span class="placeholder col-6 d-inline-block" style="width: 100px;"></span>
+                                        </p>
+                                        <span id="total-revenue"
+                                            class="fs-3 fw-bold text-success data-response d-none">Rp undefined</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
                         <!-- new vs returning patients -->
-                        <div class="col-12 patient-comparison" data-endpoint="patient-new-vs-returning">
-                            <div class="card">
+                        <div class="col-md-6 patient-comparison" data-endpoint="patient-new-vs-returning">
+                            <div class="card h-100">
                                 <div class="card-header">
                                     <h3 class="card-title">New vs Returning Patients</h3>
                                     <div class="card-options d-flex flex-column">
@@ -606,24 +645,19 @@
                                             <span class="placeholder col-6 d-inline-block" style="width: 100px;"></span>
                                         </p>
                                         <span class="date-range data-response d-none">undefined to undefined</span>
-                                        <br>
+                                    </div>
+                                </div>
+                                <div class="card-body d-flex flex-column">
+                                    <div id="patients-chart" class="flex-grow-1"></div>
+                                    <div class="mt-3">
                                         <span class="fw-bold">Total New Patients:</span>
                                         <span id="total-new-patients"
                                             class="fs-5 fw-bold text-primary data-response d-none">undefined</span>
+                                        <br>
                                         <span class="fw-bold">Total Returning Patients:</span>
                                         <span id="total-returning-patients"
                                             class="fs-5 fw-bold text-success data-response d-none">undefined</span>
                                     </div>
-                                </div>
-                                <div class="card-body">
-                                    <tr id="loading-row">
-                                        <td colspan="7" class="text-center">
-                                            <div class="progress">
-                                                <div class="progress-bar progress-bar-indeterminate bg-blue"></div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <div id="patients-chart"></div>
                                 </div>
                             </div>
                         </div>
@@ -632,4 +666,4 @@
                 </div>
             </div>
         </div>
-    </div>
+    </di v>
