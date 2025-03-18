@@ -4,9 +4,9 @@
             aria-controls="sidebar-menu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <h1 class="navbar-brand navbar-brand-autodark">
-            <a href="#">
-                <img src="<?= base_url() ?>public/assets/tabler/static/logo.svg" width="110" height="32" alt="Tabler"
+        <h1 class="navbar-brand navbar-brand-autodark logoitm">
+            <a href=".">
+                <img src="<?= base_url(); ?>public/assets/img/logoitm.png" width="110" height="32" alt="SIMRS ITM"
                     class="navbar-brand-image">
             </a>
         </h1>

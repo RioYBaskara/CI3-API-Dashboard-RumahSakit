@@ -10,10 +10,10 @@
             <div class="row g-2 align-items-center">
                 <div class="col">
                     <!-- Page pre-title -->
-                    <div class="page-pretitle">
+                    <div class="page-pretitle fs-5">
                         Dashboard
                     </div>
-                    <h2 class="page-title">
+                    <h2 class="page-title fs-1">
                         <!-- dinamiskan -->
                         RS Localhost
                     </h2>
