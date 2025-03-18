@@ -5,7 +5,7 @@
 
 <div class="page-wrapper">
     <!-- Page header -->
-    <div class="page-header d-print-none">
+    <div class="page-header d-print-none pb-4">
         <div class="container-xl">
             <div class="row g-2 align-items-center">
                 <div class="col">
@@ -94,68 +94,70 @@
                     <div class="row row-cards">
                         <!-- RS Profile -->
                         <!-- dinamiskan -->
-                        <div class="row row-deck">
-                            <div class="col-md-4">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h3 class="card-title">RS Localhost</h3>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="text-center">
-                                            <!-- Placeholder Gambar -->
-                                            <div class="ratio ratio-16x9 placeholder mb-3">
-                                                <div class="placeholder-image"></div>
+                        <div>
+                            <div class="row row-deck">
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h3 class="card-title">RS Localhost</h3>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="text-center">
+                                                <!-- Placeholder Gambar -->
+                                                <div class="ratio ratio-16x9 placeholder mb-3">
+                                                    <div class="placeholder-image"></div>
+                                                </div>
+                                                <h4 class="mb-1">RS Localhost</h4>
+                                                <p class="text-muted">Rumah Sakit Terbaik di Kota</p>
                                             </div>
-                                            <h4 class="mb-1">RS Localhost</h4>
-                                            <p class="text-muted">Rumah Sakit Terbaik di Kota</p>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-8">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h3 class="card-title">Informasi Fasyankes</h3>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="row align-items-center h-100">
-                                            <div class="col-md-6">
-                                                <div class="mb-4"> <!-- Tambahkan margin-bottom yang lebih besar -->
-                                                    <label class="form-label text-muted small m-0">Kode
-                                                        Fasyankes</label>
-                                                    <div class="form-control-plaintext fw-bold p-0">
-                                                        <b>12345</b>
+                                <div class="col-md-8">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h3 class="card-title">Informasi Fasyankes</h3>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row align-items-center h-100">
+                                                <div class="col-md-6">
+                                                    <div class="mb-4"> <!-- Tambahkan margin-bottom yang lebih besar -->
+                                                        <label class="form-label text-muted small m-0">Kode
+                                                            Fasyankes</label>
+                                                        <div class="form-control-plaintext fw-bold p-0">
+                                                            <b>12345</b>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-4">
+                                                        <label class="form-label text-muted small m-0">Tipe
+                                                            Fasyankes</label>
+                                                        <div class="form-control-plaintext fw-bold p-0"><b>Rumah
+                                                                Sakit
+                                                            </b></div>
+                                                    </div>
+                                                    <div class="mb-4">
+                                                        <label class="form-label text-muted small m-0">Nama
+                                                            Fasyankes</label>
+                                                        <div class="form-control-plaintext fw-bold p-0"><b>RS
+                                                                Localhost
+                                                            </b></div>
                                                     </div>
                                                 </div>
-                                                <div class="mb-4">
-                                                    <label class="form-label text-muted small m-0">Tipe
-                                                        Fasyankes</label>
-                                                    <div class="form-control-plaintext fw-bold p-0"><b>Rumah
-                                                            Sakit
-                                                        </b></div>
-                                                </div>
-                                                <div class="mb-4">
-                                                    <label class="form-label text-muted small m-0">Nama
-                                                        Fasyankes</label>
-                                                    <div class="form-control-plaintext fw-bold p-0"><b>RS
-                                                            Localhost
-                                                        </b></div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="mb-4">
-                                                    <label class="form-label text-muted small m-0">Alamat
-                                                        Fasyankes</label>
-                                                    <div class="form-control-plaintext fw-bold p-0"><b>Jl.
-                                                            Contoh
-                                                            No.
-                                                            123, Kota Contoh</b></div>
-                                                </div>
-                                                <div class="mb-4">
-                                                    <label class="form-label text-muted small m-0">Kepala
-                                                        Fasyankes</label>
-                                                    <div class="form-control-plaintext fw-bold p-0"><b>Dr. John
-                                                            Doe</b>
+                                                <div class="col-md-6">
+                                                    <div class="mb-4">
+                                                        <label class="form-label text-muted small m-0">Alamat
+                                                            Fasyankes</label>
+                                                        <div class="form-control-plaintext fw-bold p-0"><b>Jl.
+                                                                Contoh
+                                                                No.
+                                                                123, Kota Contoh</b></div>
+                                                    </div>
+                                                    <div class="mb-4">
+                                                        <label class="form-label text-muted small m-0">Kepala
+                                                            Fasyankes</label>
+                                                        <div class="form-control-plaintext fw-bold p-0"><b>Dr. John
+                                                                Doe</b>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -168,7 +170,7 @@
                         <!-- summary -->
                         <div class="summary" data-endpoint="summary">
                             <div class="row">
-                                <div class="col-sm-6 col-lg-3 pb-3">
+                                <div class="col-sm-6 col-lg-3 ">
                                     <div class="card card-sm h-100">
                                         <div class="card-body d-flex flex-column">
                                             <div class="row align-items-center flex-grow-1">
@@ -206,7 +208,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-sm-6 col-lg-3 pb-3">
+                                <div class="col-sm-6 col-lg-3 ">
                                     <div class="card card-sm h-100">
                                         <div class="card-body d-flex flex-column">
                                             <div class="row align-items-center flex-grow-1">
@@ -243,7 +245,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-sm-6 col-lg-3 pb-3">
+                                <div class="col-sm-6 col-lg-3 ">
                                     <div class="card card-sm h-100">
                                         <div class="card-body d-flex flex-column">
                                             <div class="row align-items-center flex-grow-1">
@@ -281,7 +283,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-sm-6 col-lg-3 pb-3">
+                                <div class="col-sm-6 col-lg-3 ">
                                     <div class="card card-sm h-100">
                                         <div class="card-body d-flex flex-column">
                                             <div class="row align-items-center flex-grow-1">
@@ -318,7 +320,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-sm-6 col-lg-3 pb-3">
+                                <div class="col-sm-6 col-lg-3 ">
                                     <div class="card card-sm h-100">
                                         <div class="card-body d-flex flex-column">
                                             <div class="row align-items-center flex-grow-1">
@@ -353,7 +355,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-sm-6 col-lg-3 pb-3">
+                                <div class="col-sm-6 col-lg-3 ">
                                     <div class="card card-sm h-100">
                                         <div class="card-body d-flex flex-column">
                                             <div class="row align-items-center flex-grow-1">
@@ -387,7 +389,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-sm-6 col-lg-3 pb-3">
+                                <div class="col-sm-6 col-lg-3 ">
                                     <div class="card card-sm h-100">
                                         <div class="card-body d-flex flex-column">
                                             <div class="row align-items-center flex-grow-1">
@@ -424,7 +426,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-sm-6 col-lg-3 pb-3">
+                                <div class="col-sm-6 col-lg-3 ">
                                     <div class="card card-sm h-100">
                                         <div class="card-body d-flex flex-column">
                                             <div class="row align-items-center flex-grow-1">
