@@ -15,6 +15,8 @@
         // dinamiskan
         const baseUrl = "http://localhost/ci3_api_rs/api/reports";
         const loadingSpinner = document.getElementById("loadingSpinner");
+        const normalButton = document.getElementById("normal-button");
+        const loadingButton = document.getElementById("loading-button");
 
         const endpoints = [
             "summary",
@@ -26,18 +28,29 @@
             "patient-new-vs-returning"
         ];
 
+        // cari-data
         document.querySelector(".cari-data").addEventListener("click", function (event) {
+            event.preventDefault();
+            fetchAllData();
+        });
+
+        // refresh-button
+        normalButton.addEventListener("click", function () {
             event.preventDefault();
             fetchAllData();
         });
 
         async function fetchAllData() {
             loadingSpinner.classList.remove("d-none");
+            normalButton.classList.add("d-none");
+            loadingButton.classList.remove("d-none");
 
             try {
                 await Promise.all(endpoints.map(fetchData));
             } finally {
                 loadingSpinner.classList.add("d-none");
+                loadingButton.classList.add("d-none");
+                normalButton.classList.remove("d-none");
             }
         }
 

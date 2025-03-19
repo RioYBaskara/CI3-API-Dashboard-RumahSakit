@@ -87,7 +87,7 @@
         </div>
     </div>
     <!-- Page body -->
-    <di class="page-body">
+    <div class="page-body">
         <div class="container-xl">
             <div class="row row-deck row-cards">
                 <div class="col-12">
@@ -99,7 +99,7 @@
                                 <div class="col-md-4">
                                     <div class="card">
                                         <div class="card-header">
-                                            <h3 class="card-title">RS Localhost</h3>
+                                            <h3 class="card-title ">RS Localhost</h3>
                                         </div>
                                         <div class="card-body">
                                             <div class="text-center">
@@ -107,8 +107,8 @@
                                                 <div class="ratio ratio-16x9 placeholder mb-3">
                                                     <div class="placeholder-image"></div>
                                                 </div>
-                                                <h4 class="mb-1">RS Localhost</h4>
-                                                <p class="text-muted">Rumah Sakit Terbaik di Kota</p>
+                                                <h4 class="mb-1 fs-2 fw-bold">RS Localhost</h4>
+                                                <p class="text-muted fs-5">Rumah Sakit Terbaik di Kota</p>
                                             </div>
                                         </div>
                                     </div>
@@ -668,4 +668,4 @@
                 </div>
             </div>
         </div>
-    </di v>
+    </div v>

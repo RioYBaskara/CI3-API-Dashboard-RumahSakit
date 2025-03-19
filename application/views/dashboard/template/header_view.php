@@ -52,10 +52,38 @@
             justify-content: center;
             z-index: 9999;
         }
+
+        /* button Refresh */
+        .fixed-button-Refresh {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
     </style>
 </head>
 
 <body class=" layout-fluid">
     <script src="<?= base_url() ?>public/assets/tabler/dist/js/demo-theme.min.js?1692870487"></script>
+
+    <!-- Refresh -->
+    <div class="fixed-button-Refresh">
+        <button type="button" class="btn btn-pill px-5 py-3 btn-primary d-none" id="normal-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="icon icon-tabler icons-tabler-outline icon-tabler-Refresh">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4" />
+                <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4" />
+            </svg>
+            <span class="fs-2">Refresh</span>
+        </button>
+
+        <a href="#" class="btn btn-pill px-5 py-3 btn-secondary " id="loading-button">
+            <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+            <span class="fs-2">Loading</span>
+        </a>
+    </div>
+
     <div class="page">
         <!-- Sidebar -->
