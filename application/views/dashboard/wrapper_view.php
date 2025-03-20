@@ -176,7 +176,8 @@
                                 <div class="card-body py-3 px-4">
                                     <div class="row">
                                         <div class="col-sm-6 col-lg-3  py-2 px-3">
-                                            <div class="card card-sm h-100">
+                                            <a href="" onclick="return false;" style="cursor: default;"
+                                                class="card card-sm h-100">
                                                 <div class="card-body d-flex flex-column">
                                                     <div class="row align-items-center flex-grow-1">
                                                         <div class="col-auto">
@@ -211,11 +212,12 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </a>
                                         </div>
 
                                         <div class="col-sm-6 col-lg-3  py-2 px-3">
-                                            <div class="card card-sm h-100">
+                                            <a href="" onclick="return false;" style="cursor: default;"
+                                                class="card card-sm h-100">
                                                 <div class="card-body d-flex flex-column">
                                                     <div class="row align-items-center flex-grow-1">
                                                         <div class="col-auto">
@@ -249,11 +251,12 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </a>
                                         </div>
 
                                         <div class="col-sm-6 col-lg-3  py-2 px-3">
-                                            <div class="card card-sm h-100">
+                                            <a href="" onclick="return false;" style="cursor: default;"
+                                                class="card card-sm h-100">
                                                 <div class="card-body d-flex flex-column">
                                                     <div class="row align-items-center flex-grow-1">
                                                         <div class="col-auto">
@@ -289,11 +292,12 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </a>
                                         </div>
 
                                         <div class="col-sm-6 col-lg-3  py-2 px-3">
-                                            <div class="card card-sm h-100">
+                                            <a href="" onclick="return false;" style="cursor: default;"
+                                                class="card card-sm h-100">
                                                 <div class="card-body d-flex flex-column">
                                                     <div class="row align-items-center flex-grow-1">
                                                         <div class="col-auto">
@@ -326,11 +330,12 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </a>
                                         </div>
 
                                         <div class="col-sm-6 col-lg-3  py-2 px-3">
-                                            <div class="card card-sm h-100">
+                                            <a href="" onclick="return false;" style="cursor: default;"
+                                                class="card card-sm h-100">
                                                 <div class="card-body d-flex flex-column">
                                                     <div class="row align-items-center flex-grow-1">
                                                         <div class="col-auto">
@@ -361,11 +366,12 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </a>
                                         </div>
 
                                         <div class="col-sm-6 col-lg-3  py-2 px-3">
-                                            <div class="card card-sm h-100">
+                                            <a href="" onclick="return false;" style="cursor: default;"
+                                                class="card card-sm h-100">
                                                 <div class="card-body d-flex flex-column">
                                                     <div class="row align-items-center flex-grow-1">
                                                         <div class="col-auto">
@@ -395,11 +401,12 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </a>
                                         </div>
 
                                         <div class="col-sm-6 col-lg-3  py-2 px-3">
-                                            <div class="card card-sm h-100">
+                                            <a href="" onclick="return false;" style="cursor: default;"
+                                                class="card card-sm h-100">
                                                 <div class="card-body d-flex flex-column">
                                                     <div class="row align-items-center flex-grow-1">
                                                         <div class="col-auto">
@@ -432,11 +439,12 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </a>
                                         </div>
 
                                         <div class="col-sm-6 col-lg-3  py-2 px-3">
-                                            <div class="card card-sm h-100">
+                                            <a href="" onclick="return false;" style="cursor: default;"
+                                                class="card card-sm h-100">
                                                 <div class="card-body d-flex flex-column">
                                                     <div class="row align-items-center flex-grow-1">
                                                         <div class="col-auto">
@@ -468,7 +476,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
