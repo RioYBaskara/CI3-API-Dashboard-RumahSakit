@@ -607,7 +607,7 @@
                                 </div>
                                 <div class="card-body d-flex flex-column">
                                     <div class="table-responsive flex-grow-1">
-                                        <table class="table card-table" id="top-diagnoses-table">
+                                        <table class="table card-table table-hover" id="top-diagnoses-table">
                                             <thead>
                                                 <tr></tr>
                                             </thead>
