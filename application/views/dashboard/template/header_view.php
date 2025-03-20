@@ -74,16 +74,6 @@
             right: 200px;
             z-index: 1000;
         }
-
-        /* glow hover */
-        .hover-glow {
-            transition: box-shadow 0.3s ease-in-out;
-        }
-
-        .hover-glow:hover {
-            box-shadow: 0 0 15px 5px rgba(0, 123, 255, 0.5);
-            outline: 2px solid rgba(0, 123, 255, 0.3);
-        }
     </style>
 </head>
 

@@ -529,7 +529,7 @@
                                             </div>
                                         </div>
                                         <div class="col-md-3 col-6 p-1">
-                                            <div class="card bg-dark-lt h-100">
+                                            <div class="card h-100">
                                                 <div
                                                     class="card-body text-center p-2 d-flex flex-column justify-content-center">
                                                     <h4 class="mb-0 fs-6 fw-light">Total Patients</h4>
@@ -581,7 +581,7 @@
                         </div>
 
                         <!-- Top Diagnoses -->
-                        <div class="col-md-4 top-diagnoses" data-endpoint="top-diagnoses">
+                        <div class="col-md-5 top-diagnoses" data-endpoint="top-diagnoses">
                             <div class="card h-100">
                                 <div class="card-header">
                                     <h3 class="card-title">Most Common Diagnoses</h3>
@@ -606,7 +606,7 @@
                         </div>
 
                         <!-- inpatient capacity -->
-                        <div class="col-md-8 inpatient-capacity" data-endpoint="inpatient-capacity">
+                        <div class="col-md-7 inpatient-capacity" data-endpoint="inpatient-capacity">
                             <div class="card h-100">
                                 <div class="card-header">
                                     <h3 class="card-title">Inpatient Capacity Report</h3>
