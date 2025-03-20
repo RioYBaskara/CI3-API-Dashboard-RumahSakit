@@ -272,7 +272,7 @@
                     const colDiv = document.createElement("div");
                     colDiv.className = "col-md-3 col-6";
                     colDiv.innerHTML = `
-                <a href="" onclick="return false;" style="cursor: default;" class="card bg-primary-lt">
+                <a href="" onclick="return false;" style="cursor: default;" tabindex="-1" class="card bg-primary-lt">
                     <div class="card-body text-center p-2">
                         <h4 class="mb-0 fs-6 fw-light">${dept}</h4>
                         <p class="placeholder-glow mb-0">

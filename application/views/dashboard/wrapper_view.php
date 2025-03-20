@@ -23,7 +23,8 @@
                     <div class="row g-2 ">
                         <!-- Date Range Picker -->
                         <div class="col">
-                            <div id="reportrange" class="form-control d-flex align-items-center justify-content-between"
+                            <div tabindex="2" id="reportrange"
+                                class="form-control d-flex align-items-center justify-content-between"
                                 style="cursor: pointer; border: 1px solid #ccc;">
                                 <i class="fa fa-calendar me-2"></i>
                                 <span></span>
@@ -36,7 +37,7 @@
                             <!-- Select Filter -->
                             <div class="flex-grow-1">
                                 <div class="form-floating">
-                                    <select class="form-select" id="filterdata"
+                                    <select tabindex="1" class="form-select" id="filterdata"
                                         aria-label="Floating label select example">
                                         <option value="daily">Daily</option>
                                         <option value="weekly">Weekly</option>
@@ -47,7 +48,7 @@
                             </div>
 
                             <!-- Button Cari Data -->
-                            <button href="#" class="btn btn-primary cari-data d-none d-sm-inline-block">
+                            <button tabindex="3" href="#" class="btn btn-primary cari-data d-none d-sm-inline-block">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                     stroke-linejoin="round"
@@ -176,7 +177,7 @@
                                 <div class="card-body py-3 px-4">
                                     <div class="row">
                                         <div class="col-sm-6 col-lg-3  py-2 px-3">
-                                            <a href="" onclick="return false;" style="cursor: default;"
+                                            <a href="" onclick="return false;" style="cursor: default;" tabindex="-1"
                                                 class="card card-sm h-100">
                                                 <div class="card-body d-flex flex-column">
                                                     <div class="row align-items-center flex-grow-1">
@@ -216,7 +217,7 @@
                                         </div>
 
                                         <div class="col-sm-6 col-lg-3  py-2 px-3">
-                                            <a href="" onclick="return false;" style="cursor: default;"
+                                            <a href="" onclick="return false;" style="cursor: default;" tabindex="-1"
                                                 class="card card-sm h-100">
                                                 <div class="card-body d-flex flex-column">
                                                     <div class="row align-items-center flex-grow-1">
@@ -255,7 +256,7 @@
                                         </div>
 
                                         <div class="col-sm-6 col-lg-3  py-2 px-3">
-                                            <a href="" onclick="return false;" style="cursor: default;"
+                                            <a href="" onclick="return false;" style="cursor: default;" tabindex="-1"
                                                 class="card card-sm h-100">
                                                 <div class="card-body d-flex flex-column">
                                                     <div class="row align-items-center flex-grow-1">
@@ -296,7 +297,7 @@
                                         </div>
 
                                         <div class="col-sm-6 col-lg-3  py-2 px-3">
-                                            <a href="" onclick="return false;" style="cursor: default;"
+                                            <a href="" onclick="return false;" style="cursor: default;" tabindex="-1"
                                                 class="card card-sm h-100">
                                                 <div class="card-body d-flex flex-column">
                                                     <div class="row align-items-center flex-grow-1">
@@ -334,7 +335,7 @@
                                         </div>
 
                                         <div class="col-sm-6 col-lg-3  py-2 px-3">
-                                            <a href="" onclick="return false;" style="cursor: default;"
+                                            <a href="" onclick="return false;" style="cursor: default;" tabindex="-1"
                                                 class="card card-sm h-100">
                                                 <div class="card-body d-flex flex-column">
                                                     <div class="row align-items-center flex-grow-1">
@@ -370,7 +371,7 @@
                                         </div>
 
                                         <div class="col-sm-6 col-lg-3  py-2 px-3">
-                                            <a href="" onclick="return false;" style="cursor: default;"
+                                            <a href="" onclick="return false;" style="cursor: default;" tabindex="-1"
                                                 class="card card-sm h-100">
                                                 <div class="card-body d-flex flex-column">
                                                     <div class="row align-items-center flex-grow-1">
@@ -405,7 +406,7 @@
                                         </div>
 
                                         <div class="col-sm-6 col-lg-3  py-2 px-3">
-                                            <a href="" onclick="return false;" style="cursor: default;"
+                                            <a href="" onclick="return false;" style="cursor: default;" tabindex="-1"
                                                 class="card card-sm h-100">
                                                 <div class="card-body d-flex flex-column">
                                                     <div class="row align-items-center flex-grow-1">
@@ -443,7 +444,7 @@
                                         </div>
 
                                         <div class="col-sm-6 col-lg-3  py-2 px-3">
-                                            <a href="" onclick="return false;" style="cursor: default;"
+                                            <a href="" onclick="return false;" style="cursor: default;" tabindex="-1"
                                                 class="card card-sm h-100">
                                                 <div class="card-body d-flex flex-column">
                                                     <div class="row align-items-center flex-grow-1">
@@ -498,7 +499,7 @@
                                 <div class="card-body d-flex flex-column">
                                     <div class="row mb-3 summary">
                                         <div class="col-md-3 col-6 p-1">
-                                            <a href="" onclick="return false;" style="cursor: default;"
+                                            <a href="" onclick="return false;" style="cursor: default;" tabindex="-1"
                                                 class="card bg-primary-lt h-100">
                                                 <div
                                                     class="card-body text-center p-2 d-flex flex-column justify-content-center">
@@ -512,7 +513,7 @@
                                             </a>
                                         </div>
                                         <div class="col-md-3 col-6 p-1">
-                                            <a href="" onclick="return false;" style="cursor: default;"
+                                            <a href="" onclick="return false;" style="cursor: default;" tabindex="-1"
                                                 class="card bg-success-lt h-100">
                                                 <div
                                                     class="card-body text-center p-2 d-flex flex-column justify-content-center">
@@ -526,7 +527,7 @@
                                             </a>
                                         </div>
                                         <div class="col-md-3 col-6 p-1">
-                                            <a href="" onclick="return false;" style="cursor: default;"
+                                            <a href="" onclick="return false;" style="cursor: default;" tabindex="-1"
                                                 class="card bg-warning-lt h-100">
                                                 <div
                                                     class="card-body text-center p-2 d-flex flex-column justify-content-center">
@@ -540,7 +541,7 @@
                                             </a>
                                         </div>
                                         <div class="col-md-3 col-6 p-1">
-                                            <a href="" onclick="return false;" style="cursor: default;"
+                                            <a href="" onclick="return false;" style="cursor: default;" tabindex="-1"
                                                 class="card h-100">
                                                 <div
                                                     class="card-body text-center p-2 d-flex flex-column justify-content-center">
@@ -574,7 +575,7 @@
                                 <div class="card-body d-flex flex-column">
                                     <div class="row mb-3" id="summary-container">
                                         <div class="col-12 p-2">
-                                            <a href="" onclick="return false;" style="cursor: default;"
+                                            <a href="" onclick="return false;" style="cursor: default;" tabindex="-1"
                                                 class="card bg-info-lt h-100">
                                                 <div
                                                     class="card-body text-center p-2 d-flex flex-column justify-content-center">
