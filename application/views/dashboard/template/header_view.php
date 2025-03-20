@@ -70,8 +70,8 @@
         /* toggle dark/light */
         .toggle-light-dark {
             position: fixed;
-            bottom: 30px;
-            right: 200px;
+            bottom: 28px;
+            right: 160px;
             z-index: 1000;
         }
     </style>
@@ -81,7 +81,7 @@
     <script src="<?= base_url() ?>public/assets/tabler/dist/js/demo-theme.min.js?1692870487"></script>
 
     <!-- Dark/Light Mode -->
-    <div class="bg-light p-2 rounded">
+    <div class="bg-light rounded">
         <div class=" toggle-light-dark p-0" aria-label="Dark/Light Mode Toggle">
             <a href="?theme=dark" class="btn btn-pill btn-outline-dark btn-icon hide-theme-dark"
                 title="Enable dark mode" data-bs-toggle="tooltip" data-bs-placement="bottom">
@@ -106,7 +106,7 @@
 
     <!-- Refresh -->
     <div class="fixed-button-Refresh">
-        <button type="button" class="btn btn-pill px-5 py-3 btn-primary d-none" id="normal-button">
+        <button type="button" class="btn btn-pill px-4 py-3 btn-primary d-none" id="normal-button">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                 class="icon icon-tabler icons-tabler-outline icon-tabler-Refresh">
@@ -114,12 +114,12 @@
                 <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4" />
                 <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4" />
             </svg>
-            <span class="fs-2">Refresh</span>
+            <span class="fs-4">Refresh</span>
         </button>
 
-        <a href="#" class="btn btn-pill px-5 py-3 btn-secondary " id="loading-button">
+        <a href="#" class="btn btn-pill px-4 py-3 btn-secondary " id="loading-button">
             <span class="spinner-border spinner-border-sm me-2" role="status"></span>
-            <span class="fs-2">Loading</span>
+            <span class="fs-4">Loading</span>
         </a>
     </div>
 
