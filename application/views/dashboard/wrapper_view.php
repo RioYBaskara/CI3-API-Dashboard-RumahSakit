@@ -498,7 +498,8 @@
                                 <div class="card-body d-flex flex-column">
                                     <div class="row mb-3 summary">
                                         <div class="col-md-3 col-6 p-1">
-                                            <div class="card bg-primary-lt h-100">
+                                            <a href="" onclick="return false;" style="cursor: default;"
+                                                class="card bg-primary-lt h-100">
                                                 <div
                                                     class="card-body text-center p-2 d-flex flex-column justify-content-center">
                                                     <h4 class="mb-0 fs-6 fw-light">Child</h4>
@@ -508,10 +509,11 @@
                                                     <p class="fs-3 fw-bold data-response fs-2 d-none summary-child">
                                                         undefined</p>
                                                 </div>
-                                            </div>
+                                            </a>
                                         </div>
                                         <div class="col-md-3 col-6 p-1">
-                                            <div class="card bg-success-lt h-100">
+                                            <a href="" onclick="return false;" style="cursor: default;"
+                                                class="card bg-success-lt h-100">
                                                 <div
                                                     class="card-body text-center p-2 d-flex flex-column justify-content-center">
                                                     <h4 class="mb-0 fs-6 fw-light">Adult</h4>
@@ -521,10 +523,11 @@
                                                     <p class="fs-3 fw-bold data-response fs-2 d-none summary-adult">
                                                         undefined</p>
                                                 </div>
-                                            </div>
+                                            </a>
                                         </div>
                                         <div class="col-md-3 col-6 p-1">
-                                            <div class="card bg-warning-lt h-100">
+                                            <a href="" onclick="return false;" style="cursor: default;"
+                                                class="card bg-warning-lt h-100">
                                                 <div
                                                     class="card-body text-center p-2 d-flex flex-column justify-content-center">
                                                     <h4 class="mb-0 fs-6 fw-light">Elderly</h4>
@@ -534,10 +537,11 @@
                                                     <p class="fs-3 fw-bold data-response fs-2 d-none summary-elderly">
                                                         undefined</p>
                                                 </div>
-                                            </div>
+                                            </a>
                                         </div>
                                         <div class="col-md-3 col-6 p-1">
-                                            <div class="card h-100">
+                                            <a href="" onclick="return false;" style="cursor: default;"
+                                                class="card h-100">
                                                 <div
                                                     class="card-body text-center p-2 d-flex flex-column justify-content-center">
                                                     <h4 class="mb-0 fs-6 fw-light">Total Patients</h4>
@@ -547,7 +551,7 @@
                                                     <p class="fs-3 fw-bold data-response fs-2 d-none summary-total">
                                                         undefined</p>
                                                 </div>
-                                            </div>
+                                            </a>
                                         </div>
                                     </div>
                                     <div id="patient-visits-chart" class="flex-grow-1"></div>
@@ -570,7 +574,8 @@
                                 <div class="card-body d-flex flex-column">
                                     <div class="row mb-3" id="summary-container">
                                         <div class="col-12 p-2">
-                                            <div class="card bg-info-lt h-100">
+                                            <a href="" onclick="return false;" style="cursor: default;"
+                                                class="card bg-info-lt h-100">
                                                 <div
                                                     class="card-body text-center p-2 d-flex flex-column justify-content-center">
                                                     <h4 class="mb-0 fs-6 fw-light">Total Appointments</h4>
@@ -580,7 +585,7 @@
                                                     <p class="fs-3 fw-bold data-response d-none fs-2"
                                                         id="summary-total-appointments">undefined</p>
                                                 </div>
-                                            </div>
+                                            </a>
                                         </div>
                                     </div>
                                     <div id="patient-visit-department-chart" class="flex-grow-1"></div>

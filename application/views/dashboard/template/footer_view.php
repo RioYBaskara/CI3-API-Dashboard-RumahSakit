@@ -258,7 +258,7 @@
                     const colDiv = document.createElement("div");
                     colDiv.className = "col-md-3 col-6";
                     colDiv.innerHTML = `
-                <div class="card bg-primary-lt">
+                <a href="" onclick="return false;" style="cursor: default;" class="card bg-primary-lt">
                     <div class="card-body text-center p-2">
                         <h4 class="mb-0 fs-6 fw-light">${dept}</h4>
                         <p class="placeholder-glow mb-0">
@@ -266,7 +266,7 @@
                         </p>
                         <p class="fs-3 fw-bold data-response d-none fs-2" id="summary-${dept.replace(/\s+/g, "-").toLowerCase()}">${count}</p>
                     </div>
-                </div>
+                </a>
             `;
                     summaryContainer.appendChild(colDiv);
                 }
