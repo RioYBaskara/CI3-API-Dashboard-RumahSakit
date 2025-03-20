@@ -9,15 +9,19 @@
 <!-- Tabler Core -->
 <script src="<?= base_url() ?>public/assets/tabler/dist/js/tabler.min.js?1692870487" defer></script>
 <script src="<?= base_url() ?>public/assets/tabler/dist/js/demo.min.js?1692870487" defer></script>
+
 <!-- fetch api -->
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         // dinamiskan
         const baseUrl = "http://localhost/ci3_api_rs/api/reports";
+
+        // loading stuff
         const loadingSpinner = document.getElementById("loadingSpinner");
         const normalButton = document.getElementById("normal-button");
         const loadingButton = document.getElementById("loading-button");
 
+        // API Endpoints
         const endpoints = [
             "summary",
             "patient-visits",
@@ -40,6 +44,7 @@
             fetchAllData();
         });
 
+        // fetch All Data
         async function fetchAllData() {
             loadingSpinner.classList.remove("d-none");
             normalButton.classList.add("d-none");
@@ -54,6 +59,7 @@
             }
         }
 
+        // fetch data per endpoint
         async function fetchData(endpoint) {
             const params = getFilterParams();
             const url = `${baseUrl}/${endpoint}?filter=${params.filter}&start_date=${params.start_date}&end_date=${params.end_date}`;
@@ -79,6 +85,7 @@
             }
         }
 
+        // get Filter
         function getFilterParams() {
             const selectFilter = document.getElementById("filterdata");
             const dateRangePicker = document.getElementById("reportrange");
@@ -95,6 +102,7 @@
 
             return { filter: filterValue, start_date: startDate, end_date: endDate };
         }
+        // format Date
         function formatDate(dateString) {
             const date = new Date(dateString);
             const year = date.getFullYear();
@@ -103,6 +111,8 @@
             return `${year}-${month}-${day}`;
         }
 
+        // Toggle loading
+        // loading types: placeholder glow, progress bar
         function toggleLoading(state, endpoint) {
             const container = document.querySelector(`[data-endpoint="${endpoint}"]`);
             if (container) {
@@ -117,7 +127,8 @@
             }
         }
 
-
+        // Update UI Report based on data from fetchdata()
+        // new endpoint=new updateUI function
         function updateUI(endpoint, data) {
             if (endpoint === "summary") {
                 updateSummaryData(data.data, endpoint);
@@ -142,6 +153,7 @@
             }
         }
 
+        // update Date Range
         function updateDateRange(endpoint, dateRange) {
             setTimeout(function () {
                 const container = document.querySelector(`[data-endpoint="${endpoint}"]`);
@@ -159,7 +171,7 @@
             }, 10);
         }
 
-
+        // endpoint:/summary
         function updateSummaryData(summaryData, endpoint) {
             const container = document.querySelector(`[data-endpoint="${endpoint}"]`);
 
@@ -183,6 +195,7 @@
             toggleLoading(false, endpoint);
         }
 
+        // endpoint:/patient-visits
         function updatePatientVisitsChart(response, endpoint) {
             const container = document.querySelector(`[data-endpoint="${endpoint}"]`);
             if (!container) return;
@@ -237,6 +250,7 @@
             toggleLoading(false, endpoint);
         }
 
+        // endpoint:/patient-visit-department
         function updatePatientVisitsDepartmentChart(response, endpoint) {
             const container = document.querySelector(`[data-endpoint="${endpoint}"]`);
             if (!container) return;
@@ -311,6 +325,7 @@
             toggleLoading(false, endpoint);
         }
 
+        // endpoint:/top-diagnoses
         function updateTopDiagnosesTable(response, endpoint) {
             const container = document.querySelector(`[data-endpoint="${endpoint}"]`);
             if (!container) return;
@@ -355,6 +370,7 @@
             toggleLoading(false, endpoint);
         }
 
+        // endpoint:/revenue
         function updateRevenueChart(response, endpoint) {
             const container = document.querySelector(`[data-endpoint="${endpoint}"]`);
             if (!container) return;
@@ -398,7 +414,7 @@
 
             toggleLoading(false, endpoint);
         }
-
+        // to IDR
         function formatCurrency(value) {
             return new Intl.NumberFormat("id-ID", {
                 style: "currency",
@@ -407,6 +423,7 @@
             }).format(value);
         }
 
+        // endpoint:/inpatient-capacity
         function updateInpatientCapacityChart(response, endpoint) {
             const container = document.querySelector(`[data-endpoint="${endpoint}"]`);
             if (!container) return;
@@ -454,6 +471,7 @@
             toggleLoading(false, endpoint);
         }
 
+        // endpoint:/patient-new-vs-returning
         function updatePatientChart(response, endpoint) {
             const container = document.querySelector(`[data-endpoint="${endpoint}"]`);
             if (!container) return;
@@ -512,7 +530,7 @@
     });
 </script>
 
-<!-- autofetch -->
+<!-- autofetch after page load -->
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const cariDataButton = document.querySelector('.cari-data');
@@ -554,9 +572,6 @@
 
     });
 </script>
-
-<!-- apexchart example -->
-
 </body>
 
 </html>
