@@ -21,9 +21,19 @@ class Fasyankes_model extends CI_Model
         return $this->db->get('fasyankes')->result_array();
     }
 
-    public function getFasyankesByKode($kode)
+    public function getFasyankesByKode($fasyankes_kode)
     {
-        return $this->db->get_where('fasyankes', ['fasyankes_kode' => $kode, 'is_deleted' => 0])->row_array();
+        $this->db->where('fasyankes_kode', $fasyankes_kode);
+        $this->db->where('is_deleted', 0);
+        return $this->db->get('fasyankes')->row_array();
+    }
+
+    public function getOldestFasyankes()
+    {
+        $this->db->where('is_deleted', 0);
+        $this->db->order_by('created_at', 'ASC');
+        $this->db->limit(1);
+        return $this->db->get('fasyankes')->row_array();
     }
 
     public function deleteFasyankes($fasyankes_kode, $deleted_by)

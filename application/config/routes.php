@@ -77,3 +77,6 @@ $route['api/reports/patient-new-vs-returning'] = 'api/reports/patient_new_vs_ret
 // $route['login'] = 'api/User/login';
 // $route['logout'] = 'api/User/logout';
 // $route['reGenToken'] = 'api/Token/reGenToken';
+
+// dashboard
+$route['dashboard/(:num)'] = 'dashboard/index/$1';

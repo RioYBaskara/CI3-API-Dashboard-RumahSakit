@@ -89,7 +89,7 @@
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         // dinamiskan
-        const baseUrl = "http://localhost/ci3_api_rs/api/reports";
+        const baseUrl = "<?= $active_fasyankes ? $active_fasyankes['fasyankes_url_api'] : 'undefined' ?>";
 
         // loading stuff
         const loadingSpinner = document.getElementById("loadingSpinner");

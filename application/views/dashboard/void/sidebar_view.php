@@ -229,8 +229,7 @@
 
                 <!-- Looping RS -->
                 <?php foreach ($fasyankes_list as $fasyankes): ?>
-                    <li
-                        class="nav-item <?= ($active_fasyankes && $active_fasyankes['fasyankes_kode'] == $fasyankes['fasyankes_kode']) ? 'active' : '' ?>">
+                    <li class="nav-item">
                         <a class="nav-link" href="<?= base_url('dashboard/' . $fasyankes['fasyankes_kode']) ?>">
                             <span class="nav-link-icon d-md-none d-lg-inline-block">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -252,6 +251,7 @@
                         </a>
                     </li>
                 <?php endforeach; ?>
+
                 <li class="nav-item ">
                     <a class="nav-link" href="<?= base_url() ?>/auth/logout">
                         <span class="nav-link-icon d-md-none d-lg-inline-block"><svg xmlns="http://www.w3.org/2000/svg"

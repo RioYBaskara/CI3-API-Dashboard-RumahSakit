@@ -15,7 +15,7 @@
                     </div>
                     <h2 class="page-title fs-1">
                         <!-- dinamiskan -->
-                        RS Localhost
+                        <?= $active_fasyankes ? $active_fasyankes['fasyankes_nm'] : 'RS Undefined' ?>
                     </h2>
                 </div>
                 <!-- Page title actions -->
@@ -100,7 +100,9 @@
                                 <div class="col-md-4">
                                     <div class="card">
                                         <div class="card-header">
-                                            <h3 class="card-title ">RS Localhost</h3>
+                                            <h3 class="card-title ">
+                                                <?= $active_fasyankes ? $active_fasyankes['fasyankes_nm'] : 'RS Undefined' ?>
+                                            </h3>
                                         </div>
                                         <div class="card-body">
                                             <div class="text-center">
@@ -108,7 +110,9 @@
                                                 <div class="ratio ratio-16x9 placeholder mb-3">
                                                     <div class="placeholder-image"></div>
                                                 </div>
-                                                <h4 class="mb-1 fs-2 fw-bold">RS Localhost</h4>
+                                                <h4 class="mb-1 fs-2 fw-bold">
+                                                    <?= $active_fasyankes ? $active_fasyankes['fasyankes_nm'] : 'RS Undefined' ?>
+                                                </h4>
                                                 <p class="text-muted fs-5">Rumah Sakit Terbaik di Kota</p>
                                             </div>
                                         </div>
@@ -126,38 +130,39 @@
                                                         <label class="form-label text-muted small m-0">Kode
                                                             Fasyankes</label>
                                                         <div class="form-control-plaintext fw-bold p-0">
-                                                            <b>12345</b>
+                                                            <b><?= $active_fasyankes ? $active_fasyankes['fasyankes_kode'] : 'undefined' ?></b>
                                                         </div>
                                                     </div>
                                                     <div class="mb-4">
                                                         <label class="form-label text-muted small m-0">Tipe
                                                             Fasyankes</label>
-                                                        <div class="form-control-plaintext fw-bold p-0"><b>Rumah
-                                                                Sakit
-                                                            </b></div>
+                                                        <div class="form-control-plaintext fw-bold p-0">
+                                                            <b><?= $active_fasyankes ? $active_fasyankes['fasyankes_tipe'] : 'undefined' ?>
+                                                            </b>
+                                                        </div>
                                                     </div>
                                                     <div class="mb-4">
                                                         <label class="form-label text-muted small m-0">Nama
                                                             Fasyankes</label>
-                                                        <div class="form-control-plaintext fw-bold p-0"><b>RS
-                                                                Localhost
-                                                            </b></div>
+                                                        <div class="form-control-plaintext fw-bold p-0">
+                                                            <b><?= $active_fasyankes ? $active_fasyankes['fasyankes_nm'] : 'RS undefined' ?>
+                                                            </b>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="mb-4">
                                                         <label class="form-label text-muted small m-0">Alamat
                                                             Fasyankes</label>
-                                                        <div class="form-control-plaintext fw-bold p-0"><b>Jl.
-                                                                Contoh
-                                                                No.
-                                                                123, Kota Contoh</b></div>
+                                                        <div class="form-control-plaintext fw-bold p-0">
+                                                            <b><?= $active_fasyankes ? $active_fasyankes['fasyankes_alamat'] : 'undefined' ?></b>
+                                                        </div>
                                                     </div>
                                                     <div class="mb-4">
                                                         <label class="form-label text-muted small m-0">Kepala
                                                             Fasyankes</label>
-                                                        <div class="form-control-plaintext fw-bold p-0"><b>Dr. John
-                                                                Doe</b>
+                                                        <div class="form-control-plaintext fw-bold p-0">
+                                                            <b><?= $active_fasyankes ? $active_fasyankes['fasyankes_kepala'] : 'undefined' ?></b>
                                                         </div>
                                                     </div>
                                                 </div>
