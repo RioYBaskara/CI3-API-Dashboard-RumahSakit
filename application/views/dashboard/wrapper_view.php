@@ -107,8 +107,10 @@
                                         <div class="card-body">
                                             <div class="text-center">
                                                 <!-- Placeholder Gambar -->
-                                                <div class="ratio ratio-16x9 placeholder mb-3">
-                                                    <div class="placeholder-image"></div>
+                                                <div class="ratio ratio-16x9 mb-3">
+                                                    <img src="<?= base_url() ?>private/assets/img/<?= $active_fasyankes['fasyankes_image'] ?>"
+                                                        alt="RS Localhost" class="img-fluid rounded"
+                                                        style="object-fit: cover;">
                                                 </div>
                                                 <h4 class="mb-1 fs-2 fw-bold">
                                                     <?= $active_fasyankes ? $active_fasyankes['fasyankes_nm'] : 'RS Undefined' ?>

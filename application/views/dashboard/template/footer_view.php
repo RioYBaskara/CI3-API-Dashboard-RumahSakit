@@ -38,6 +38,10 @@
 
                         showFlashAlert(response.message, 'success');
 
+                        setTimeout(function () {
+                            window.location.href = response.redirect;
+                        }, 4000);
+
                     } else {
                         showFlashAlert(response.message, 'error');
                     }
