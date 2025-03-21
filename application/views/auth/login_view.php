@@ -84,13 +84,14 @@
         <div class="container container-tight py-4">
             <div class="text-center mb-4">
                 <a href="#" class="navbar-brand navbar-brand-autodark">
-                    <img src="<?= base_url() ?>public/assets/tabler/static/logo.svg" width="110" height="32"
-                        alt="Tabler" class="navbar-brand-image">
+                    <img src="<?= base_url(); ?>public/assets/img/logoitm.png" width="110" height="32" alt="SIMRS ITM"
+                        class="navbar-brand-image">
                 </a>
             </div>
             <div class="card card-md">
                 <div class="card-body">
-                    <h2 class="h2 text-center mb-4">Login to your account</h2>
+                    <h1 class="text-center mb-1">Dashboard</h1>
+                    <h3 class="h3 text-center mb-4">Login to your account</h3>
                     <div id="message" style="display: none;"></div>
                     <form onsubmit="event.preventDefault(); login();" autocomplete="off" novalidate>
                         <div class="mb-3">
