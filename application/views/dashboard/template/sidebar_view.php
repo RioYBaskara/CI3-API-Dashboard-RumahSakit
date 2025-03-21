@@ -199,8 +199,35 @@
                 </div>
             </div>
         </div>
-        <div class="collapse navbar-collapse" id="sidebar-menu">
+        <div class="collapse navbar-collapse pt-3" id="sidebar-menu">
             <ul class="navbar-nav pt-lg-3">
+                <div class="col-auto ms-auto d-print-none mb-3">
+                    <div class="btn-list">
+                        <a href="#" class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal"
+                            data-bs-target="#modal-add-fasyankes">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
+                                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M12 5l0 14" />
+                                <path d="M5 12l14 0" />
+                            </svg>
+                            New Fasyankes
+                        </a>
+                        <a href="#" class="btn btn-primary d-sm-none btn-icon" data-bs-toggle="modal"
+                            data-bs-target="#modal-add-fasyankes" aria-label="Create new report">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
+                                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M12 5l0 14" />
+                                <path d="M5 12l14 0" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Looping RS -->
                 <li class="nav-item active">
                     <a class="nav-link" href="#">
                         <span class="nav-link-icon d-md-none d-lg-inline-block"><svg xmlns="http://www.w3.org/2000/svg"

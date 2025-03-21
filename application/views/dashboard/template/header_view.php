@@ -123,5 +123,102 @@
         </a>
     </div>
 
+    <!-- Modal Tambah Fasyankes -->
+    <div class="modal modal-blur fade" id="modal-add-fasyankes" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Tambah Fasyankes Baru</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="form-tambah-fasyankes" action="<?= base_url('fasyankes/create'); ?>" method="post"
+                    enctype="multipart/form-data">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label text-secondary">Kode Fasyankes</label>
+                            <input required type="text" class="form-control" name="fasyankes_kode"
+                                placeholder="Contoh: 3371014">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-secondary">Tipe Fasyankes</label>
+                            <input required type="text" class="form-control" name="fasyankes_tipe"
+                                placeholder="Contoh: RUMAH SAKIT">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-secondary">Nama Fasyankes</label>
+                            <input required type="text" class="form-control" name="fasyankes_nm"
+                                placeholder="Contoh: RSU TIDAR">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-secondary">Alamat Fasyankes</label>
+                            <input type="text" class="form-control" name="fasyankes_alamat"
+                                placeholder="Contoh: Jl. Tidar No.30 A, Magelang">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-secondary">Kepala Fasyankes</label>
+                            <input type="text" class="form-control" name="fasyankes_kepala" placeholder="Dr. John Doe">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-secondary">Gambar Fasyankes</label>
+                            <input type="file" class="form-control" name="fasyankes_image" accept="image/*">
+                            <small class="text-muted">Rasio gambar 16:9, maksimal 2MB. (Opsional)</small>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-secondary">URL API Fasyankes</label>
+                            <input type="text" class="form-control" name="fasyankes_url_api"
+                                placeholder="http://localhost/ci3_api_rs/api/reports">
+                        </div>
+                        <label class="form-label text-secondary">Active?</label>
+                        <div class="mb-3 form-selectgroup-boxes row">
+                            <div class="col-lg-6">
+                                <label class="form-selectgroup-item">
+                                    <input type="radio" name="active_st" value="1" class="form-selectgroup-input"
+                                        checked>
+                                    <span class="p-3 form-selectgroup-label d-flex align-items-center">
+                                        <span class="me-3">
+                                            <span class="form-selectgroup-check"></span>
+                                        </span>
+                                        <span class="form-selectgroup-label-content">
+                                            <span class="d-block text-secondary">Active</span>
+                                        </span>
+                                    </span>
+                                </label>
+                            </div>
+                            <div class="col-lg-6">
+                                <label class="form-selectgroup-item">
+                                    <input type="radio" name="active_st" value="0" class="form-selectgroup-input">
+                                    <span class="p-3 form-selectgroup-label d-flex align-items-center">
+                                        <span class="me-3">
+                                            <span class="form-selectgroup-check"></span>
+                                        </span>
+                                        <span class="form-selectgroup-label-content">
+                                            <span class="d-block text-secondary">Nonactive</span>
+                                        </span>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">Cancel</a>
+                        <button type="submit" id="btn-submit" class="btn btn-primary ms-auto">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
+                                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M12 5l0 14" />
+                                <path d="M5 12l14 0" />
+                            </svg>
+                            Tambah Fasyankes
+                        </button>
+                        <a href="#" id="btn-loading" class="btn btn-primary ms-auto d-none">
+                            Loading<span class="animated-dots"></span>
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <div class="page">
         <!-- Sidebar -->

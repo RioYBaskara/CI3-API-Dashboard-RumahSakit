@@ -29,11 +29,7 @@ class Auth extends CI_Controller
             redirect('auth/login');
             exit;
         }
-
-        $this->load->view('dashboard/template/header_view');
-        $this->load->view('dashboard/template/sidebar_view');
-        $this->load->view('dashboard/wrapper_view');
-        $this->load->view('dashboard/template/footer_view');
+        redirect('dashboard');
     }
 
     public function logout()
