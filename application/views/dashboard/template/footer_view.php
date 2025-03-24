@@ -151,9 +151,19 @@
 
             if (fasyankes.fasyankes_image && fasyankes.fasyankes_image !== 'default.jpg') {
                 $('#edit_fasyankes_image_preview').attr('src', baseUrl + 'private/assets/img/' + fasyankes.fasyankes_image).removeClass('d-none');
+                $('#btn-delete-image').removeClass('d-none');
             } else {
                 $('#edit_fasyankes_image_preview').addClass('d-none');
+                $('#btn-delete-image').addClass('d-none');
             }
+        });
+
+        $('#btn-delete-image').on('click', function () {
+            $('#edit_fasyankes_image_preview').attr('src', baseUrl + 'private/assets/img/default.jpg').removeClass('d-none');
+
+            $('#btn-delete-image').addClass('d-none');
+
+            $('#form-edit-fasyankes').append('<input type="hidden" name="delete_image" value="1">');
         });
     });
 </script>

@@ -105,7 +105,7 @@ class Fasyankes extends CI_Controller
         if (!$user_data['status']) {
             echo json_encode([
                 'status' => 'error',
-                'message' => 'Token tidak valid atau kedaluwarsa.'
+                'message' => 'Token tidak valid atau kadaluarsa.'
             ]);
             return;
         }
@@ -130,6 +130,14 @@ class Fasyankes extends CI_Controller
             $old_image = $old_fasyankes['fasyankes_image'];
 
             $image = $old_image;
+
+            if ($this->input->post('delete_image')) {
+                $image = 'default.jpg';
+
+                if ($old_image && $old_image != 'default.jpg') {
+                    unlink(FCPATH . 'private/assets/img/' . $old_image);
+                }
+            }
 
             if (!empty($_FILES['fasyankes_image']['name'])) {
                 $config['upload_path'] = FCPATH . 'private/assets/img/';
