@@ -74,6 +74,16 @@
             right: 160px;
             z-index: 1000;
         }
+
+        /* alert */
+        .bg-auto {
+            background-color: var(--tblr-bg-surface);
+            color: var(--tblr-body-color);
+        }
+
+        .bg-auto .text-secondary {
+            color: var(--tblr-secondary-color) !important;
+        }
     </style>
 </head>
 

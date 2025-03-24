@@ -34,7 +34,7 @@ class Fasyankes extends CI_Controller
 
         $username = $user_data['data']->username;
 
-        $this->form_validation->set_rules('fasyankes_kode', 'Kode Fasyankes', 'required|trim|is_unique[fasyankes.fasyankes_kode]', [
+        $this->form_validation->set_rules('fasyankes_kode', 'Kode Fasyankes', 'required|integer|trim|is_unique[fasyankes.fasyankes_kode]', [
             'is_unique' => 'Kode Fasyankes sudah terdaftar!'
         ]);
         $this->form_validation->set_rules('fasyankes_tipe', 'Tipe Fasyankes', 'required|trim');

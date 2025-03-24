@@ -13,6 +13,7 @@
 <!-- fasyankes -->
 <script>
     document.addEventListener("DOMContentLoaded", function () {
+        showFlashAlert('Terjadi kesalahan. Silakan coba lagi.', 'success');
         $('#form-tambah-fasyankes').on('submit', function (e) {
             e.preventDefault();
 
@@ -43,22 +44,22 @@
                         }, 4000);
 
                     } else {
-                        showFlashAlert(response.message, 'error');
+                        showFlashAlert(response.message, 'danger');
                     }
                 },
                 error: function (xhr, status, error) {
                     $('#btn-submit').removeClass('d-none');
                     $('#btn-loading').addClass('d-none');
 
-                    showFlashAlert('Terjadi kesalahan. Silakan coba lagi.', 'error');
+                    showFlashAlert('Terjadi kesalahan. Silakan coba lagi.', 'danger');
                 }
             });
         });
 
         function showFlashAlert(message, type) {
             const alert = `
-                        <div class="alert alert-blur alert-${type} alert-dismissible position-fixed"
-                            style="bottom: 70px; right: 20px; z-index: 1050; max-width: 50rem;">
+                        <div class="alert alert-blur alert-important alert-${type} alert-dismissible position-fixed bg-auto"
+                            style="top: 20px; right: 20px; z-index: 2050; max-width: 50rem;">
                             <div class="d-flex">
                                 <div>
                                     <!-- SVG icon -->
@@ -70,7 +71,7 @@
                                     </svg>
                                 </div>
                                 <div class="ms-2">
-                                    <h4 class="alert-title">${type === 'success' ? 'Success!' : 'Error!'}</h4>
+                                    <h4 class="alert-title text-${type}">${type === 'success' ? 'Success!' : 'Error!'}</h4>
                                     <div class="text-secondary">${message}</div>
                                 </div>
                             </div>
