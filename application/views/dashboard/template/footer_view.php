@@ -12,8 +12,10 @@
 
 <!-- fasyankes -->
 <script>
+    const baseUrl = '<?= base_url() ?>';
+
     document.addEventListener("DOMContentLoaded", function () {
-        showFlashAlert('Terjadi kesalahan. Silakan coba lagi.', 'success');
+        // create
         $('#form-tambah-fasyankes').on('submit', function (e) {
             e.preventDefault();
 
@@ -41,7 +43,7 @@
 
                         setTimeout(function () {
                             window.location.href = response.redirect;
-                        }, 4000);
+                        }, 500);
 
                     } else {
                         showFlashAlert(response.message, 'danger');
@@ -50,6 +52,48 @@
                 error: function (xhr, status, error) {
                     $('#btn-submit').removeClass('d-none');
                     $('#btn-loading').addClass('d-none');
+
+                    showFlashAlert('Terjadi kesalahan. Silakan coba lagi.', 'danger');
+                }
+            });
+        });
+
+        // edit
+        $('#form-edit-fasyankes').on('submit', function (e) {
+            e.preventDefault();
+
+            $('#btn-submit-edit').addClass('d-none');
+            $('#btn-loading-edit').removeClass('d-none');
+
+            $.ajax({
+                url: $(this).attr('action'),
+                type: 'POST',
+                data: new FormData(this),
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    response = JSON.parse(response);
+
+                    $('#btn-submit-edit').removeClass('d-none');
+                    $('#btn-loading-edit').addClass('d-none');
+
+                    if (response.status == 'success') {
+                        $('#form-edit-fasyankes')[0].reset();
+
+                        $('#modal-edit-fasyankes').modal('hide');
+
+                        showFlashAlert(response.message, 'success');
+
+                        setTimeout(function () {
+                            window.location.href = response.redirect;
+                        }, 500);
+                    } else {
+                        showFlashAlert(response.message, 'danger');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    $('#btn-submit-edit').removeClass('d-none');
+                    $('#btn-loading-edit').addClass('d-none');
 
                     showFlashAlert('Terjadi kesalahan. Silakan coba lagi.', 'danger');
                 }
@@ -88,6 +132,30 @@
             }, 5000);
         }
     })
+</script>
+
+<!-- edit fasyankes -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        $('#modal-edit-fasyankes').on('show.bs.modal', function (event) {
+            const button = event.relatedTarget;
+            const fasyankes = JSON.parse(button.getAttribute('data-fasyankes'));
+
+            $('#edit_fasyankes_kode').val(fasyankes.fasyankes_kode);
+            $('#edit_fasyankes_tipe').val(fasyankes.fasyankes_tipe);
+            $('#edit_fasyankes_nm').val(fasyankes.fasyankes_nm);
+            $('#edit_fasyankes_alamat').val(fasyankes.fasyankes_alamat);
+            $('#edit_fasyankes_kepala').val(fasyankes.fasyankes_kepala);
+            $('#edit_fasyankes_url_api').val(fasyankes.fasyankes_url_api);
+            $(`input[name="active_st"][value="${fasyankes.is_active}"]`).prop('checked', true);
+
+            if (fasyankes.fasyankes_image && fasyankes.fasyankes_image !== 'default.jpg') {
+                $('#edit_fasyankes_image_preview').attr('src', baseUrl + 'private/assets/img/' + fasyankes.fasyankes_image).removeClass('d-none');
+            } else {
+                $('#edit_fasyankes_image_preview').addClass('d-none');
+            }
+        });
+    });
 </script>
 
 <!-- fetch api -->

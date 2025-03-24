@@ -98,101 +98,122 @@ class Fasyankes extends CI_Controller
         }
     }
 
-    // public function update()
-    // {
-    //     if (!isset($_COOKIE['access_token'])) {
-    //         redirect('auth/login');
-    //         exit;
-    //     }
+    public function update()
+    {
+        $user_data = $this->authorization_token->validateToken();
 
-    //     $user_data = $this->authorization_token->validateToken();
+        if (!$user_data['status']) {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Token tidak valid atau kedaluwarsa.'
+            ]);
+            return;
+        }
 
-    //     if (!$user_data['status']) {
-    //         $response = [
-    //             'status' => 'error',
-    //             'message' => 'Token tidak valid atau kadaluarsa.'
-    //         ];
-    //         echo json_encode($response);
-    //         return;
-    //     }
+        $username = $user_data['data']->username;
 
-    //     $username = $user_data['data']->username;
+        $fasyankes_kode = $this->input->post('fasyankes_kode');
 
-    //     $fasyankes_kode = $this->input->post('fasyankes_kode');
+        $this->form_validation->set_rules('fasyankes_tipe', 'Tipe Fasyankes', 'required|trim');
+        $this->form_validation->set_rules('fasyankes_nm', 'Nama Fasyankes', 'required|trim');
+        $this->form_validation->set_rules('fasyankes_alamat', 'Alamat Fasyankes', 'required|trim');
+        $this->form_validation->set_rules('fasyankes_kepala', 'Kepala Fasyankes', 'required|trim');
+        $this->form_validation->set_rules('fasyankes_url_api', 'URL API Fasyankes', 'required|trim');
 
-    //     $this->form_validation->set_rules('fasyankes_tipe', 'Tipe Fasyankes', 'required|trim');
-    //     $this->form_validation->set_rules('fasyankes_nm', 'Nama Fasyankes', 'required|trim');
-    //     $this->form_validation->set_rules('fasyankes_alamat', 'Alamat Fasyankes', 'required|trim');
-    //     $this->form_validation->set_rules('fasyankes_kepala', 'Kepala Fasyankes', 'required|trim');
-    //     $this->form_validation->set_rules('fasyankes_url_api', 'URL API Fasyankes', 'required|trim');
+        if ($this->form_validation->run() == FALSE) {
+            echo json_encode([
+                'status' => 'error',
+                'message' => validation_errors()
+            ]);
+        } else {
+            $old_fasyankes = $this->Fasyankes_model->getFasyankesByKode($fasyankes_kode);
+            $old_image = $old_fasyankes['fasyankes_image'];
 
-    //     if ($this->form_validation->run() == FALSE) {
-    //         $response = [
-    //             'status' => 'error',
-    //             'message' => validation_errors()
-    //         ];
-    //     } else {
-    //         $data = [
-    //             'fasyankes_tipe' => $this->input->post('fasyankes_tipe'),
-    //             'fasyankes_nm' => $this->input->post('fasyankes_nm'),
-    //             'fasyankes_alamat' => $this->input->post('fasyankes_alamat'),
-    //             'fasyankes_kepala' => $this->input->post('fasyankes_kepala'),
-    //             'fasyankes_url_api' => $this->input->post('fasyankes_url_api'),
-    //             'is_active' => $this->input->post('active_st'),
-    //             'updated_at' => date('Y-m-d H:i:s'),
-    //             'updated_by' => $username
-    //         ];
+            $image = $old_image;
 
-    //         if ($this->Fasyankes_model->updateFasyankes($fasyankes_kode, $data)) {
-    //             $response = [
-    //                 'status' => 'success',
-    //                 'message' => 'Fasyankes berhasil diupdate.'
-    //             ];
-    //         } else {
-    //             $response = [
-    //                 'status' => 'error',
-    //                 'message' => 'Gagal mengupdate fasyankes.'
-    //             ];
-    //         }
-    //     }
+            if (!empty($_FILES['fasyankes_image']['name'])) {
+                $config['upload_path'] = FCPATH . 'private/assets/img/';
+                $config['allowed_types'] = 'jpg|jpeg|png';
+                $config['max_size'] = 2048;
+                $config['file_name'] = 'fasyankes_' . time();
+                $this->load->library('upload', $config);
 
-    //     echo json_encode($response);
-    // }
+                if (!$this->upload->do_upload('fasyankes_image')) {
+                    echo json_encode([
+                        'status' => 'error',
+                        'message' => $this->upload->display_errors()
+                    ]);
+                    return;
+                } else {
+                    $upload_data = $this->upload->data();
+                    $image = $upload_data['file_name'];
 
-    // public function delete()
-    // {
-    //     if (!isset($_COOKIE['access_token'])) {
-    //         redirect('auth/login');
-    //         exit;
-    //     }
+                    if ($old_image && $old_image != 'default.jpg') {
+                        unlink(FCPATH . 'private/assets/img/' . $old_image);
+                    }
+                }
+            }
 
-    //     $user_data = $this->authorization_token->validateToken();
+            $data = [
+                'fasyankes_tipe' => $this->input->post('fasyankes_tipe'),
+                'fasyankes_nm' => $this->input->post('fasyankes_nm'),
+                'fasyankes_alamat' => $this->input->post('fasyankes_alamat'),
+                'fasyankes_kepala' => $this->input->post('fasyankes_kepala'),
+                'fasyankes_image' => $image,
+                'fasyankes_url_api' => $this->input->post('fasyankes_url_api'),
+                'is_active' => $this->input->post('active_st'),
+                'updated_at' => date('Y-m-d H:i:s'),
+                'updated_by' => $username
+            ];
 
-    //     if (!$user_data['status']) {
-    //         $response = [
-    //             'status' => 'error',
-    //             'message' => 'Token tidak valid atau kadaluarsa.'
-    //         ];
-    //         echo json_encode($response);
-    //         return;
-    //     }
+            if ($this->Fasyankes_model->updateFasyankes($fasyankes_kode, $data)) {
+                echo json_encode([
+                    'status' => 'success',
+                    'message' => 'Fasyankes berhasil diupdate.',
+                    'redirect' => base_url('dashboard/' . $fasyankes_kode)
+                ]);
+            } else {
+                echo json_encode([
+                    'status' => 'error',
+                    'message' => 'Gagal mengupdate fasyankes.'
+                ]);
+            }
+        }
+    }
+    public function delete()
+    {
+        if (!isset($_COOKIE['access_token'])) {
+            redirect('auth/login');
+            exit;
+        }
 
-    //     $username = $user_data['data']->username;
+        $user_data = $this->authorization_token->validateToken();
 
-    //     $fasyankes_kode = $this->input->post('fasyankes_kode');
+        if (!$user_data['status']) {
+            $response = [
+                'status' => 'error',
+                'message' => 'Token tidak valid atau kedaluwarsa.'
+            ];
+            echo json_encode($response);
+            return;
+        }
 
-    //     if ($this->Fasyankes_model->deleteFasyankes($fasyankes_kode, $username)) {
-    //         $response = [
-    //             'status' => 'success',
-    //             'message' => 'Fasyankes berhasil dihapus.'
-    //         ];
-    //     } else {
-    //         $response = [
-    //             'status' => 'error',
-    //             'message' => 'Gagal menghapus fasyankes.'
-    //         ];
-    //     }
+        $username = $user_data['data']->username;
 
-    //     echo json_encode($response);
-    // }
+        $fasyankes_kode = $this->input->post('fasyankes_kode');
+
+        if ($this->Fasyankes_model->deleteFasyankes($fasyankes_kode, $username)) {
+            $response = [
+                'status' => 'success',
+                'message' => 'Fasyankes berhasil dihapus.'
+            ];
+        } else {
+            $response = [
+                'status' => 'error',
+                'message' => 'Gagal menghapus fasyankes.'
+            ];
+        }
+
+        echo json_encode($response);
+    }
 }

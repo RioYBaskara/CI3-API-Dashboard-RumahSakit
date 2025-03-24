@@ -34,7 +34,7 @@ class Auth extends CI_Controller
 
     public function logout()
     {
-        setcookie("access_token", "", time() - 3600, "/");
+        setcookie("access_token", "", time() - 999999999, "/");
 
         redirect('auth/login');
     }

@@ -230,5 +230,99 @@
         </div>
     </div>
 
+    <!-- Modal Edit Fasyankes -->
+    <div class="modal modal-blur fade" id="modal-edit-fasyankes" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Fasyankes</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="form-edit-fasyankes" action="<?= base_url('fasyankes/update'); ?>" method="post"
+                    enctype="multipart/form-data">
+                    <input type="hidden" name="fasyankes_kode" id="edit_fasyankes_kode">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label text-secondary">Tipe Fasyankes</label>
+                            <input required type="text" class="form-control" name="fasyankes_tipe"
+                                id="edit_fasyankes_tipe">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-secondary">Nama Fasyankes</label>
+                            <input required type="text" class="form-control" name="fasyankes_nm" id="edit_fasyankes_nm">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-secondary">Alamat Fasyankes</label>
+                            <input type="text" class="form-control" name="fasyankes_alamat" id="edit_fasyankes_alamat">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-secondary">Kepala Fasyankes</label>
+                            <input type="text" class="form-control" name="fasyankes_kepala" id="edit_fasyankes_kepala">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-secondary">Gambar Fasyankes</label>
+                            <input type="file" class="form-control" name="fasyankes_image" accept="image/*">
+                            <small class="text-muted">Rasio gambar 16:9, maksimal 2MB. (Opsional)</small>
+                            <img id="edit_fasyankes_image_preview" src="" alt="Preview Gambar"
+                                class="img-fluid mt-2 d-none" style="max-width: 100%;">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-secondary">URL API Fasyankes</label>
+                            <input type="text" class="form-control" name="fasyankes_url_api"
+                                id="edit_fasyankes_url_api">
+                        </div>
+                        <label class="form-label text-secondary">Active?</label>
+                        <div class="mb-3 form-selectgroup-boxes row">
+                            <div class="col-lg-6">
+                                <label class="form-selectgroup-item">
+                                    <input type="radio" name="active_st" value="1" class="form-selectgroup-input"
+                                        id="edit_active_st_1">
+                                    <span class="p-3 form-selectgroup-label d-flex align-items-center">
+                                        <span class="me-3">
+                                            <span class="form-selectgroup-check"></span>
+                                        </span>
+                                        <span class="form-selectgroup-label-content">
+                                            <span class="d-block text-secondary">Active</span>
+                                        </span>
+                                    </span>
+                                </label>
+                            </div>
+                            <div class="col-lg-6">
+                                <label class="form-selectgroup-item">
+                                    <input type="radio" name="active_st" value="0" class="form-selectgroup-input"
+                                        id="edit_active_st_0">
+                                    <span class="p-3 form-selectgroup-label d-flex align-items-center">
+                                        <span class="me-3">
+                                            <span class="form-selectgroup-check"></span>
+                                        </span>
+                                        <span class="form-selectgroup-label-content">
+                                            <span class="d-block text-secondary">Nonactive</span>
+                                        </span>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">Cancel</a>
+                        <button type="submit" id="btn-submit-edit" class="btn btn-primary ms-auto">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
+                                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M12 5l0 14" />
+                                <path d="M5 12l14 0" />
+                            </svg>
+                            Update
+                        </button>
+                        <a href="#" id="btn-loading-edit" class="btn btn-primary ms-auto d-none">
+                            Loading<span class="animated-dots"></span>
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <div class="page">
         <!-- Sidebar -->
