@@ -340,5 +340,42 @@
         </div>
     </div>
 
+    <!-- Modal Delete Fasyankes -->
+    <div class="modal modal-blur fade" id="modal-delete-fasyankes" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Hapus Fasyankes</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="form-delete-fasyankes" action="<?= base_url('fasyankes/delete'); ?>" method="post">
+                    <input type="hidden" name="fasyankes_kode" id="delete_fasyankes_kode">
+                    <div class="modal-body">
+                        <p>Apakah Anda yakin ingin menghapus fasyankes ini?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">Cancel</a>
+                        <button type="submit" id="btn-submit-delete" class="btn btn-danger ms-auto">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
+                                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M4 7l16 0" />
+                                <path d="M10 11l0 6" />
+                                <path d="M14 11l0 6" />
+                                <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+                                <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                            </svg>
+                            Hapus
+                        </button>
+                        <a href="#" id="btn-loading-delete" class="btn btn-danger ms-auto d-none">
+                            Loading<span class="animated-dots"></span>
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <div class="page">
         <!-- Sidebar -->

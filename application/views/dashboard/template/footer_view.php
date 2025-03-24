@@ -100,6 +100,43 @@
             });
         });
 
+        $('#form-delete-fasyankes').on('submit', function (e) {
+            e.preventDefault();
+
+            $('#btn-submit-delete').addClass('d-none');
+            $('#btn-loading-delete').removeClass('d-none');
+
+            $.ajax({
+                url: $(this).attr('action'),
+                type: 'POST',
+                data: $(this).serialize(),
+                success: function (response) {
+                    response = JSON.parse(response);
+
+                    $('#btn-submit-delete').removeClass('d-none');
+                    $('#btn-loading-delete').addClass('d-none');
+
+                    if (response.status == 'success') {
+                        $('#modal-delete-fasyankes').modal('hide');
+
+                        showFlashAlert(response.message, 'success');
+
+                        setTimeout(function () {
+                            window.location.href = response.redirect;
+                        }, 500);
+                    } else {
+                        showFlashAlert(response.message, 'danger');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    $('#btn-submit-delete').removeClass('d-none');
+                    $('#btn-loading-delete').addClass('d-none');
+
+                    showFlashAlert('Terjadi kesalahan. Silakan coba lagi.', 'danger');
+                }
+            });
+        });
+
         function showFlashAlert(message, type) {
             const alert = `
                         <div class="alert alert-blur alert-important alert-${type} alert-dismissible position-fixed bg-auto"
@@ -164,6 +201,18 @@
             $('#btn-delete-image').addClass('d-none');
 
             $('#form-edit-fasyankes').append('<input type="hidden" name="delete_image" value="1">');
+        });
+    });
+</script>
+
+<!-- delete fasyankes -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        $('#modal-delete-fasyankes').on('show.bs.modal', function (event) {
+            const button = event.relatedTarget;
+            const fasyankes = JSON.parse(button.getAttribute('data-fasyankes'));
+
+            $('#delete_fasyankes_kode').val(fasyankes.fasyankes_kode);
         });
     });
 </script>

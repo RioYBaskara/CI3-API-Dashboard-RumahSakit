@@ -190,19 +190,13 @@ class Fasyankes extends CI_Controller
     }
     public function delete()
     {
-        if (!isset($_COOKIE['access_token'])) {
-            redirect('auth/login');
-            exit;
-        }
-
         $user_data = $this->authorization_token->validateToken();
 
         if (!$user_data['status']) {
-            $response = [
+            echo json_encode([
                 'status' => 'error',
-                'message' => 'Token tidak valid atau kedaluwarsa.'
-            ];
-            echo json_encode($response);
+                'message' => 'Token tidak valid atau kadaluarsa.'
+            ]);
             return;
         }
 
@@ -210,18 +204,24 @@ class Fasyankes extends CI_Controller
 
         $fasyankes_kode = $this->input->post('fasyankes_kode');
 
-        if ($this->Fasyankes_model->deleteFasyankes($fasyankes_kode, $username)) {
-            $response = [
-                'status' => 'success',
-                'message' => 'Fasyankes berhasil dihapus.'
-            ];
-        } else {
-            $response = [
-                'status' => 'error',
-                'message' => 'Gagal menghapus fasyankes.'
-            ];
+        $fasyankes = $this->Fasyankes_model->getFasyankesByKode($fasyankes_kode);
+        $image = $fasyankes['fasyankes_image'];
+
+        if ($image && $image !== 'default.jpg') {
+            unlink(FCPATH . 'private/assets/img/' . $image);
         }
 
-        echo json_encode($response);
+        if ($this->Fasyankes_model->deleteFasyankes($fasyankes_kode, $username)) {
+            echo json_encode([
+                'status' => 'success',
+                'message' => 'Fasyankes berhasil dihapus.',
+                'redirect' => base_url('dashboard')
+            ]);
+        } else {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Gagal menghapus fasyankes.'
+            ]);
+        }
     }
 }

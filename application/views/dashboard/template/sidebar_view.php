@@ -87,10 +87,10 @@
                                         <div class="col text-truncate">
                                             <a href="#" class="text-body d-block">Example 1</a>
                                             <div class="d-block text-secondary text-truncate mt-n1">
-                                                Change deprecated html tags to text decoration classes (#29604)
+                                                Change deprecated html tags tp-2o text decoration classes (#29604)
                                             </div>
                                         </div>
-                                        <div class="col-auto">
+                                        <div class="col-au tp-2to">
                                             <a href="#" class="list-group-item-actions">
                                                 <!-- Download SVG icon from http://tabler-icons.io/i/star -->
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon text-muted"
@@ -250,19 +250,36 @@
                                 <?= $fasyankes['fasyankes_nm'] ?>
                             </span>
                         </a>
-                        <!-- edit -->
-                        <button class="btn btn-ghost-light btn-sm btn-icon ms-auto p-2" data-bs-toggle="modal"
-                            data-bs-target="#modal-edit-fasyankes"
-                            data-fasyankes='<?= htmlspecialchars(json_encode($fasyankes), ENT_QUOTES, 'UTF-8') ?>'>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                class="icon icon-tabler icons-tabler-outline icon-tabler-edit">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
-                                <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" />
-                                <path d="M16 5l3 3" />
-                            </svg>
-                        </button>
+                        <div class="button-wrapper ms-auto">
+                            <!-- edit -->
+                            <button class="btn btn-ghost-light btn-sm btn-icon ms-auto p-2" data-bs-toggle="modal"
+                                data-bs-target="#modal-edit-fasyankes"
+                                data-fasyankes='<?= htmlspecialchars(json_encode($fasyankes), ENT_QUOTES, 'UTF-8') ?>'>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-edit">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                    <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
+                                    <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" />
+                                    <path d="M16 5l3 3" />
+                                </svg>
+                            </button>
+                            <!-- delete -->
+                            <button class="btn btn-ghost-light btn-sm btn-icon ms-auto p-2" data-bs-toggle="modal"
+                                data-bs-target="#modal-delete-fasyankes"
+                                data-fasyankes='<?= htmlspecialchars(json_encode($fasyankes), ENT_QUOTES, 'UTF-8') ?>'>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-trash">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                    <path d="M4 7l16 0" />
+                                    <path d="M10 11l0 6" />
+                                    <path d="M14 11l0 6" />
+                                    <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+                                    <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                                </svg>
+                            </button>
+                        </div>
                     </li>
                 <?php endforeach; ?>
                 <li class="nav-item ">
